@@ -1,4 +1,4 @@
-#define TILE_X 20 
+#define TILE_X 15 
 #define TILE_Y 13 
 #define TILE_SIZE 40
 
@@ -20,9 +20,51 @@ Entity* Spawn()
     return NULL;
 }
 
+//Move entity with input
+void Movement(Entity* entity)
+{
+    if (!entity) return;
+    
+    if (IsKeyPressed(KEY_D))
+    {
+        if (entity->bCanMove)
+        {
+            int x = entity->GetCoordinates().x;
+            x += 1;
+            printf("can move %d", x);
+            entity->SetLocation(entity->GetCoordinates().y, x);
+        }
+    }
+    if (IsKeyPressed(KEY_A))
+    {
+        if (entity->bCanMove)
+        {
+            int x = entity->GetCoordinates().x;
+            x -= 1;
+            entity->SetLocation(entity->GetCoordinates().y, x);
+        }
+    }
+    if (IsKeyPressed(KEY_W))
+    {
+        if (entity->bCanMove)
+        {
+            int y = entity->GetCoordinates().y;
+            y -= 1;
+            entity->SetLocation(y, entity->GetCoordinates().x);
+        }
 
+    }
+    if (IsKeyPressed(KEY_S))
+    {
+        if (entity->bCanMove)
+        {
+            int y = entity->GetCoordinates().y;
+            y += 1;
+            entity->SetLocation(y, entity->GetCoordinates().x);
+        }
 
-
+    }
+}
 
 int GetTileNumber(int row, int column)
 {
@@ -100,21 +142,21 @@ int main()
     //char c_item = 'I';
 
     //TILEMAP    
-    TileMap* tile_map = new TileMap(20, 13, 40);
-    Entity* player = new Entity(*tile_map, ORANGE, ECollisionType::IGNORE);
+    TileMap* tile_map = new TileMap(15, 13, 40);
+    Entity* player = new Entity(*tile_map, ORANGE, ECollisionType::OVERLAP);
     Entity* enemy = new Entity(*tile_map, PURPLE, ECollisionType::BLOCKING);
 
 
 
-    if (enemy) 
-    {
-        enemy->SetLocation(4, 4);
-    }
+   if (enemy) 
+   {
+       enemy->SetLocation(4, 4);
+   }
 
     if (player)
     {
         printf("valid\n");
-        player->SetLocation(1, 1);
+        player->SetLocation(0, 1);
     }
 
     if (tile_map)
@@ -122,6 +164,10 @@ int main()
         tile_map->entities.push_back(*player);
         tile_map->entities.push_back(*enemy);
     }
+
+
+    Camera2D camera2D = { 0 };
+    camera2D.zoom = 1.f;
     
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
@@ -130,91 +176,52 @@ int main()
         //----------------------------------------------------------------------------------
         // TODO: Update your variables here
         //----------------------------------------------------------------------------------
+        camera2D.zoom += ((float)GetMouseWheelMove() * 0.05f);
+        
+        //Player movement
+        Movement(player);
 
-        //Draw stuff
-        if (tile_map)
-        {
-            tile_map->Draw();
-          //  printf("\nCoord X: %d, Coord Y: %d\n", tile_map->entities[1].GetCoordinates().x, tile_map->entities[1].GetCoordinates().y);
-        }
 
-        if (player)
+        //DEBUG OTHER ENTITY MOVEMENT
+        if (IsKeyPressed(KEY_RIGHT))
         {
-            player->Draw();
-            printf("\nCoord X: %d, Coord Y: %d\n", player->GetCoordinates().x, player->GetCoordinates().y);
-        }
-
-        if (enemy)
-        {
-            enemy->Draw();
-        }
-
-        if (IsKeyPressed(KEY_D))
-        {
-            //int x = player->GetCoordinates().tileMapX;
-            //x++;
-            if (player->bCanMove)
+            if (enemy->bCanMove)
             {
-                int y = player->GetCoordinates().y;
-                y += 1;
-                player->SetLocation(player->GetCoordinates().x, y);
-            }
-
-        }
-        if (IsKeyPressed(KEY_A))
-        {
-            if (player->bCanMove)
-            {
-                int y = player->GetCoordinates().y;
-                y-=1;
-                player->SetLocation(player->GetCoordinates().x, y);
-            }
-        }
-        if (IsKeyPressed(KEY_W))
-        {
-           // if(player->bCanMove)
-            if (player->bCanMove)
-            {
-                int x = player->GetCoordinates().x;
-                x -= 1;
-                player->SetLocation(x, player->GetCoordinates().y);
-            }
-                   
-        }
-        if (IsKeyPressed(KEY_S))
-        {
-            if (player->bCanMove)
-            {
-                int x = player->GetCoordinates().x;
+                int x = enemy->GetCoordinates().x;
                 x += 1;
-                player->SetLocation(x, player->GetCoordinates().y);
+                printf("can move %d", x);
+                enemy->SetLocation(enemy->GetCoordinates().y, x);
             }
         }
-   
-        //for (size_t i = 0; i < tiles.size(); i++)
-        //{
-        //    DrawRectangleRec(tiles[i], RED);
-        //    if (i % 2 == 0 && i != 0)
-        //    {
-        //       
-        //        DrawRectangleRec(tiles[i], BLUE);
-        //    }
-        //    if(i ==0)
-        //    {
-        //        DrawRectangleRec(tiles[i], BLUE);
-        //    }
-        //    tileNumber = std::to_string(i);
-        //    DrawText(tileNumber.c_str(), tiles[i].x, tiles[i].y, 20, WHITE);
-        //    
-        //}
+        if (IsKeyPressed(KEY_LEFT))
+        {
+            if (player->bCanMove)
+            {
+                int x = enemy->GetCoordinates().x;
+                x -= 1;
+                enemy->SetLocation(enemy->GetCoordinates().y, x);
+            }
+        }
+        if (IsKeyPressed(KEY_UP))
+        {
+            if (enemy->bCanMove)
+            {
+                int y = enemy->GetCoordinates().y;
+                y -= 1;
+                enemy->SetLocation(y, enemy->GetCoordinates().x);
+            }
 
-        //DrawRectangleRec(player, ORANGE);
-        // SetPosition(player, tiles, posY, posX);
+        }
+        if (IsKeyPressed(KEY_DOWN))
+        {
+            if (enemy->bCanMove)
+            {
+                int y = enemy->GetCoordinates().y;
+                y += 1;
+                enemy->SetLocation(y, enemy->GetCoordinates().x);
+            }
 
-
-     //   printf("\ntileNumber = %d\n", GetTileNumber(posY, posX));
-
-       // printf("Tile X: %d\nTile Y: %d\n", posX, posY);
+        }
 
         // Draw
         //----------------------------------------------------------------------------------
@@ -222,9 +229,31 @@ int main()
 
         ClearBackground(RAYWHITE);
 
+        BeginMode2D(camera2D);
+
+
+        //Draw stuff
+        if (tile_map)
+        {
+            tile_map->Draw();
+              //printf("\nCoord X: %d, Coord Y: %d\n", tile_map->entities[1].get().GetCoordinates().x, tile_map->entities[1].get().GetCoordinates().y);
+        }
+
+        if (player)
+        {
+            player->Draw();
+           // printf("\nCoord X: %d, Coord Y: %d\n", player->GetCoordinates().x, player->GetCoordinates().y);
+        }
+
+       if (enemy)
+       {
+           enemy->Draw();
+         //   printf("\nCoord X: %d, Coord Y: %d\n", enemy->GetCoordinates().x, enemy->GetCoordinates().y);
+       }
+
        // DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
 
-
+        EndMode2D();
 
         EndDrawing();
         //----------------------------------------------------------------------------------

@@ -20,7 +20,7 @@ public:
 	//why allocating Rectangles instead of actual vectors and such? Because rectangles already holds vectors and have enough
 	//necessary information such as anchor point, position(X,Y), size which can act as a tile set
 	std::vector<Rectangle> tiles;
-	std::vector<Entity> entities;
+	std::vector<std::reference_wrapper<Entity>> entities;
 	std::string tile_number;
 
 	void Draw();

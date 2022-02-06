@@ -59,7 +59,7 @@ protected:
 	int GetTileNumber(int row_, int column_)
 	{
 		if (tile_map)
-			return row_ * tile_map->amount_x - tile_map->amount_x + column_;
+			return row_ + tile_map->amount_x + column;
 		return 0;
 	}
 

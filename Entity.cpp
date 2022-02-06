@@ -7,8 +7,8 @@ Entity::Entity(TileMap& tile_map_, Color color_, ECollisionType collision_type_)
 {
 	bActive = true;
 	bCanMove = true;
-	row = 0;
-	column = 0; 
+	row = 1;
+	column = 1; 
 	tile_map = &tile_map_;
 	collision_type = collision_type_;
 
@@ -24,9 +24,6 @@ Entity::Entity(TileMap& tile_map_, Color color_, ECollisionType collision_type_)
 	color = color_;
 }
 
-
-
-
 void Entity::Draw()
 {
 	DrawRectangleRec(entity, color);
@@ -39,7 +36,7 @@ void Entity::Destroy()
 
 TileMapCoordinates Entity::GetCoordinates()
 {
-	return TileMapCoordinates(row, column);
+	return TileMapCoordinates(column, row);
 }
 
 void Entity::SetLocation(int row_, int column_)
@@ -50,26 +47,24 @@ void Entity::SetLocation(int row_, int column_)
 		return;
 	}
 
-	//int temp_row = row_;
-	//int temp_colum = column_;
-
-	//tile_map->tiles[GetTileNumber(row_, column_)].x;
-	//tile_map->tiles[GetTileNumber(row_, column_)].y;
-
-
 	//Do a check if there some entity there
 	for (auto& entity : tile_map->entities)
 	{
-		if (&entity != this && row_ == entity.row && column_ == entity.column && entity.collision_type == ECollisionType::BLOCKING)
+		if (&entity.get() != this && row_ == entity.get().row && column_ == entity.get().column && entity.get().collision_type == ECollisionType::BLOCKING)
 		{	
+			printf("cant move");
 			return;
 		}
+		if (&entity.get() != this && row_ == entity.get().row && column_ == entity.get().column && entity.get().collision_type == ECollisionType::OVERLAP)
+		{
+			printf("\nOVERLAPPED\n");
+		}
 	}
-	entity.x = tile_map->tiles[GetTileNumber(row_, column_)].x;
-	entity.y = tile_map->tiles[GetTileNumber(row_, column_)].y;
-	row = row_;
 	column = column_;
-
-
+	row = row_; ;
+ 
+	entity.x = tile_map->tiles[column].x;
+	entity.y = tile_map->tiles[(tile_map->amount_x * row) + column].y;
+	
 
 }
