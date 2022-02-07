@@ -51,7 +51,7 @@ void TileMap::Draw()
 			DrawRectangleRec(tiles[i], BLUE);
 		}
 		tile_number = std::to_string(i);
-		DrawText(tile_number.c_str(), tiles[i].x, tiles[i].y, 20, WHITE);
+		//DrawText(tile_number.c_str(), tiles[i].x, tiles[i].y, 20, WHITE);
 	}
 
 

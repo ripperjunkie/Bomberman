@@ -29,7 +29,8 @@ enum class ECollisionType : uint8_t
 class Entity
 {
 public:
-	Entity(TileMap& tile_map_, Color color_, ECollisionType collision_type_ = ECollisionType::IGNORE);
+	Entity(TileMap& tile_map_, ECollisionType collision_type_ = ECollisionType::IGNORE,	bool bShow_collision_ = true);
+	~Entity();
 
 	bool GetActiveState() const
 	{
@@ -45,28 +46,34 @@ public:
 	}
 
 	void Draw();
+	void DrawActor();
 	virtual void Destroy();
 	int row;
 	int column;
 
-	bool bCanMove;
 protected:
-	Rectangle entity;
+	Rectangle entity_collision;
 	TileMap* tile_map = nullptr;
 	Color color;
 	ECollisionType collision_type;
 	
+	//Texture related stuff
+	Texture2D entity_texture;
+	Rectangle rec_crop_entity_texture;
+
+
 	int GetTileNumber(int row_, int column_)
 	{
 		if (tile_map)
 			return row_ + tile_map->amount_x + column;
 		return 0;
 	}
+	virtual void CollisionOverlap(Entity& overlapped_actor_);
 
 
-private: 
+	bool bShow_collision;
 	bool bActive;
 
-
+	//static Texture2D static_entity_texture;
 };
 
