@@ -1,9 +1,10 @@
 #include "Entity.h"
 #include <iostream>
+#include <cmath>
 
 #define PRINT(x) std::cout << "\n";  printf(x) ; std::cout << "\n";
 
-Entity::Entity(TileMap& tile_map_, ECollisionType collision_type_, bool bShow_collision_)
+Entity::Entity(TileMap& tile_map_, ECollisionType collision_type_, bool bShow_collision_, Texture2D shared_sprite_sheet_)
 {
 	bActive = true;
 	row = 1;
@@ -11,7 +12,7 @@ Entity::Entity(TileMap& tile_map_, ECollisionType collision_type_, bool bShow_co
 	tile_map = &tile_map_;
 	collision_type = collision_type_;
 	bShow_collision = bShow_collision_;
-	
+	shared_sprite_sheet = shared_sprite_sheet_;
 
 	if (tile_map)
 	{
@@ -26,32 +27,65 @@ Entity::Entity(TileMap& tile_map_, ECollisionType collision_type_, bool bShow_co
 
 Entity::~Entity()
 {
-	printf("\n I'm going to space!\n");
+	//printf("\n I'm going to space!\n");
 }
 
-void Entity::Draw()
+//This is turning into our tick or update methods
+void Entity::Update()
 {
+	if (!bActive) return;
 	if(bShow_collision)
 		DrawRectangleLinesEx(entity_collision, 2.f, color);
-}
 
-void Entity::Destroy()
-{
-	delete (this);
-}
-
-void Entity::CollisionOverlap(Entity& overlapped_actor_)
-{
-	printf("\n Overlapped\n");
-}
-
-void Entity::DrawActor()
-{
 	Vector2 text_pos;
 	text_pos.x = entity_collision.x + 3.f;
 	text_pos.y = entity_collision.y + 3.f;
 	DrawTextureRec(entity_texture, rec_crop_entity_texture, text_pos, WHITE);
+	UpdateAnimation();
 }
+
+void Entity::Destroy()
+{
+	bActive = false;
+}
+
+void Entity::UpdateAnimation()
+{
+	if (animations.size() == 0)
+		return;
+
+	const AnimationData current_anim = animations[current_animation];
+
+	frame_counter++;
+	//printf("\nframecounter %d\n", frame_counter);
+	if (frame_counter >= (60/frame_speed))
+	{
+		frame_counter = 0;
+		current_frame++;
+		if (current_frame > current_anim.animation_length)
+			current_frame = 0;
+
+		//Note for me: Put a starter offset
+		rec_crop_entity_texture.x += current_anim.animation_length;
+	}
+	if (rec_crop_entity_texture.x >= current_anim.animation_final_pos_x)
+	{
+		rec_crop_entity_texture.x = current_anim.animation_start_pos_x;
+	}
+	if (rec_crop_entity_texture.x == 0)
+	{
+		rec_crop_entity_texture.x = current_anim.animation_start_pos_x;
+	}
+	rec_crop_entity_texture.y = current_anim.animation_start_pos_y;
+
+
+}
+
+void Entity::CollisionOverlap(Entity& overlapped_actor_)
+{
+	//printf("\n Overlapped\n");
+}
+
 
 TileMapCoordinates Entity::GetCoordinates()
 {
@@ -66,23 +100,28 @@ void Entity::SetLocation(int row_, int column_)
 		return;
 	}
 
-	//Do a check if there some entity there
+	//Do a collision check if there some entity there
 	for (auto& entity : tile_map->entities)
 	{
-		if (&entity.get() != this && row_ == entity.get().row && column_ == entity.get().column && entity.get().collision_type == ECollisionType::BLOCKING)
-		{	
-			printf("cant move");
-			return;
-		}
-		if (&entity.get() != this && row_ == entity.get().row && column_ == entity.get().column && entity.get().collision_type == ECollisionType::OVERLAP)
+		if (entity.get().bActive)
 		{
-			CollisionOverlap(entity);
-			break;
+			if (&entity.get() != this && row_ == entity.get().row && column_ == entity.get().column && entity.get().collision_type == ECollisionType::BLOCKING)
+			{
+				//	printf("cant move");
+				return;
+			}
+			if (&entity.get() != this && row_ == entity.get().row && column_ == entity.get().column && entity.get().collision_type == ECollisionType::OVERLAP)
+			{
+				CollisionOverlap(entity);
+				break;
+			}
 		}
+
 	}
 	column = column_;
-	row = row_; ;
- 
+	row = row_;
+
+	
 	entity_collision.x = tile_map->tiles[column].x;
 	entity_collision.y = tile_map->tiles[(tile_map->amount_x * row) + column].y;
 	

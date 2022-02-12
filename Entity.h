@@ -4,6 +4,30 @@
 #include <stdio.h>
 #include "TileMap.h"
 
+struct AnimationData
+{
+	int animation_length;
+	int animation_start_pos_x;
+	int animation_final_pos_x;
+	int animation_start_pos_y;
+	int animation_final_pos_y;
+
+	AnimationData() : animation_length(0), animation_start_pos_x(0), animation_final_pos_x(0), animation_start_pos_y(0), animation_final_pos_y()
+	{
+
+	}
+
+	AnimationData(int animation_length_, int animation_start_pos_x_, int animation_final_pos_x_, int animation_start_pos_y_, int animation_final_pos_y_)
+	{
+		animation_length = animation_length_;
+		animation_start_pos_x = animation_start_pos_x_;
+		animation_final_pos_x = animation_final_pos_x_;
+		animation_start_pos_y = animation_start_pos_y_;
+		animation_final_pos_y = animation_final_pos_y;
+	}
+};
+
+
 struct TileMapCoordinates
 {
 public:
@@ -29,7 +53,7 @@ enum class ECollisionType : uint8_t
 class Entity
 {
 public:
-	Entity(TileMap& tile_map_, ECollisionType collision_type_ = ECollisionType::IGNORE,	bool bShow_collision_ = true);
+	Entity(TileMap& tile_map_, ECollisionType collision_type_ = ECollisionType::IGNORE,	bool bShow_collision_ = true, Texture2D shared_sprite_sheet_ = Texture2D() );
 	~Entity();
 
 	bool GetActiveState() const
@@ -45,12 +69,12 @@ public:
 		bActive = ActiveState;
 	}
 
-	void Draw();
-	void DrawActor();
+	virtual void Update();
 	virtual void Destroy();
 	int row;
 	int column;
 
+	void UpdateAnimation();
 protected:
 	Rectangle entity_collision;
 	TileMap* tile_map = nullptr;
@@ -59,8 +83,15 @@ protected:
 	
 	//Texture related stuff
 	Texture2D entity_texture;
+	Texture2D shared_sprite_sheet;
 	Rectangle rec_crop_entity_texture;
 
+	//Animation related
+	int current_frame;
+	int frame_counter;
+	float frame_speed = 5.f;
+	std::vector<AnimationData> animations;
+	int current_animation;
 
 	int GetTileNumber(int row_, int column_)
 	{
@@ -74,6 +105,5 @@ protected:
 	bool bShow_collision;
 	bool bActive;
 
-	//static Texture2D static_entity_texture;
 };
 

@@ -1,9 +1,8 @@
 #include "TileMap.h"
-
 #include "Entity.h"
 
 
-TileMap::TileMap(int amountX_, unsigned int amountY_, unsigned int size_)
+TileMap::TileMap(unsigned int start_pos_x_, unsigned int start_pos_y_, int amountX_, unsigned int amountY_, unsigned int size_)
 {
 	amount_x = amountX_;
 	amount_y = amountY_;
@@ -15,11 +14,11 @@ TileMap::TileMap(int amountX_, unsigned int amountY_, unsigned int size_)
 		tiles.push_back(Rectangle());
 		tiles[i].width = size;
 		tiles[i].height = size;
-		tiles[i].x = 0.f;
-		tiles[i].y = 0.f;
+		tiles[i].x = start_pos_x_;
+		tiles[i].y = start_pos_y_;
 	}
 
-	float store_y = 0.f;
+	float store_y = start_pos_y_;
 
 	for (size_t i = 0; i < tiles.size(); i++)
 	{
@@ -28,10 +27,11 @@ TileMap::TileMap(int amountX_, unsigned int amountY_, unsigned int size_)
 			tiles[i].x = tiles[i - 1].x + size + 1.f;
 			tiles[i].y = store_y;
 		}
+
 		if (i % amount_x == 0 && i != 0)
 		{
 			store_y = tiles[i - 1].y + size + 1.f;
-			tiles[i].x = 0;
+			tiles[i].x = start_pos_x_;
 			tiles[i].y = store_y;
 		}
 	}

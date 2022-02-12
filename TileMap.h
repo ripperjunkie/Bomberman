@@ -11,7 +11,7 @@ class Entity;
 class TileMap
 {
 public:
-	TileMap(int amountX_, unsigned int amountY_, unsigned int size_);
+	TileMap(unsigned int start_pos_x_, unsigned int start_pos_y_, int amountX_, unsigned int amountY_, unsigned int size_);
 
 	int amount_x;
 	int amount_y;

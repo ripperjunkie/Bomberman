@@ -1,3 +1,5 @@
+#define SCREEN_X 1280   
+#define SCREEN_Y 720
 #define TILE_X 15 
 #define TILE_Y 13 
 #define TILE_SIZE 40
@@ -12,54 +14,15 @@
 #include "TileMap.h"
 #include "Entity.h"
 #include "Player.h"
+#include "Enemy.h"
 
-
-//@PARAMS: class, tileMap coordinates
-Entity* Spawn()
-{
-    //TODO
-    return NULL;
-}
-
-//Move entity with input
-void Movement(Entity* entity)
-{
-    if (!entity) return;
-    
-    if (IsKeyPressed(KEY_D))
-    {
-        int x = entity->GetCoordinates().x;
-        x += 1;
-        printf("can move %d", x);
-        entity->SetLocation(entity->GetCoordinates().y, x);
-    }
-    if (IsKeyPressed(KEY_A))
-    {
-        int x = entity->GetCoordinates().x;
-        x -= 1;
-        entity->SetLocation(entity->GetCoordinates().y, x);
-    }
-    if (IsKeyPressed(KEY_W))
-    {
-        int y = entity->GetCoordinates().y;
-        y -= 1;
-        entity->SetLocation(y, entity->GetCoordinates().x);
-    }
-    if (IsKeyPressed(KEY_S))
-    {
-        int y = entity->GetCoordinates().y;
-        y += 1;
-        entity->SetLocation(y, entity->GetCoordinates().x);
-
-    }
-}
 
 int main()
 {
     // Initialization
     //--------------------------------------------------------------------------------------
-    const int screenWidth = 900;    
-    const int screenHeight = 850;
+    const int screenWidth = SCREEN_X;    
+    const int screenHeight = SCREEN_Y;
 
 
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
@@ -74,33 +37,19 @@ int main()
     //char c_enemy = 'E';
     //char c_item = 'I';
 
-    //TILEMAP    
-    TileMap* tile_map = new TileMap(15, 13, 40);
-    Player* player = new Player(*tile_map, ECollisionType::OVERLAP);
-    Entity* enemy = new Entity(*tile_map, ECollisionType::OVERLAP);
+    Texture2D sprite_sheet = LoadTexture("resources/133670.png");
+    sprite_sheet.width = 512.f * 1.F;
+    sprite_sheet.height = 832.f * 1.F;
 
-    //Texture2D test;
-    //test = LoadTexture("resources/133670.png");
-    //test.width = 521.f * 1.f;
-    //test.height = 832.f * 1.f;
-    //Rectangle tile;
-    //tile.x = 32.f;
-    //tile.y = 0.f;
-    //tile.width = 521.f;
-    //tile.height = 832.f;
-    //Rectangle tile_destination;
-    //tile.x = 0.f;
-    //tile.y = 32.f;
-    //tile.width = 32.f;
-    //tile.height = 32.f;
-    //Vector2 text_pos;
-    //text_pos.x = 0.f;
-    //text_pos.y = 0.f;
+    //TILEMAP    
+    TileMap* tile_map = new TileMap(SCREEN_X / 2.f - ((15.f * 40.f) / 2.f), SCREEN_Y / 2.f - ((13.f * 40.f) / 2.f), 15, 13, 40);
+    Player* player = new Player(*tile_map, ECollisionType::OVERLAP,true, sprite_sheet);
+    Enemy* enemy = new Enemy(*tile_map, ECollisionType::OVERLAP,true, sprite_sheet);
 
 
    if (enemy) 
    {
-       enemy->SetLocation(4, 4);
+       enemy->SetLocation(1, 3);
    }
 
     if (player)
@@ -118,6 +67,9 @@ int main()
 
     Camera2D camera2D = { 0 };
     camera2D.zoom = 1.f;
+
+
+    int i = 0;
     
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
@@ -128,9 +80,8 @@ int main()
         //----------------------------------------------------------------------------------
         camera2D.zoom += ((float)GetMouseWheelMove() * 0.05f);
         
-        //Player movement
-        Movement(player);
-
+        i += + (int)(GetFrameTime() * 20.f);
+       // printf("\ni = %d\n", i);
         if (enemy)
         {
             //DEBUG OTHER ENTITY MOVEMENT
@@ -170,30 +121,26 @@ int main()
 
         ClearBackground(BLACK);
 
-        BeginMode2D(camera2D);
-
-    
+        BeginMode2D(camera2D);    
 
         //Draw stuff
         if (tile_map)
         {
             tile_map->Draw();
-              //printf("\nCoord X: %d, Coord Y: %d\n", tile_map->entities[1].get().GetCoordinates().x, tile_map->entities[1].get().GetCoordinates().y);
+            //printf("\nCoord X: %d, Coord Y: %d\n", tile_map->entities[1].get().GetCoordinates().x, tile_map->entities[1].get().GetCoordinates().y);
+        }
+        if (enemy)
+        {
+            enemy->Update();
         }
 
         if (player)
         {
-            player->Draw();
-
-            player->DrawActor();
+            player->Update();
            // printf("\nCoord X: %d, Coord Y: %d\n", player->GetCoordinates().x, player->GetCoordinates().y);
         }
 
-       if (enemy)
-       {
-           enemy->Draw();  
-          // printf("\n valid! address %p\n", &enemy);
-       }
+
 
        // DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
 
