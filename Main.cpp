@@ -139,9 +139,6 @@ int main()
             player->Update();
            // printf("\nCoord X: %d, Coord Y: %d\n", player->GetCoordinates().x, player->GetCoordinates().y);
         }
-
-
-
        // DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
 
         EndMode2D();
