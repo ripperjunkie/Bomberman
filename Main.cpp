@@ -44,7 +44,7 @@ int main()
     //TILEMAP    
     TileMap* tile_map = new TileMap(SCREEN_X / 2.f - ((15.f * 40.f) / 2.f), SCREEN_Y / 2.f - ((13.f * 40.f) / 2.f), 15, 13, 40);
     Player* player = new Player(*tile_map, ECollisionType::BLOCKING,true, sprite_sheet);
-    Enemy* enemy = new Enemy(*tile_map, ECollisionType::OVERLAP,true, sprite_sheet);
+    Enemy* enemy = new Enemy(*tile_map, ECollisionType::BLOCKING,true, sprite_sheet);
 
 
    if (enemy) 
