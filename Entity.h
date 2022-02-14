@@ -64,6 +64,7 @@ public:
 
 
 	void SetLocation(int row_, int column_);
+	void AddMovement(int x, int y);
 	void SetActiveState(bool ActiveState)
 	{
 		bActive = ActiveState;
@@ -104,6 +105,8 @@ protected:
 
 	bool bShow_collision;
 	bool bActive;
+	void MoveOutOfCollision();
 
+	Vector2 previous_position;
 };
 

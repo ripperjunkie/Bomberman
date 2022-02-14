@@ -42,6 +42,31 @@ void Entity::Update()
 	text_pos.y = entity_collision.y + 3.f;
 	DrawTextureRec(entity_texture, rec_crop_entity_texture, text_pos, WHITE);
 	UpdateAnimation();
+
+
+	//Do a collision check if there some entity there
+	for (auto& entity : tile_map->entities)
+	{
+		if (entity.get().bActive)
+		{
+			if (&entity.get() != this && !CheckCollisionRecs(entity_collision, entity.get().entity_collision) && entity.get().collision_type == ECollisionType::BLOCKING)
+			{
+				previous_position.x = entity_collision.x;
+				previous_position.y = entity_collision.y;
+
+			}
+			else if(&entity.get() != this && CheckCollisionRecs(entity_collision, entity.get().entity_collision) && entity.get().collision_type == ECollisionType::BLOCKING)
+			{
+				MoveOutOfCollision();
+			}
+	
+		}
+
+	}
+
+
+
+	printf("\nprevious_x : %f, previous_y: %f\n", previous_position.x, previous_position.y);
 }
 
 void Entity::Destroy()
@@ -80,6 +105,7 @@ void Entity::UpdateAnimation()
 
 
 }
+
 
 void Entity::CollisionOverlap(Entity& overlapped_actor_)
 {
@@ -125,5 +151,44 @@ void Entity::SetLocation(int row_, int column_)
 	entity_collision.x = tile_map->tiles[column].x;
 	entity_collision.y = tile_map->tiles[(tile_map->amount_x * row) + column].y;
 	
+
+}
+
+
+void Entity::AddMovement(int x, int y)
+{
+	//Add world movement with lerp
+	const float lerp_time = 4.f;
+
+
+
+	//Do a collision check if there some entity there
+	for (auto& entity : tile_map->entities)
+	{
+		if (entity.get().bActive)
+		{
+			if (&entity.get() != this && CheckCollisionRecs(entity_collision, entity.get().entity_collision) && entity.get().collision_type == ECollisionType::BLOCKING)
+			{
+				printf("cant move");
+				MoveOutOfCollision();
+				return;
+			}
+			if (&entity.get() != this && CheckCollisionRecs(entity_collision, entity.get().entity_collision) && entity.get().collision_type == ECollisionType::OVERLAP)
+			{
+				CollisionOverlap(entity);
+				break;
+			}
+		}
+
+	}
+	
+	entity_collision.x = std::lerp(entity_collision.x, entity_collision.x + x, GetFrameTime() * lerp_time);
+	entity_collision.y = std::lerp(entity_collision.y, entity_collision.y + y, GetFrameTime() * lerp_time);
+}
+
+void Entity::MoveOutOfCollision()
+{
+	entity_collision.x = previous_position.x;
+	entity_collision.y = previous_position.y;
 
 }

@@ -43,7 +43,7 @@ int main()
 
     //TILEMAP    
     TileMap* tile_map = new TileMap(SCREEN_X / 2.f - ((15.f * 40.f) / 2.f), SCREEN_Y / 2.f - ((13.f * 40.f) / 2.f), 15, 13, 40);
-    Player* player = new Player(*tile_map, ECollisionType::OVERLAP,true, sprite_sheet);
+    Player* player = new Player(*tile_map, ECollisionType::BLOCKING,true, sprite_sheet);
     Enemy* enemy = new Enemy(*tile_map, ECollisionType::OVERLAP,true, sprite_sheet);
 
 
@@ -80,37 +80,25 @@ int main()
         //----------------------------------------------------------------------------------
         camera2D.zoom += ((float)GetMouseWheelMove() * 0.05f);
         
-        i += + (int)(GetFrameTime() * 20.f);
        // printf("\ni = %d\n", i);
         if (enemy)
         {
             //DEBUG OTHER ENTITY MOVEMENT
-            if (IsKeyPressed(KEY_RIGHT))
+            if (IsKeyDown(KEY_RIGHT))
             {
-
-                int x = enemy->GetCoordinates().x;
-                x += 1;
-                printf("can move %d", x);
-                enemy->SetLocation(enemy->GetCoordinates().y, x);
+                enemy->AddMovement(10,0);
             }
-            if (IsKeyPressed(KEY_LEFT))
+            if (IsKeyDown(KEY_LEFT))
             {
-                int x = enemy->GetCoordinates().x;
-                x -= 1;
-                enemy->SetLocation(enemy->GetCoordinates().y, x);
+                enemy->AddMovement(-10, 0);
             }
-            if (IsKeyPressed(KEY_UP))
+            if (IsKeyDown(KEY_UP))
             {
-                int y = enemy->GetCoordinates().y;
-                y -= 1;
-                enemy->SetLocation(y, enemy->GetCoordinates().x);
-
+                enemy->AddMovement(0, -10);
             }
-            if (IsKeyPressed(KEY_DOWN))
+            if (IsKeyDown(KEY_DOWN))
             {
-                int y = enemy->GetCoordinates().y;
-                y += 1;
-                enemy->SetLocation(y, enemy->GetCoordinates().x);
+                enemy->AddMovement(0, 10);
             }
         }
 
@@ -122,6 +110,8 @@ int main()
         ClearBackground(BLACK);
 
         BeginMode2D(camera2D);    
+
+        
 
         //Draw stuff
         if (tile_map)

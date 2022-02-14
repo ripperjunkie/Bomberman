@@ -16,36 +16,31 @@ void Player::Update()
 
 void Player::Movement()
 {
-    if (IsKeyPressed(KEY_D))
+    if (IsKeyDown(KEY_D))
     {
-        int x = GetCoordinates().x;
-        x += 1;
         current_animation = 0;        
         rec_crop_entity_texture.width = std::abs(rec_crop_entity_texture.width);
-        SetLocation(GetCoordinates().y, x);
+
+        AddMovement(10, 0);
     }
 
-    if (IsKeyPressed(KEY_A))
+    if (IsKeyDown(KEY_A))
     {
-        int x = GetCoordinates().x;
-        x -= 1;
         current_animation = 0;
         rec_crop_entity_texture.width = -std::abs(rec_crop_entity_texture.width);
-        SetLocation(GetCoordinates().y, x);
+        AddMovement(-10,0);
+
     }
-    if (IsKeyPressed(KEY_W))
+    if (IsKeyDown(KEY_W))
     {
-        int y = GetCoordinates().y;
-        y -= 1;
         current_animation = 2;
-        SetLocation(y, GetCoordinates().x);
+
+        AddMovement(0,-10);
     }
-    if (IsKeyPressed(KEY_S))
+    if (IsKeyDown(KEY_S))
     {
-        int y = GetCoordinates().y;
-        y += 1;
         current_animation = 1;
-        SetLocation(y, GetCoordinates().x);
+        AddMovement(0,10);
 
     }
 }
