@@ -32,7 +32,7 @@ Entity::~Entity()
 	//printf("\n I'm going to space!\n");
 }
 
-//This is turning into our tick or update methods
+//This is turning into our tick/update methods
 void Entity::Update()
 {
 	if (!bActive) return;
@@ -48,8 +48,6 @@ void Entity::Update()
 	UpdateAnimation();
 	//printf("Location x: %f\n", entity_collision.x);
 	//printf("Location y: %f\n", entity_collision.y);
-
-
 }
 
 void Entity::Destroy()

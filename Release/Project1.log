@@ -14,8 +14,8 @@ D:\Programacao\CPP\Boomberman\Main.cpp(35,30): warning C4244: '=': conversion fr
 D:\Programacao\CPP\Boomberman\Main.cpp(38,89): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
 D:\Programacao\CPP\Boomberman\Main.cpp(38,49): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
   Generating code
-  2 of 326 functions ( 0.6%) were compiled, the rest were copied from previous compilation.
+  1 of 326 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    2 functions had inline decision re-evaluated but remain unchanged
+    0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Project1.vcxproj -> D:\Programacao\CPP\Boomberman\Release\Project1.exe

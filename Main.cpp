@@ -42,10 +42,6 @@ int main()
 	Enemy* enemy_04 = new Enemy(*tile_map, ECollisionType::BLOCKING, EObjectMovType::STATIC, true, sprite_sheet);
 	Enemy* enemy_05 = new Enemy(*tile_map, ECollisionType::BLOCKING, EObjectMovType::STATIC, true, sprite_sheet);
 
-
-
-
-
 	if (player)
 	{
 		player->SetLocation(0);
@@ -62,8 +58,6 @@ int main()
 	{
 		enemies[i].get().SetLocation(i + 1);
 	}
-	
-
 
 	if (tile_map)
 	{
@@ -77,10 +71,7 @@ int main()
 
 	Camera2D camera2D = { 0 };
 	camera2D.zoom = 1.f;
-
-
-	int i = 0;
-
+	
 	// Main game loop
 	while (!WindowShouldClose())    // Detect window close button or ESC key
 	{
@@ -89,28 +80,19 @@ int main()
 		// TODO: Update your variables here
 		//----------------------------------------------------------------------------------
 		camera2D.zoom += ((float)GetMouseWheelMove() * 0.05f);
-
-		//if (enemy_01)
-		//{
-		//	//DEBUG OTHER ENTITY MOVEMENT
-		//	if (IsKeyDown(KEY_RIGHT))
-		//	{
-		//		enemy_01->AddMovement(enemy_01->speed, 0);
-		//	}
-		//	if (IsKeyDown(KEY_LEFT))
-		//	{
-		//		enemy_01->AddMovement(-enemy_01->speed, 0);
-		//	}
-		//	if (IsKeyDown(KEY_UP))
-		//	{
-		//		enemy_01->AddMovement(0, -enemy_01->speed);
-		//	}
-		//	if (IsKeyDown(KEY_DOWN))
-		//	{
-		//		enemy_01->AddMovement(0, enemy_01->speed);
-		//	}
-		//}
-
+		if (IsKeyDown(KEY_RIGHT))
+		{
+			camera2D.offset.x -= .5f;
+		}
+		if (IsKeyDown(KEY_LEFT)) {
+			camera2D.offset.x += .5f;
+		}
+		if (IsKeyDown(KEY_UP)) {
+			camera2D.offset.y += .5f;
+		}
+		if (IsKeyDown(KEY_DOWN)) {
+			camera2D.offset.y -= .5f;
+		}
 
 		// Draw
 		//----------------------------------------------------------------------------------
@@ -120,28 +102,12 @@ int main()
 
 		BeginMode2D(camera2D);
 
-
-
 		//Draw stuff
 		if (tile_map)
 		{
 			tile_map->Draw();
 			tile_map->CollisionCheck();
-			//printf("\nCoord X: %d, Coord Y: %d\n", tile_map->entities[1].get().GetCoordinates().x, tile_map->entities[1].get().GetCoordinates().y);
 		}
-
-		for (auto& element : enemies)
-		{
-			element.get().Update();
-		}
-
-		if (player)
-		{
-			player->Update();
-			// printf("\nCoord X: %d, Coord Y: %d\n", player->GetCoordinates().x, player->GetCoordinates().y);
-		}
-
-		// DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
 
 		EndMode2D();
 
