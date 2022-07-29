@@ -1,5 +1,5 @@
 #include "Enemy.h"
 
-void Enemy::CollisionOverlap(Entity& overlapped_actor_)
+void Enemy::OnCollisionOverlap(Entity& overlapped_actor_)
 {
 }

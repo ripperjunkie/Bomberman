@@ -24,5 +24,7 @@ public:
 	std::string tile_number;
 
 	void Draw();
+	void CollisionCheck();
+	void GetFrameRate();
 };
 
