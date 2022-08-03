@@ -26,5 +26,6 @@ public:
 	void Draw();
 	void CollisionCheck();
 	void GetFrameRate();
+	void Update();
 };
 

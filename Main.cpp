@@ -2,7 +2,7 @@
 #define SCREEN_Y 720
 #define TILE_X 15 
 #define TILE_Y 13 
-#define TILE_SIZE 40
+#define TILE_SIZE 32
 
 #include <raylib.h>
 #include <vector>
@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <string>
 #include <map>
+#include "iostream"
 
 #include "TileMap.h"
 #include "Entity.h"
@@ -25,7 +26,6 @@ int main()
 	const int screenWidth = SCREEN_X;
 	const int screenHeight = SCREEN_Y;
 
-
 	InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
 	SetTargetFPS(120); // Set our game to run at 60 frames-per-second
 	//--------------------------------------------------------------------------------------
@@ -35,39 +35,96 @@ int main()
 	sprite_sheet.height = 832.f * 1.F;
 
 	//TILEMAP    
-	TileMap* tile_map = new TileMap(SCREEN_X / 2.f - ((15.f * 40.f) / 2.f), SCREEN_Y / 2.f - ((13.f * 40.f) / 2.f), 15, 13, 40);
+	TileMap* tile_map = new TileMap(SCREEN_X / 2.f - ((15.f * 40.f) / 2.f), SCREEN_Y / 2.f - ((13.f * 40.f) / 2.f), TILE_X, TILE_Y, TILE_SIZE);
 	Player* player = new Player(*tile_map, ECollisionType::BLOCKING, EObjectMovType::MOVABLE, true, sprite_sheet);
-	Enemy* enemy_02 = new Enemy(*tile_map, ECollisionType::BLOCKING, EObjectMovType::STATIC, true, sprite_sheet);
-	Enemy* enemy_03 = new Enemy(*tile_map, ECollisionType::BLOCKING, EObjectMovType::STATIC, true, sprite_sheet);
-	Enemy* enemy_04 = new Enemy(*tile_map, ECollisionType::BLOCKING, EObjectMovType::STATIC, true, sprite_sheet);
-	Enemy* enemy_05 = new Enemy(*tile_map, ECollisionType::BLOCKING, EObjectMovType::STATIC, true, sprite_sheet);
 
 	if (player)
 	{
-		player->SetLocation(0);
 		player->name = "Player";
 		player->SetShowCollision(true);
 	}
 
 	std::vector<std::reference_wrapper<Entity>> enemies;
-	for (uint8_t i(0); i < 10; ++i)
+	for (uint8_t i(0); i < 3; ++i)
 	{
 		enemies.push_back(*new Enemy(*tile_map, ECollisionType::BLOCKING, EObjectMovType::STATIC, true, sprite_sheet));
 	}
-	for (uint8_t i(0); i < 10; ++i)
+
+	std::vector<std::reference_wrapper<Entity>> blocks;
+	for (uint8_t i(0); i < 52; ++i)
 	{
-		enemies[i].get().SetLocation(i + 1);
+		blocks.push_back(*new Environment(*tile_map, ECollisionType::BLOCKING, EObjectMovType::STATIC, true, sprite_sheet));
 	}
+
+	
 
 	if (tile_map)
 	{
 		tile_map->entities.push_back(*player);
-		for (auto& element : enemies)
+
+		for (auto& enemy : enemies)
 		{
-			tile_map->entities.push_back(element);
+			tile_map->entities.push_back(enemy);
+		}
+		for (auto& s : blocks)
+		{
+			tile_map->entities.push_back(s);
+		}
+
+		for (auto& entity : tile_map->entities)
+		{
+			entity.get().shared_sprite_sheet.width = TILE_SIZE;
+			entity.get().shared_sprite_sheet.height = TILE_SIZE;
+
 		}
 	}
 
+
+	std::string test =
+		"x x x x x x x x x x x x x x x\n"
+		"x 0 0 0 e 0 0 0 e 0 0 0 0 0 x\n"
+		"x 0 0 0 0 0 0 0 0 0 0 0 0 0 x\n"
+		"x 0 0 0 0 0 0 0 0 0 0 0 0 0 x\n"
+		"x 0 0 0 0 0 0 0 0 0 0 0 0 0 x\n"
+		"x 0 0 0 0 0 0 0 0 0 0 0 0 0 x\n"
+		"x 0 0 0 0 0 0 0 0 0 0 0 0 0 x\n"
+		"x 0 0 0 0 0 0 0 0 e 0 0 0 0 x\n"
+		"x 0 0 0 0 0 0 0 0 0 0 0 0 0 x\n"
+		"x 0 0 0 0 0 0 0 0 0 0 0 0 0 x\n"
+		"x 0 0 0 0 0 0 0 0 0 0 0 0 0 x\n"
+		"x 0 0 0 0 0 0 0 0 0 0 0 0 p x\n"
+		"x x x x x x x x x x x x x x x\n";
+
+
+	test.erase(remove(test.begin(), test.end(), ' '), test.end());
+	test.erase(remove(test.begin(), test.end(), '\n'), test.end());	
+	
+	
+	int counter = 0;
+	int counter_enemy = 0;
+	for (uint8_t i(0); i < test.length(); ++i)
+	{
+		if (test[i] == 'p') {
+			player->SetLocation(i);
+		}
+		if (test[i] == 'x')
+		{
+			if (counter < blocks.size())
+			{
+				blocks[counter].get().SetLocation(i);
+				counter++;
+			}
+		}
+		if (test[i] == 'e')
+		{
+			if (counter_enemy < enemies.size())
+			{
+				enemies[counter_enemy].get().SetLocation(i);
+				counter_enemy++;
+			}
+		}
+
+	}
 
 	Camera2D camera2D = { 0 };
 	camera2D.zoom = 1.f;
@@ -75,10 +132,6 @@ int main()
 	// Main game loop
 	while (!WindowShouldClose())    // Detect window close button or ESC key
 	{
-		// Update
-		//----------------------------------------------------------------------------------
-		// TODO: Update your variables here
-		//----------------------------------------------------------------------------------
 		camera2D.zoom += ((float)GetMouseWheelMove() * 0.05f);
 		if (IsKeyDown(KEY_RIGHT))
 		{
@@ -102,11 +155,11 @@ int main()
 
 		BeginMode2D(camera2D);
 
-		//Draw stuff
 		if (tile_map)
 		{
 			tile_map->Draw();
 			tile_map->CollisionCheck();
+			tile_map->Update();
 		}
 
 		EndMode2D();

@@ -1,6 +1,8 @@
 #include "Entity.h"
 #include <iostream>
 #include <cmath>
+#include "raymath.h"
+
 
 #define PRINT(x) std::cout << "\n";  printf(x) ; std::cout << "\n";
 
@@ -25,6 +27,7 @@ Entity::Entity(TileMap& tile_map_, ECollisionType collision_type_, EObjectMovTyp
 	entity_collision.x = 0.f;
 	entity_collision.y = 0.f;
 	color = GREEN;
+	lerp_speed = 4.f;
 }
 
 Entity::~Entity()
@@ -42,12 +45,10 @@ void Entity::Update()
 	}
 
 	Vector2 text_pos;
-	text_pos.x = entity_collision.x + 3.f;
-	text_pos.y = entity_collision.y + 3.f;
+	text_pos.x = entity_collision.x;
+	text_pos.y = entity_collision.y;
 	DrawTextureRec(entity_texture, rec_crop_entity_texture, text_pos, WHITE);
 	UpdateAnimation();
-	//printf("Location x: %f\n", entity_collision.x);
-	//printf("Location y: %f\n", entity_collision.y);
 }
 
 void Entity::Destroy()
@@ -131,18 +132,54 @@ void Entity::SetLocation(int tile_number_)
 //This is how the object is moving
 void Entity::AddMovement(int x, int y)
 {
-	direction_movement = Vector2(entity_collision.x + x, entity_collision.y + y);
-
-	//Add world movement with lerp
-	const float lerp_time = 4.f;
-
 	if (!tile_map)
 		return;
+
+	if (IsColliding(x, y))
+		return;
+
+	//Here is where the real movement happens
+	entity_collision.x = std::lerp(entity_collision.x, entity_collision.x + x, GetFrameTime() * lerp_speed);
+	entity_collision.y = std::lerp(entity_collision.y, entity_collision.y + y, GetFrameTime() * lerp_speed);
+}
+
+void Entity::AddMovement(Vector2 dir, float axis)
+{
+	if (IsColliding(dir.x * axis * speed, dir.y * axis * speed))
+		return;
+
+	if (axis == 0.f)
+		return;
+
+	entity_collision.x = std::lerp(entity_collision.x, entity_collision.x + dir.x * axis * speed, GetFrameTime() * lerp_speed);
+	entity_collision.y = std::lerp(entity_collision.y, entity_collision.y + dir.y * axis * speed, GetFrameTime() * lerp_speed);
+}
+
+
+void Entity::MoveOutOfCollision(int x, int y)
+{
+	//Add world movement with lerp
+	const float lerp_speed = 4.f;
+
+	//Here is where the real movement happens
+	entity_collision.x = std::lerp(entity_collision.x, entity_collision.x + x, GetFrameTime() * lerp_speed);
+	entity_collision.y = std::lerp(entity_collision.y, entity_collision.y + y, GetFrameTime() * lerp_speed);
+}
+
+void Entity::SetShowCollision(bool ShowCollision)
+{
+	bShow_collision = ShowCollision;
+}
+
+bool Entity::IsColliding(int x, int y)
+{
+	//Add world movement with lerp
+	const float lerp_time = 4.f;
 
 	//Here is where we check with a fake rectangle to see if it will overlap
 	Rectangle rect = entity_collision;
 	rect.width = entity_collision.width;
-	rect.height= entity_collision.height;
+	rect.height = entity_collision.height;
 
 	rect.x = std::lerp(rect.x, entity_collision.x + x, GetFrameTime() * lerp_time);
 	rect.y = std::lerp(rect.y, entity_collision.y + y, GetFrameTime() * lerp_time);
@@ -159,44 +196,17 @@ void Entity::AddMovement(int x, int y)
 				{
 					if (entity->collision_type == ECollisionType::BLOCKING)
 					{
-						return;
+						return true;
 					}
 					if (entity->collision_type == ECollisionType::OVERLAP)
 					{
 						OnCollisionOverlap(*entity);
+						return false;
 					}
 				}
 			}
 		}
 	}
+	return false;
 
-
-	//Here is where the real movement happens
-	entity_collision.x = std::lerp(entity_collision.x, entity_collision.x + x, GetFrameTime() * lerp_time);
-	entity_collision.y = std::lerp(entity_collision.y, entity_collision.y + y, GetFrameTime() * lerp_time);
-
-	movement.x = x;
-	movement.y = y;
-
-	
-}
-
-void Entity::MoveOutOfCollision(int x, int y)
-{
-
-	//Add world movement with lerp
-	const float lerp_time = 4.f;
-
-
-	//Here is where the real movement happens
-	entity_collision.x = std::lerp(entity_collision.x, entity_collision.x + x, GetFrameTime() * lerp_time);
-	entity_collision.y = std::lerp(entity_collision.y, entity_collision.y + y, GetFrameTime() * lerp_time);
-
-	movement.x = x;
-	movement.y = y;
-}
-
-void Entity::SetShowCollision(bool ShowCollision)
-{
-	bShow_collision = ShowCollision;
 }

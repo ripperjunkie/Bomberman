@@ -39,12 +39,15 @@ public:
         
     }
     virtual void Update() override;
-    void Movement();
+    void Input();
 
     std::vector<RecCropLocation> idle;
     std::vector<RecCropLocation> walk_horizontal;
     std::vector<RecCropLocation> walk_up;
     std::vector<RecCropLocation> walk_down;
+
+    float input_up;
+    float input_right;
 
 protected:
 

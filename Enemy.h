@@ -20,8 +20,6 @@ public:
         rec_crop_entity_texture.y = idle[0].y;
         rec_crop_entity_texture.width = 32.f;
         rec_crop_entity_texture.height = 32.f;
-
-
     }
 
     std::vector<RecCropLocation> idle;

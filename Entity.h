@@ -84,6 +84,8 @@ public:
 	void SetLocation(int row_, int column_);
 	void SetLocation(int tile_number_);
 	void AddMovement(int x, int y);
+	void AddMovement(Vector2 dir, float axis);
+
 	void SetActiveState(bool ActiveState)
 	{
 		bActive = ActiveState;
@@ -101,23 +103,27 @@ public:
 	std::string name;
 	void SetShowCollision(bool ShowCollision);
 	void ProcessCollision();
+	bool IsColliding(int x, int y);
 
-	Vector2 movement;
+	//Vector2 movement;
 	Rectangle entity_collision;
 	EObjectMovType object_mov_type;
 	ECollisionType collision_type;
 	Vector2 direction_movement; //direction that this object is moving to
 	float acceleration = 1.f;
+	float lerp_speed;
 
 
 	void MoveOutOfCollision(int x, int y);
+
+	Texture2D entity_texture;
+	Texture2D shared_sprite_sheet;
+
 protected:
 	TileMap* tile_map = nullptr;
 	Color color;
 	
 	//Texture related stuff
-	Texture2D entity_texture;
-	Texture2D shared_sprite_sheet;
 	Rectangle rec_crop_entity_texture;
 
 	//Animation related

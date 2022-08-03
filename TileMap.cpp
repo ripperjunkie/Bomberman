@@ -42,24 +42,22 @@ void TileMap::Draw()
 {
 	for (size_t i = 0; i < tiles.size(); i++)
 	{
-		DrawRectangleRec(tiles[i], RED);
+		//DrawRectangleRec(tiles[i], RED);
 		if (i % 2 == 0 && i != 0)
 		{
-			DrawRectangleRec(tiles[i], BLUE);
+			//DrawRectangleRec(tiles[i], BLUE);
 		}
 		if (i == 0)
 		{
-			DrawRectangleRec(tiles[i], BLUE);
+			//DrawRectangleRec(tiles[i], BLUE);
 		}
 		tile_number = std::to_string(i);
-		DrawText(tile_number.c_str(), tiles[i].x, tiles[i].y, 20, WHITE);
+		//DrawText(tile_number.c_str(), tiles[i].x, tiles[i].y, 20, WHITE);
 	}
 
 	GetFrameRate();
 
 }
-
-
 
 //Solving collision
 void TileMap::CollisionCheck()
@@ -88,7 +86,7 @@ void TileMap::CollisionCheck()
 			{				
 				if (entity_1.object_mov_type == EObjectMovType::MOVABLE)
 				{			
-					const Vector2 n = Vector2Divide(dir, dist );
+					const Vector2 n = Vector2Divide(dir, dist);
 					if (dir.x != 0.f && dir.y != 0.f)
 					{
 						entity_1.MoveOutOfCollision(dir.x * .5f, dir.y * 5.f);
@@ -109,3 +107,11 @@ void TileMap::GetFrameRate()
 	DrawText(frame.c_str(), 0, 0, 24, YELLOW);
 }
 
+void TileMap::Update()
+{
+	for (auto& element : entities)
+	{
+		element.get().Update();
+		//std::cout << element.get().name << std::endl;
+	}
+}
