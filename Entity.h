@@ -142,11 +142,8 @@ protected:
 		return 0;
 	}
 
-	virtual void OnCollisionOverlap(Entity& overlapped_actor_);
-	virtual void OnTouchedBlockCollision(Entity& touched_actor_)
-	{
-		//printf("\ntouched actor\n");
-	}
+	virtual void OnCollisionOverlap(Entity& other_actor);
+	virtual void OnCollisionBlock(Entity& other_actor);
 
 	bool bShow_collision;
 	bool bActive;

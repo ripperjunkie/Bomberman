@@ -1,12 +1,4 @@
-﻿  Entity.cpp
-D:\Programacao\CPP\Boomberman\Entity.h(51,22): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programacao\CPP\Boomberman\Entity.h(51,14): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-D:\Programacao\CPP\Boomberman\Entity.h(52,22): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programacao\CPP\Boomberman\Entity.h(52,14): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-D:\Programacao\CPP\Boomberman\Entity.cpp(71,21): warning C4018: '>': signed/unsigned mismatch
-D:\Programacao\CPP\Boomberman\Entity.cpp(148,53): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Programacao\CPP\Boomberman\Entity.cpp(148,31): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-  Player.cpp
+﻿  Player.cpp
 D:\Programacao\CPP\Boomberman\Entity.h(51,22): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
 D:\Programacao\CPP\Boomberman\Entity.h(51,14): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
 D:\Programacao\CPP\Boomberman\Entity.h(52,22): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
@@ -14,8 +6,8 @@ D:\Programacao\CPP\Boomberman\Entity.h(52,14): warning C4244: 'initializing': co
 D:\Programacao\CPP\Boomberman\Player.h(26,38): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
 D:\Programacao\CPP\Boomberman\Player.h(27,39): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
   Generating code
-  7 of 369 functions ( 1.9%) were compiled, the rest were copied from previous compilation.
+  1 of 378 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+    2 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Project1.vcxproj -> D:\Programacao\CPP\Boomberman\Release\Project1.exe

@@ -8,7 +8,7 @@
 
 Entity::Entity(TileMap& tile_map_, ECollisionType collision_type_, EObjectMovType object_mov_type_, bool bShow_collision_, Texture2D shared_sprite_sheet_)
 {
-	speed = 30;
+	speed = 20;
 	bActive = true;
 	row = 1;
 	column = 1; 
@@ -79,9 +79,15 @@ void Entity::UpdateAnimation()
 
 }
 
-void Entity::OnCollisionOverlap(Entity& overlapped_actor_)
+void Entity::OnCollisionOverlap(Entity& other_actor)
 {
-	printf("\n Overlapped\n");
+	printf("\n OnCollisionOverlap, entity: %s\n", other_actor.name.c_str());
+
+}
+
+void Entity::OnCollisionBlock(Entity& other_actor)
+{
+	printf("\n OnCollisionBlock, entity: %s\n", other_actor.name.c_str());
 }
 
 TileMapCoordinates Entity::GetCoordinates()
@@ -196,6 +202,7 @@ bool Entity::IsColliding(int x, int y)
 				{
 					if (entity->collision_type == ECollisionType::BLOCKING)
 					{
+						OnCollisionBlock(*entity);
 						return true;
 					}
 					if (entity->collision_type == ECollisionType::OVERLAP)

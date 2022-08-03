@@ -47,13 +47,19 @@ int main()
 	std::vector<std::reference_wrapper<Entity>> enemies;
 	for (uint8_t i(0); i < 3; ++i)
 	{
-		enemies.push_back(*new Enemy(*tile_map, ECollisionType::BLOCKING, EObjectMovType::STATIC, true, sprite_sheet));
+		enemies.push_back(*new Enemy(*tile_map, ECollisionType::OVERLAP, EObjectMovType::STATIC, true, sprite_sheet));
+		if (&enemies[i]) {
+			enemies[i].get().name = "enemy " + std::to_string(i);
+		}
 	}
 
 	std::vector<std::reference_wrapper<Entity>> blocks;
 	for (uint8_t i(0); i < 52; ++i)
 	{
 		blocks.push_back(*new Environment(*tile_map, ECollisionType::BLOCKING, EObjectMovType::STATIC, true, sprite_sheet));
+		if (&blocks[i]) {
+			blocks[i].get().name = "blocks " + std::to_string(i);
+		}
 	}
 
 	

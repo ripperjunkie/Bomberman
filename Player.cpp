@@ -5,7 +5,8 @@
 
 void Player::OnCollisionOverlap(Entity& overlapped_actor_)
 {
-	printf("\ncoordinate of overlapped actor: %d\n ", overlapped_actor_.GetCoordinates().x);
+    Entity::OnCollisionOverlap(overlapped_actor_);
+	//printf("\ncoordinate of overlapped actor: %d\n ", overlapped_actor_.GetCoordinates().x);
 	//overlapped_actor_.Destroy();
 }
 
