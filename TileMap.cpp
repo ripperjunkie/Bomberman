@@ -86,7 +86,7 @@ void TileMap::CollisionCheck()
 			{				
 				if (entity_1.object_mov_type == EObjectMovType::MOVABLE)
 				{			
-					const Vector2 n = Vector2Divide(dir, dist);
+					//const Vector2 n = Vector2Divide(dir, dist);
 					if (dir.x != 0.f && dir.y != 0.f)
 					{
 						entity_1.MoveOutOfCollision(dir.x * .5f, dir.y * 5.f);
@@ -114,4 +114,5 @@ void TileMap::Update()
 		element.get().Update();
 		//std::cout << element.get().name << std::endl;
 	}
+
 }

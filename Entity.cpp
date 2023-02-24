@@ -18,22 +18,30 @@ Entity::Entity(TileMap& tile_map_, ECollisionType collision_type_, EObjectMovTyp
 	bShow_collision = bShow_collision_;
 	shared_sprite_sheet = shared_sprite_sheet_;
 
-	if (tile_map)
-	{
-		entity_collision.width = (float)tile_map->size;
-		entity_collision.height = (float)tile_map->size;			
-	}
 
 	entity_collision.x = 0.f;
 	entity_collision.y = 0.f;
 	color = GREEN;
 	lerp_speed = 4.f;
+
+	if (tile_map)
+	{
+		entity_collision.width = (float)tile_map->size;
+		entity_collision.height = (float)tile_map->size;			
+		tile_map->entities.push_back(*this);
+		Start();
+	}
 }
 
 Entity::~Entity()
 {
 	//printf("\n I'm going to space!\n");
 }
+
+void Entity::Start()
+{
+}
+
 
 //This is turning into our tick/update methods
 void Entity::Update()
@@ -49,6 +57,7 @@ void Entity::Update()
 	text_pos.y = entity_collision.y;
 	DrawTextureRec(entity_texture, rec_crop_entity_texture, text_pos, WHITE);
 	UpdateAnimation();
+	ProcessCollision();
 }
 
 void Entity::Destroy()
@@ -81,13 +90,18 @@ void Entity::UpdateAnimation()
 
 void Entity::OnCollisionOverlap(Entity& other_actor)
 {
-	printf("\n OnCollisionOverlap, entity: %s\n", other_actor.name.c_str());
-
+	//printf("\n OnCollisionOverlap, entity: %s\n", other_actor.name.c_str());
 }
+
+void Entity::OnCollisionEndOverlap(Entity& other_actor)
+{
+	//printf("\n OnCollisionEndOverlap, entity: %s\n", other_actor.name.c_str());
+}
+
 
 void Entity::OnCollisionBlock(Entity& other_actor)
 {
-	printf("\n OnCollisionBlock, entity: %s\n", other_actor.name.c_str());
+	//printf("\n OnCollisionBlock, entity: %s\n", other_actor.name.c_str());
 }
 
 TileMapCoordinates Entity::GetCoordinates()
@@ -102,25 +116,6 @@ void Entity::SetLocation(int row_, int column_)
 		//printf("\nInvalid Tile map\n");
 		return;
 	}
-
-	//Do a collision check if there some entity there
-	//for (auto& entity : tile_map->entities)
-	//{
-	//	if (entity.get().bActive)
-	//	{
-	//		if (&entity.get() != this && row_ == entity.get().row && column_ == entity.get().column && entity.get().collision_type == ECollisionType::BLOCKING)
-	//		{
-	//			//	printf("cant move");
-	//			return;
-	//		}
-	//		if (&entity.get() != this && row_ == entity.get().row && column_ == entity.get().column && entity.get().collision_type == ECollisionType::OVERLAP)
-	//		{
-	//			CollisionOverlap(entity);
-	//			break;
-	//		}
-	//	}
-
-	////}
 	column = column_;
 	row = row_;
 	
@@ -134,6 +129,11 @@ void Entity::SetLocation(int tile_number_)
 	entity_collision.y = tile_map->tiles[tile_number_].y;
 }
 
+void Entity::SetLocation(float x, float y)
+{
+	entity_collision.x = x;
+	entity_collision.y = y;
+}
 
 //This is how the object is moving
 void Entity::AddMovement(int x, int y)
@@ -142,7 +142,9 @@ void Entity::AddMovement(int x, int y)
 		return;
 
 	if (IsColliding(x, y))
+	{
 		return;
+	}
 
 	//Here is where the real movement happens
 	entity_collision.x = std::lerp(entity_collision.x, entity_collision.x + x, GetFrameTime() * lerp_speed);
@@ -208,12 +210,17 @@ bool Entity::IsColliding(int x, int y)
 					if (entity->collision_type == ECollisionType::OVERLAP)
 					{
 						OnCollisionOverlap(*entity);
-						return false;
 					}
+
 				}
 			}
 		}
 	}
 	return false;
 
+}
+
+void Entity::ProcessCollision()
+{
+	
 }

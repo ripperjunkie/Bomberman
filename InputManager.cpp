@@ -7,5 +7,5 @@ InputManager::InputManager()
 
 float InputManager::Input(int key_code)
 {
-
+	return 0;
 }

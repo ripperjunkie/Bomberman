@@ -13,8 +13,8 @@ public:
         animations.push_back(AnimationData(idle));
 
         entity_texture = LoadTexture("resources/133670.png");
-        entity_texture.width = 512.f * 1.F;
-        entity_texture.height = 832.f * 1.F;
+        entity_texture.width = 512 * 1;
+        entity_texture.height = 832  * 1;
 
         rec_crop_entity_texture.x = idle[0].x;
         rec_crop_entity_texture.y = idle[0].y;

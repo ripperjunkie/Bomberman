@@ -83,6 +83,7 @@ public:
 
 	void SetLocation(int row_, int column_);
 	void SetLocation(int tile_number_);
+	void SetLocation(float x, float y);
 	void AddMovement(int x, int y);
 	void AddMovement(Vector2 dir, float axis);
 
@@ -91,6 +92,7 @@ public:
 		bActive = ActiveState;
 	}
 
+	virtual void Start();
 	virtual void Update();
 	virtual void Destroy();
 	int row;
@@ -143,6 +145,7 @@ protected:
 	}
 
 	virtual void OnCollisionOverlap(Entity& other_actor);
+	virtual void OnCollisionEndOverlap(Entity& other_actor);
 	virtual void OnCollisionBlock(Entity& other_actor);
 
 	bool bShow_collision;

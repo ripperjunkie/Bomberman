@@ -40,6 +40,10 @@ public:
     }
     virtual void Update() override;
     void Input();
+    void InputMovement();
+    void InputSpawnBomb();
+    
+
 
     std::vector<RecCropLocation> idle;
     std::vector<RecCropLocation> walk_horizontal;

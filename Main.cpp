@@ -18,6 +18,18 @@
 #include "Enemy.h"
 #include "Environment.h"
 
+//This method helps us to fetch where we want to place entities based on a string tileset
+int CharactersNum(std::string& _string, char _context)
+{
+	int charNum = 0;
+	for (uint8_t i(0); i < _string.length(); ++i)
+	{
+		if (_string[i] == _context)
+			charNum++;		
+	}
+	return charNum;
+}
+
 
 int main()
 {
@@ -44,84 +56,59 @@ int main()
 		player->SetShowCollision(true);
 	}
 
+	std::string map_text_format =
+		"x x x x x x x x x x x x x x x\n"
+		"x 0 0 0 e 0 0 0 e 0 0 0 0 0 x\n"
+		"x 0 0 0 0 0 0 0 0 0 0 0 0 0 x\n"
+		"x 0 0 0 0 0 0 0 0 0 0 0 0 0 x\n"
+		"x 0 0 0 0 0 0 0 0 0 0 0 0 0 x\n"
+		"x x x 0 0 0 0 0 0 0 0 0 0 0 x\n"
+		"x 0 x 0 0 0 0 0 0 0 0 0 0 0 x\n"
+		"x x x 0 0 0 0 0 0 e 0 0 0 0 x\n"
+		"x 0 0 0 0 0 0 0 0 0 0 0 0 0 x\n"
+		"x 0 0 0 0 0 0 0 0 0 0 x 0 0 x\n"
+		"x 0 0 0 0 0 0 0 0 0 x x x 0 x\n"
+		"x 0 0 0 0 0 0 0 0 0 0 x 0 p x\n"
+		"x x x x x x x x x x x x x x x\n";
+
+
+	map_text_format.erase(remove(map_text_format.begin(), map_text_format.end(), ' '), map_text_format.end());
+	map_text_format.erase(remove(map_text_format.begin(), map_text_format.end(), '\n'), map_text_format.end());	
+
 	std::vector<std::reference_wrapper<Entity>> enemies;
-	for (uint8_t i(0); i < 3; ++i)
+	for (uint8_t i(0); i < CharactersNum(map_text_format, 'e'); ++i)
 	{
-		enemies.push_back(*new Enemy(*tile_map, ECollisionType::OVERLAP, EObjectMovType::STATIC, true, sprite_sheet));
+		enemies.push_back(*new Enemy(*tile_map, ECollisionType::BLOCKING, EObjectMovType::MOVABLE, true, sprite_sheet));
 		if (&enemies[i]) {
 			enemies[i].get().name = "enemy " + std::to_string(i);
 		}
 	}
 
 	std::vector<std::reference_wrapper<Entity>> blocks;
-	for (uint8_t i(0); i < 52; ++i)
+	for (uint8_t i(0); i < CharactersNum(map_text_format, 'x'); ++i)
 	{
 		blocks.push_back(*new Environment(*tile_map, ECollisionType::BLOCKING, EObjectMovType::STATIC, true, sprite_sheet));
 		if (&blocks[i]) {
 			blocks[i].get().name = "blocks " + std::to_string(i);
 		}
 	}
-
 	
-
-	if (tile_map)
-	{
-		tile_map->entities.push_back(*player);
-
-		for (auto& enemy : enemies)
-		{
-			tile_map->entities.push_back(enemy);
-		}
-		for (auto& s : blocks)
-		{
-			tile_map->entities.push_back(s);
-		}
-
-		for (auto& entity : tile_map->entities)
-		{
-			entity.get().shared_sprite_sheet.width = TILE_SIZE;
-			entity.get().shared_sprite_sheet.height = TILE_SIZE;
-
-		}
-	}
-
-
-	std::string test =
-		"x x x x x x x x x x x x x x x\n"
-		"x 0 0 0 e 0 0 0 e 0 0 0 0 0 x\n"
-		"x 0 0 0 0 0 0 0 0 0 0 0 0 0 x\n"
-		"x 0 0 0 0 0 0 0 0 0 0 0 0 0 x\n"
-		"x 0 0 0 0 0 0 0 0 0 0 0 0 0 x\n"
-		"x 0 0 0 0 0 0 0 0 0 0 0 0 0 x\n"
-		"x 0 0 0 0 0 0 0 0 0 0 0 0 0 x\n"
-		"x 0 0 0 0 0 0 0 0 e 0 0 0 0 x\n"
-		"x 0 0 0 0 0 0 0 0 0 0 0 0 0 x\n"
-		"x 0 0 0 0 0 0 0 0 0 0 0 0 0 x\n"
-		"x 0 0 0 0 0 0 0 0 0 0 0 0 0 x\n"
-		"x 0 0 0 0 0 0 0 0 0 0 0 0 p x\n"
-		"x x x x x x x x x x x x x x x\n";
-
-
-	test.erase(remove(test.begin(), test.end(), ' '), test.end());
-	test.erase(remove(test.begin(), test.end(), '\n'), test.end());	
-	
-	
-	int counter = 0;
+	int counter_blocks = 0;
 	int counter_enemy = 0;
-	for (uint8_t i(0); i < test.length(); ++i)
+	for (uint8_t i(0); i < map_text_format.length(); ++i)
 	{
-		if (test[i] == 'p') {
+		if (map_text_format[i] == 'p') {
 			player->SetLocation(i);
 		}
-		if (test[i] == 'x')
+		if (map_text_format[i] == 'x')
 		{
-			if (counter < blocks.size())
+			if (counter_blocks < blocks.size())
 			{
-				blocks[counter].get().SetLocation(i);
-				counter++;
+				blocks[counter_blocks].get().SetLocation(i);
+				counter_blocks++;
 			}
 		}
-		if (test[i] == 'e')
+		if (map_text_format[i] == 'e')
 		{
 			if (counter_enemy < enemies.size())
 			{
@@ -129,7 +116,6 @@ int main()
 				counter_enemy++;
 			}
 		}
-
 	}
 
 	Camera2D camera2D = { 0 };
@@ -168,6 +154,7 @@ int main()
 			tile_map->Update();
 		}
 
+
 		EndMode2D();
 
 		EndDrawing();
@@ -178,6 +165,15 @@ int main()
 	//--------------------------------------------------------------------------------------
 	CloseWindow();        // Close window and OpenGL context
 	//--------------------------------------------------------------------------------------
+
+
+	//for now I'm gonna delete things manually, but a better solution would be having a wrapper to delete all entities of the game
+	delete player;
+	delete tile_map;
+	for (size_t i = 0; i < enemies.size(); i++)
+	{
+		delete &enemies[i].get();
+	}
 
 	return 0;
 }
