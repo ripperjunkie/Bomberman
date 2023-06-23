@@ -26,7 +26,7 @@ void Bomb::Update()
 	if (bStartTimer)
 	{
 		timer -= GetFrameTime();
-		//printf("Timer: %f\n", timer);
+		//printf("Timer: %f\n", timer);s
 
 		if (timer <= 0.f)
 		{
