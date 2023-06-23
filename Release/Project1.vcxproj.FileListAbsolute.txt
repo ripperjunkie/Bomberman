@@ -1,2 +1,5 @@
 D:\Programacao\CPP\Boomberman\Release\Project1.exe
 C:\Users\Rafa\Documents\Boomberman\Release\Project1.exe
+D:\Boomberman\Release\Project1.exe
+C:\Users\Rafa\Documents\Bomberman Updated\Release\Project1.exe
+C:\Users\Rafa\Documents\Bomberman\Release\Project1.exe

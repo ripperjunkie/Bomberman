@@ -1,0 +1,13 @@
+{
+    "name": "Johnssss",
+    "age": 30,
+    "isStudent": true,
+    "hobbies": ["reading", "swimming", "playing guitar"], 
+    "address":
+     {
+        "street": "123 Main St",
+        "city": "Anytown",
+        "state": "CA",
+        "zip": "12345"
+    }
+}

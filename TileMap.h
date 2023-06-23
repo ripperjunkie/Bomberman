@@ -1,10 +1,9 @@
 #pragma once
 // tile map will act as the world only then we will place actual 
-// entities in thereto perform some sort of role
+// entities in there to perform some sort of role
 
 #include <raylib.h>
-#include <vector>
-#include <string>
+#include "Utils.h"
 
 class Entity;
 
@@ -20,12 +19,13 @@ public:
 	//why allocating Rectangles instead of actual vectors and such? Because rectangles already holds vectors and have enough
 	//necessary information such as anchor point, position(X,Y), size which can act as a tile set
 	std::vector<Rectangle> tiles;
-	std::vector<std::reference_wrapper<Entity>> entities;
+	//std::vector<std::reference_wrapper<Entity>> entities;
+	std::vector<Entity*> entities;
 	std::string tile_number;
 
 	void Draw();
-	void CollisionCheck();
 	void GetFrameRate();
 	void Update();
+	void RegisterEntity(Entity& entityToRegister);
 };
 

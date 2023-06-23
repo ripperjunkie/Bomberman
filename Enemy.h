@@ -12,19 +12,12 @@ public:
 
         animations.push_back(AnimationData(idle));
 
-        entity_texture = LoadTexture("resources/133670.png");
-        entity_texture.width = 512 * 1;
-        entity_texture.height = 832  * 1;
-
-        rec_crop_entity_texture.x = idle[0].x;
-        rec_crop_entity_texture.y = idle[0].y;
-        rec_crop_entity_texture.width = 32.f;
-        rec_crop_entity_texture.height = 32.f;
+        CropSprite(idle[0].x, idle[0].y);
     }
 
     std::vector<RecCropLocation> idle;
 protected:
 
-    virtual void OnCollisionOverlap(Entity& overlapped_actor_) override;
+    virtual void OnCollisionBeginOverlap(Entity& overlapped_actor_) override;
 };
 

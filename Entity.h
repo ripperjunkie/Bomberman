@@ -1,72 +1,10 @@
 #pragma once
 
-#include <raylib.h>
-#include <stdio.h>
-#include <string>
-#include "TileMap.h"
 
+#include "Utils.h"
+#include "EngineUtils.h"
 
-//Simple struct that holds two values for rec crop location when cycling between animation
-struct RecCropLocation
-{
-	float x;
-	float y;
-};
-
-struct AnimationData
-{
-	std::vector<RecCropLocation>& rec_crop_location;
-};
-
-struct TileMapCoordinates
-{
-public:
-	int x;
-	int y;
-	
-	TileMapCoordinates(int tileMapX_, int tileMapY_)
-	{
-		x = tileMapX_;
-		y = tileMapY_;
-	}
-
-};
-
-inline TileMapCoordinates operator+(const TileMapCoordinates& one, const TileMapCoordinates& second)
-{
-	const int x = one.x + second.x;
-	const int y = one.y + second.y;
-	return TileMapCoordinates(x, y);
-}
-
-inline TileMapCoordinates operator-(const TileMapCoordinates& one, const TileMapCoordinates& second)
-{
-	const int x = one.x - second.x;
-	const int y = one.y - second.y;
-	return TileMapCoordinates(x, y);
-}
-
-inline TileMapCoordinates operator/(const TileMapCoordinates& one, const float second)
-{
-	const int x = one.x / second;
-	const int y = one.y / second;
-	return TileMapCoordinates(x, y);
-}
-
-
-//Acting as collision filter
-enum class ECollisionType : uint8_t
-{
-	IGNORE,
-	BLOCKING,
-	OVERLAP
-};
-
-enum class EObjectMovType : uint8_t
-{
-	STATIC,
-	MOVABLE
-};
+class TileMap;
 
 class Entity
 {
@@ -87,7 +25,7 @@ public:
 	void AddMovement(int x, int y);
 	void AddMovement(Vector2 dir, float axis);
 
-	void SetActiveState(bool ActiveState)
+	void SetActive(bool ActiveState)
 	{
 		bActive = ActiveState;
 	}
@@ -103,12 +41,16 @@ public:
 	//movement
 	float speed;
 	std::string name;
+
+	//Collision related
 	void SetShowCollision(bool ShowCollision);
-	void ProcessCollision();
 	bool IsColliding(int x, int y);
+	void CheckOverlapCollision();
+	void CheckEndOverlap();
+
 
 	//Vector2 movement;
-	Rectangle entity_collision;
+	Rectangle collider; //this is not the best name
 	EObjectMovType object_mov_type;
 	ECollisionType collision_type;
 	Vector2 direction_movement; //direction that this object is moving to
@@ -121,8 +63,15 @@ public:
 	Texture2D entity_texture;
 	Texture2D shared_sprite_sheet;
 
+	bool bHasOverlapped;
+
+	float timer;
+	float initialTimer; //using to reset timer back to default value
+	bool bStartTimer;
+
+	std::unordered_map<Entity*, bool> overlapped_entities;
 protected:
-	TileMap* tile_map = nullptr;
+	TileMap* level = nullptr;
 	Color color;
 	
 	//Texture related stuff
@@ -135,20 +84,15 @@ protected:
 	std::vector<AnimationData> animations;
 	int current_animation;
 
-	int GetTileNumber(int row_, int column_)
-	{
-		if (tile_map)
-		{
-			return row_ + tile_map->amount_x + column;
-		}
-		return 0;
-	}
-
-	virtual void OnCollisionOverlap(Entity& other_actor);
+	int GetTileNumber(int row_, int column_);
+	virtual void OnCollisionBeginOverlap(Entity& other_actor);
 	virtual void OnCollisionEndOverlap(Entity& other_actor);
 	virtual void OnCollisionBlock(Entity& other_actor);
 
 	bool bShow_collision;
 	bool bActive;
+	
+	//We do some setting to crop the sprite location we want this entity to have
+	void CropSprite(float x, float y, float width = 32.f, float height = 32.f);
 };
 

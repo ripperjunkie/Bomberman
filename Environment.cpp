@@ -1,16 +1,10 @@
 #include "Environment.h"
+#include "Explosion.h"
 
-void Environment::OnCollisionOverlap(Entity& overlapped_actor_)
+void Environment::OnCollisionBeginOverlap(Entity& overlapped_actor_)
 {
-	//switch (block_type)
-	//{
-	//case EBlockType::DESTRUCTIBLE:
-	//	printf("\nEnvironment::CollisionOverlap: Destructible block\n");
-	//	break;
-	//case EBlockType::NON_DESTRUCTIBLE:
-	//	printf("\nEnvironment::CollisionOverlap: Non-Destructible block\n");
-	//	break;
-
-	//}
-
+	if (Explosion* explosion = dynamic_cast<Explosion*>(&overlapped_actor_))
+	{
+		SetActive(false);
+	}
 }

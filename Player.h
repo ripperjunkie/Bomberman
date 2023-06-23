@@ -2,6 +2,8 @@
 
 #include "Entity.h"
 
+class Bomb;
+
 class Player : public Entity
 {
 public:
@@ -9,6 +11,7 @@ public:
         bool bShow_collision_ = true, Texture2D shared_sprite_sheet_ = Texture2D()) : 
         Entity(tile_map_, collision_type_, object_mov_type, bShow_collision_, shared_sprite_sheet_)
 	{
+        //Here we insert inside the animations array each sprite we want it to be cycling
         idle.push_back(RecCropLocation(0, 32));
 
         walk_horizontal.push_back(RecCropLocation(97, 32));
@@ -22,14 +25,7 @@ public:
         walk_down.push_back(RecCropLocation(34, 32));
         walk_down.push_back(RecCropLocation(64, 32));
 
-        entity_texture = LoadTexture("resources/133670.png");
-        entity_texture.width = 512.f * 1.F;
-        entity_texture.height = 832.f * 1.F;
-
-        rec_crop_entity_texture.x = idle[0].x;
-        rec_crop_entity_texture.y = idle[0].y;
-        rec_crop_entity_texture.width = 32.f;
-        rec_crop_entity_texture.height = 32.f;
+        CropSprite(idle[0].x, idle[0].y);
 
         //Load animations
         animations.push_back(AnimationData(idle));
@@ -37,14 +33,23 @@ public:
         animations.push_back(AnimationData(walk_up));
         animations.push_back(AnimationData(walk_down));
         
+        bCanPlaceBomb = true;
+        bStartTimer = false;
+        timer = 4.f; //cooldown of player to place bombs
+        initialTimer = timer;
+        speed = 25.f;
     }
+
+    ~Player();
+
+    virtual void Start() override;
     virtual void Update() override;
     void Input();
     void InputMovement();
     void InputSpawnBomb();
     
-
-
+    
+    //to control animations switching
     std::vector<RecCropLocation> idle;
     std::vector<RecCropLocation> walk_horizontal;
     std::vector<RecCropLocation> walk_up;
@@ -52,9 +57,11 @@ public:
 
     float input_up;
     float input_right;
-
+    Bomb* bomb = nullptr;
 protected:
-
-	virtual void OnCollisionOverlap(Entity& overlapped_actor_) override;
+	virtual void OnCollisionBeginOverlap(Entity& overlapped_actor_) override;
+    virtual void OnCollisionEndOverlap(Entity& other_actor) override;
+    
+    bool bCanPlaceBomb;
 };
 

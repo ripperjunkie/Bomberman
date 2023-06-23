@@ -2,30 +2,47 @@
 #include "raymath.h"
 #include "iostream"
 #include "Bomb.h"
+#include "Explosion.h"
 
-
-void Player::OnCollisionOverlap(Entity& overlapped_actor_)
+Player::~Player()
 {
-    Entity::OnCollisionOverlap(overlapped_actor_);
-	//printf("\ncoordinate of overlapped actor: %d\n ", overlapped_actor_.GetCoordinates().x);
-	//overlapped_actor_.Destroy();
+	delete bomb;
+}
+
+void Player::Start()
+{
+	Entity::Start();
 }
 
 void Player::Update()
 {
 	Entity::Update();
 
-    Input();
+	//Destroy after a certain time if timer is active
+	if (bStartTimer)
+	{
+		timer -= GetFrameTime();
+		//printf("Timer: %f\n", timer);
+
+		if (timer <= 0.f)
+		{
+			timer = initialTimer;
+			bCanPlaceBomb = true;
+		}
+	}
+
+	Input();
+
+	//Normalize input so character don't walk faster if two inputs are pressed at once
 	Vector2 normalize_vector = Vector2Normalize(Vector2(input_right, input_up));
-    AddMovement(Vector2(0,1), normalize_vector.y); //vertical
-	AddMovement(Vector2(1,0), normalize_vector.x); //horizontal
+	AddMovement(Vector2(0, 1), normalize_vector.y); //vertical
+	AddMovement(Vector2(1, 0), normalize_vector.x); //horizontal
 }
 
 void Player::Input()
 {
 	InputMovement();
 	InputSpawnBomb();
-
 }
 
 void Player::InputMovement()
@@ -69,13 +86,40 @@ void Player::InputMovement()
 void Player::InputSpawnBomb()
 {
 	if (IsKeyPressed(KEY_C))
-	{
-		Bomb* bomb = new Bomb(*tile_map, ECollisionType::OVERLAP, EObjectMovType::MOVABLE, true, shared_sprite_sheet);
+	{	
+		if (!bCanPlaceBomb)
+			return;
+
+		bStartTimer = true;
+
+		bomb = new Bomb(*level, ECollisionType::OVERLAP, EObjectMovType::MOVABLE, true, shared_sprite_sheet);
+		overlapped_entities.emplace(bomb, false);
+
+		bomb->SetShowCollision(true); //just for debug sake
 		if (bomb)
 		{
-			bomb->SetLocation(entity_collision.x, entity_collision.y);
-			tile_map->entities.push_back(*bomb);
+			bomb->SetLocation(collider.x, collider.y);
 		}
-
+		bCanPlaceBomb = false;
+		
 	}
+}
+
+void Player::OnCollisionBeginOverlap(Entity& overlapped_actor_)
+{
+	Entity::OnCollisionBeginOverlap(overlapped_actor_);
+
+	LOG("begin overlap!");
+	if (Explosion* explosion = dynamic_cast<Explosion*>(&overlapped_actor_))
+	{
+		//Destroy();
+		//LOG("Player dies!");
+	}
+}
+
+void Player::OnCollisionEndOverlap(Entity& other_actor)
+{
+	Entity::OnCollisionEndOverlap(other_actor);
+
+	LOG("end overlap!");
 }

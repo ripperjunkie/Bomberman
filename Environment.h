@@ -24,6 +24,6 @@ public:
 		rec_crop_entity_texture.height = 32.f;
 	}
 
-    virtual void OnCollisionOverlap(Entity& overlapped_actor_) override;
+    virtual void OnCollisionBeginOverlap(Entity& overlapped_actor_) override;
 };
 
