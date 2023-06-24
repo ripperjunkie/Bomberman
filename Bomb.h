@@ -2,8 +2,6 @@
 
 #include "Entity.h"
 
-
-
 class Bomb : public Entity
 {
 public:
@@ -20,11 +18,13 @@ public:
 	virtual void Update() override;
 	virtual void OnCollisionEndOverlap(Entity& other_actor) override;
 	virtual void Destroy() override;
+
+
 	void Explode();
 
 
 
 
 	std::vector<std::reference_wrapper<class Explosion>> explosion;
-	int explosionRange; //contorls the range of this bomb when it explodes
+	int explosionRange; // controls the range of this bomb when it explodes
 }; 

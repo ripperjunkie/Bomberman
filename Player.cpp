@@ -108,18 +108,9 @@ void Player::InputSpawnBomb()
 void Player::OnCollisionBeginOverlap(Entity& overlapped_actor_)
 {
 	Entity::OnCollisionBeginOverlap(overlapped_actor_);
-
-	LOG("begin overlap!");
-	if (Explosion* explosion = dynamic_cast<Explosion*>(&overlapped_actor_))
-	{
-		//Destroy();
-		//LOG("Player dies!");
-	}
 }
 
 void Player::OnCollisionEndOverlap(Entity& other_actor)
 {
 	Entity::OnCollisionEndOverlap(other_actor);
-
-	LOG("end overlap!");
 }

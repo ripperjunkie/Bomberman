@@ -1,9 +1,6 @@
 #include "Entity.h"
 #include "TileMap.h"
 
-
-
-
 #define PRINT(x) std::cout << "\n";  printf(x) ; std::cout << "\n";
 
 Entity::Entity(TileMap& tile_map_, ECollisionType collision_type_, EObjectMovType object_mov_type_, bool bShow_collision_, Texture2D shared_sprite_sheet_)
@@ -52,6 +49,8 @@ void Entity::Start()
 void Entity::Update()
 {
 	if (!bActive) return;
+
+
 	if (bShow_collision)
 	{
 		DrawRectangleLinesEx(collider, 1.f, color);
@@ -105,12 +104,12 @@ int Entity::GetTileNumber(int row_, int column_)
 
 void Entity::OnCollisionBeginOverlap(Entity& other_actor)
 {
-	printf("\n OnCollisionBeginOverlap, entity: %s\n", other_actor.name.c_str());
+	printf("\n Collision begin overlap from: %s, to: %s\n",  this->name.c_str(), other_actor.name.c_str());
 }
 
 void Entity::OnCollisionEndOverlap(Entity& other_actor)
 {
-	printf("\n OnCollisionEndOverlap, entity: %s\n", other_actor.name.c_str());
+	printf("\n Collision end overlap from: %s, to: %s\n", this->name.c_str(), other_actor.name.c_str());
 }
 
 

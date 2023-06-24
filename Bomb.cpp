@@ -8,19 +8,15 @@ void Bomb::Start()
 	Entity::Start();
 
 	bStartTimer = true;
-	timer = 3.f; //timer controls how long bomb will take to explode
+	timer = 2.f; //timer controls how long bomb will take to explode
 	initialTimer = timer;
 	explosionRange = 1;
-}
-
-void Bomb::OnCollisionEndOverlap(Entity& other_actor)
-{
-	collision_type = ECollisionType::BLOCKING;
 }
 
 void Bomb::Update()
 {
 	Entity::Update();
+
 
 	//Destroy after a certain time if timer is active
 	if (bStartTimer)
@@ -35,12 +31,18 @@ void Bomb::Update()
 			timer = initialTimer;
 		}
 	}
-
-
 }
+
+void Bomb::OnCollisionEndOverlap(Entity& other_actor)
+{
+	Entity::OnCollisionEndOverlap(other_actor);
+
+	collision_type = ECollisionType::BLOCKING;
+}
+
 void Bomb::Destroy()
 {
-
+	Entity::Destroy();
 }
 
 void Bomb::Explode()
@@ -60,5 +62,6 @@ void Bomb::Explode()
 	explosion[4].get().SetLocation(collider.x - collider.width, collider.y); //place on left of bomb
 
 
-	bActive = false;
+	// destroy ourselves
+	this->Destroy();
 }

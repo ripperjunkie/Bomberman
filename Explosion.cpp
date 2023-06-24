@@ -1,13 +1,21 @@
 #include "Explosion.h"
+#include "TileMap.h"
 
 
 void Explosion::Start()
 {
 	Entity::Start();
 
-	bStartTimer = true;
-	timer = 15.f; 
-	initialTimer = timer;
+	this->bStartTimer = true;
+	this->timer = 1.f; 
+	this->initialTimer = timer;
+
+	// registering the overlap entities 
+	for (int i = 0; i < level->entities.size(); ++i)
+	{
+		if (level->entities[i] != this)
+			this->overlapped_entities.emplace(level->entities[i], false);
+	}
 }
 
 void Explosion::Update()
@@ -30,17 +38,9 @@ void Explosion::Update()
 	}
 }
 
-void Explosion::OnCollisionBeginOverlap(Entity& other_actor)
-{
-	//TODO: 
-	//Kill any entity overlapping this explosion
-	//Destroy destroyable bricks
 
-	//other_actor.SetActive(false);
-}
 
 void Explosion::Destroy()
 {
 	Entity::Destroy();
-
 }

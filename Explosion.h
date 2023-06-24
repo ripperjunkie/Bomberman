@@ -17,7 +17,6 @@ public:
 
 	virtual void Start() override;
 	virtual void Update() override;
-	virtual void OnCollisionBeginOverlap(Entity& other_actor) override;
 	virtual void Destroy() override;
 
 	float timer;
