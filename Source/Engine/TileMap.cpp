@@ -1,7 +1,6 @@
 #include "TileMap.h"
-#include "Entity.h"
-#include "iostream"
-#include "raymath.h"
+
+#include "Engine/GameFramework/Actor.h"
 
 #undef DEBUG
 
@@ -72,7 +71,7 @@ void TileMap::GetFrameRate()
 void TileMap::Update()
 {
 	Draw();
-		
+
 	for (auto element : entities)
 	{
 		element->Update();
@@ -80,7 +79,7 @@ void TileMap::Update()
 
 }
 
-void TileMap::RegisterEntity(Entity& entityToRegister)
+void TileMap::RegisterEntity(Actor& entityToRegister)
 {
 	entities.push_back(&entityToRegister);
 }

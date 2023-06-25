@@ -1,7 +1,7 @@
 #pragma once
 
 #include <iostream>
-#include "Entity.h"
+#include "Engine/GameFramework/Actor.h"
 
 namespace MathLibrary
 {

@@ -1,6 +1,8 @@
 #pragma once
 
 #include <vector>
+#include <string>
+#include <unordered_map>
 
 //Simple struct that holds two values for rec crop location when cycling between animation
 struct RecCropLocation

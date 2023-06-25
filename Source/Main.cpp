@@ -1,16 +1,14 @@
 ﻿
-
-
-#include "TileMap.h"
-#include "Entity.h"
-#include "Player.h"
-#include "Enemy.h"
-#include "Environment.h"
+#include "Engine/Public/Utils.h"
+#include "Engine/TileMap.h"
+#include "Engine/GameFramework/Actor.h"
+#include "Game/Player.h"
+#include "Game/Enemy.h"
+#include "Game/Environment.h"
 
 #include "lib/rapidjson-master/include/rapidjson/document.h"
 #include <fstream>
 
-#include <thread>
 
 
 struct TileSetting
@@ -62,7 +60,6 @@ int main()
 	TileSetting tileSetting = { document["width"].GetInt(), document["height"].GetInt() };
 #pragma endregion
 
-
 	// Initialization
 	InitWindow(SCREEN_X, SCREEN_Y, "raylib [core] example - basic window");
 
@@ -70,8 +67,8 @@ int main()
 	sprite_sheet.width = 512.f * 1.F;
 	sprite_sheet.height = 832.f * 1.F;
 
-	//Creating new entities on heap
-	TileMap* level = new TileMap(SCREEN_X / 2.f - ((15.f * 40.f) / 2.f), SCREEN_Y / 2.f - ((13.f * 40.f) / 2.f), tileSetting.width, tileSetting.height, TILE_SIZE);
+
+	std::shared_ptr<TileMap> level = std::make_shared<TileMap>(SCREEN_X / 2.f - ((15.f * 40.f) / 2.f), SCREEN_Y / 2.f - ((13.f * 40.f) / 2.f), tileSetting.width, tileSetting.height, TILE_SIZE);
 	Player* player = new Player(*level, ECollisionType::BLOCKING, EObjectMovType::MOVABLE, true, sprite_sheet);
 
 	if (player)
@@ -80,7 +77,7 @@ int main()
 		player->SetShowCollision(true);
 	}
 
-	std::vector<std::reference_wrapper<Entity>> enemies; //store all entities in an vector with a reference for the entities
+	std::vector<std::reference_wrapper<Actor>> enemies; //store all entities in an vector with a reference for the entities
 	for (int i = 0; i < levelJson.size(); ++i)
 	{
 		if (levelJson[i] == ENEMY_A)
@@ -98,7 +95,7 @@ int main()
 	}
 
 
-	std::vector<Entity*> blocks;//store all entities in an vector with a reference for the entities
+	std::vector<Actor*> blocks;//store all entities in an vector with a reference for the entities
 	for (int i = 0; i < levelJson.size(); ++i)
 	{
 		if (levelJson[i] == BRICK)
@@ -177,8 +174,6 @@ int main()
 			system("cls");
 		}
 
-
-
 		ClearBackground(BLACK);
 
 		EndDrawing();
@@ -189,15 +184,6 @@ int main()
 	//--------------------------------------------------------------------------------------
 	CloseWindow();        // Close window and OpenGL context
 	//--------------------------------------------------------------------------------------
-
-
-	//for now I'm gonna delete things manually, but a better solution would be having a wrapper to delete all entities of the game
-	delete player;
-	delete level;
-	for (size_t i = 0; i < enemies.size(); i++)
-	{
-		delete& enemies[i].get();
-	}
 
 	return 0;
 }

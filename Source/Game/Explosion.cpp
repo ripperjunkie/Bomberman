@@ -4,7 +4,7 @@
 
 void Explosion::Start()
 {
-	Entity::Start();
+	Actor::Start();
 
 	this->bStartTimer = true;
 	this->timer = 1.f; 
@@ -20,7 +20,7 @@ void Explosion::Start()
 
 void Explosion::Update()
 {
-	Entity::Update();
+	Actor::Update();
 
 
 	//Destroy after a certain time if timer is active
@@ -42,5 +42,5 @@ void Explosion::Update()
 
 void Explosion::Destroy()
 {
-	Entity::Destroy();
+	Actor::Destroy();
 }

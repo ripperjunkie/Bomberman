@@ -2,10 +2,9 @@
 // tile map will act as the world only then we will place actual 
 // entities in there to perform some sort of role
 
-#include <raylib.h>
-#include "Utils.h"
+#include "Engine/Public/Utils.h"
 
-class Entity;
+class Actor;
 
 class TileMap
 {
@@ -20,12 +19,12 @@ public:
 	//necessary information such as anchor point, position(X,Y), size which can act as a tile set
 	std::vector<Rectangle> tiles;
 	//std::vector<std::reference_wrapper<Entity>> entities;
-	std::vector<Entity*> entities;
+	std::vector<Actor*> entities;
 	std::string tile_number;
 
 	void Draw();
 	void GetFrameRate();
 	void Update();
-	void RegisterEntity(Entity& entityToRegister);
+	void RegisterEntity(Actor& entityToRegister);
 };
 

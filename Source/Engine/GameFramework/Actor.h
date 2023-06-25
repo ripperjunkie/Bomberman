@@ -1,17 +1,17 @@
 #pragma once
 
-
-#include "Utils.h"
-#include "EngineUtils.h"
+#include "Engine/Public/EngineUtils.h"
+#include "Engine/Public/Utils.h"
 
 class TileMap;
 
-class Entity
+class Actor
 {
 public:
-	Entity() = delete;
-	Entity(TileMap& tile_map_, ECollisionType collision_type_ = ECollisionType::IGNORE, EObjectMovType object_mov_type_ = EObjectMovType::MOVABLE, bool bShow_collision_ = true, Texture2D shared_sprite_sheet_ = Texture2D());
-	~Entity();
+	Actor() = delete;
+	Actor(TileMap& tile_map_, ECollisionType collision_type_ = ECollisionType::IGNORE, EObjectMovType object_mov_type_ = EObjectMovType::MOVABLE, 
+		bool bShow_collision_ = true, Texture2D shared_sprite_sheet_ = Texture2D());
+	~Actor();
 
 	bool GetActiveState() const
 	{
@@ -70,7 +70,7 @@ public:
 	float initialTimer; //using to reset timer back to default value
 	bool bStartTimer;
 
-	std::unordered_map<Entity*, bool> overlapped_entities;
+	std::unordered_map<Actor*, bool> overlapped_entities;
 protected:
 	TileMap* level = nullptr;
 	Color color;
@@ -86,9 +86,9 @@ protected:
 	int current_animation;
 
 	int GetTileNumber(int row_, int column_);
-	virtual void OnCollisionBeginOverlap(Entity& other_actor);
-	virtual void OnCollisionEndOverlap(Entity& other_actor);
-	virtual void OnCollisionBlock(Entity& other_actor);
+	virtual void OnCollisionBeginOverlap(Actor& other_actor);
+	virtual void OnCollisionEndOverlap(Actor& other_actor);
+	virtual void OnCollisionBlock(Actor& other_actor);
 
 	bool bShow_collision;
 	bool bActive;

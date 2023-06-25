@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Entity.h"
+#include "Engine/GameFramework/Actor.h"
 
 enum class EBlockType : uint8_t
 {
@@ -9,11 +9,11 @@ enum class EBlockType : uint8_t
 };
 
 
-class Environment : public Entity
+class Environment : public Actor
 {
 public:
     Environment(TileMap& tile_map_, ECollisionType collision_type_ = ECollisionType::IGNORE, EObjectMovType object_mov_type = EObjectMovType::MOVABLE, bool bShow_collision_ = true, Texture2D shared_sprite_sheet_ = Texture2D()) :
-        Entity(tile_map_, collision_type_, object_mov_type, bShow_collision_, shared_sprite_sheet_)
+        Actor(tile_map_, collision_type_, object_mov_type, bShow_collision_, shared_sprite_sheet_)
 	{
         entity_texture = LoadTexture("resources/133670.png");
 		entity_texture.width = 512.f;
@@ -24,6 +24,6 @@ public:
 		rec_crop_entity_texture.height = 32.f;
 	}
 
-    virtual void OnCollisionBeginOverlap(Entity& overlapped_actor_) override;
+    virtual void OnCollisionBeginOverlap(Actor& overlapped_actor_) override;
 };
 

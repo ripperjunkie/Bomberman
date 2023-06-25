@@ -5,7 +5,7 @@
 
 void Bomb::Start()
 {
-	Entity::Start();
+	Actor::Start();
 
 	bStartTimer = true;
 	timer = 2.f; //timer controls how long bomb will take to explode
@@ -15,7 +15,7 @@ void Bomb::Start()
 
 void Bomb::Update()
 {
-	Entity::Update();
+	Actor::Update();
 
 
 	//Destroy after a certain time if timer is active
@@ -33,16 +33,16 @@ void Bomb::Update()
 	}
 }
 
-void Bomb::OnCollisionEndOverlap(Entity& other_actor)
+void Bomb::OnCollisionEndOverlap(Actor& other_actor)
 {
-	Entity::OnCollisionEndOverlap(other_actor);
+	Actor::OnCollisionEndOverlap(other_actor);
 
 	collision_type = ECollisionType::BLOCKING;
 }
 
 void Bomb::Destroy()
 {
-	Entity::Destroy();
+	Actor::Destroy();
 }
 
 void Bomb::Explode()

@@ -1,9 +1,9 @@
-#include "Entity.h"
-#include "TileMap.h"
+#include "Actor.h"
+#include "Engine/TileMap.h"
 
 #define PRINT(x) std::cout << "\n";  printf(x) ; std::cout << "\n";
 
-Entity::Entity(TileMap& tile_map_, ECollisionType collision_type_, EObjectMovType object_mov_type_, bool bShow_collision_, Texture2D shared_sprite_sheet_)
+Actor::Actor(TileMap& tile_map_, ECollisionType collision_type_, EObjectMovType object_mov_type_, bool bShow_collision_, Texture2D shared_sprite_sheet_)
 {
 	speed = 20;
 	bActive = true;
@@ -35,18 +35,18 @@ Entity::Entity(TileMap& tile_map_, ECollisionType collision_type_, EObjectMovTyp
 	LOG("Spawning " << name);
 }
 
-Entity::~Entity()
+Actor::~Actor()
 {
 	//printf("\n I'm going to space!\n");
 }
 
-void Entity::Start()
+void Actor::Start()
 {
 }
 
 
 //This is turning into our tick/update methods
-void Entity::Update()
+void Actor::Update()
 {
 	if (!bActive) return;
 
@@ -67,12 +67,12 @@ void Entity::Update()
 	CheckEndOverlap();
 }
 
-void Entity::Destroy()
+void Actor::Destroy()
 {
 	bActive = false;
 }
 
-void Entity::UpdateAnimation()
+void Actor::UpdateAnimation()
 {
 	if (animations.size() == 0)
 		return;
@@ -93,7 +93,7 @@ void Entity::UpdateAnimation()
 
 }
 
-int Entity::GetTileNumber(int row_, int column_)
+int Actor::GetTileNumber(int row_, int column_)
 {
 	if (level)
 	{
@@ -102,23 +102,23 @@ int Entity::GetTileNumber(int row_, int column_)
 	return 0;
 }
 
-void Entity::OnCollisionBeginOverlap(Entity& other_actor)
+void Actor::OnCollisionBeginOverlap(Actor& other_actor)
 {
 	printf("\n Collision begin overlap from: %s, to: %s\n",  this->name.c_str(), other_actor.name.c_str());
 }
 
-void Entity::OnCollisionEndOverlap(Entity& other_actor)
+void Actor::OnCollisionEndOverlap(Actor& other_actor)
 {
 	printf("\n Collision end overlap from: %s, to: %s\n", this->name.c_str(), other_actor.name.c_str());
 }
 
 
-void Entity::OnCollisionBlock(Entity& other_actor)
+void Actor::OnCollisionBlock(Actor& other_actor)
 {
 	//printf("\n OnCollisionBlock, entity: %s\n", other_actor.name.c_str());
 }
 
-void Entity::CropSprite(float x, float y, float width, float height)
+void Actor::CropSprite(float x, float y, float width, float height)
 {
 	rec_crop_entity_texture.x = x;
 	rec_crop_entity_texture.y = y;
@@ -126,12 +126,12 @@ void Entity::CropSprite(float x, float y, float width, float height)
 	rec_crop_entity_texture.height = height;
 }
 
-TileMapCoordinates Entity::GetCoordinates()
+TileMapCoordinates Actor::GetCoordinates()
 {
 	return TileMapCoordinates(column, row);
 }
 
-void Entity::SetLocation(int row_, int column_)
+void Actor::SetLocation(int row_, int column_)
 {
 	if (!level)
 	{
@@ -145,20 +145,20 @@ void Entity::SetLocation(int row_, int column_)
 	collider.y = level->tiles[(level->amount_x * row) + column].y;
 }
 
-void Entity::SetLocation(int tile_number_)
+void Actor::SetLocation(int tile_number_)
 {
 	collider.x = level->tiles[tile_number_].x;
 	collider.y = level->tiles[tile_number_].y;
 }
 
-void Entity::SetLocation(float x, float y)
+void Actor::SetLocation(float x, float y)
 {
 	collider.x = x;
 	collider.y = y;
 }
 
 //This is how the object is moving
-void Entity::AddMovement(int x, int y)
+void Actor::AddMovement(int x, int y)
 {
 	if (!level)
 		return;
@@ -173,7 +173,7 @@ void Entity::AddMovement(int x, int y)
 	collider.y = std::lerp(collider.y, collider.y + y, GetFrameTime() * lerp_speed);
 }
 
-void Entity::AddMovement(Vector2 dir, float axis)
+void Actor::AddMovement(Vector2 dir, float axis)
 {
 	if (IsColliding(dir.x * axis * speed, dir.y * axis * speed))
 		return;
@@ -191,7 +191,7 @@ void Entity::AddMovement(Vector2 dir, float axis)
 }
 
 
-void Entity::MoveOutOfCollision(int x, int y)
+void Actor::MoveOutOfCollision(int x, int y)
 {
 	//Add world movement with lerp
 	const float lerp_speed = 4.f;
@@ -203,13 +203,13 @@ void Entity::MoveOutOfCollision(int x, int y)
 	//printf("name %s trying to move out of collision", name.c_str());
 }
 
-void Entity::SetShowCollision(bool ShowCollision)
+void Actor::SetShowCollision(bool ShowCollision)
 {
 	bShow_collision = ShowCollision;
 }
 
 //Check blocking collision between entities
-bool Entity::IsColliding(int x, int y)
+bool Actor::IsColliding(int x, int y)
 {
 	//Add world movement with lerp
 	const float lerp_time = 4.f;
@@ -247,7 +247,7 @@ bool Entity::IsColliding(int x, int y)
 
 }
 
-void Entity::CheckOverlapCollision()
+void Actor::CheckOverlapCollision()
 {
 	//Here is where we check with a rectangle to see if it's overlap
 	if (collision_type == ECollisionType::IGNORE)
@@ -274,7 +274,7 @@ void Entity::CheckOverlapCollision()
 	}
 }
 
-void Entity::CheckEndOverlap()
+void Actor::CheckEndOverlap()
 {
 	if (collision_type == ECollisionType::IGNORE)
 	{

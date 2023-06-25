@@ -1,15 +1,17 @@
 #pragma once
 
-#include "Entity.h"
+#include "Engine/GameFramework/Actor.h"
+
+
 
 class Bomb;
 
-class Player : public Entity
+class Player : public Actor
 {
 public:
 	Player(TileMap& tile_map_, ECollisionType collision_type_ = ECollisionType::IGNORE, EObjectMovType object_mov_type = EObjectMovType::MOVABLE,
         bool bShow_collision_ = true, Texture2D shared_sprite_sheet_ = Texture2D()) : 
-        Entity(tile_map_, collision_type_, object_mov_type, bShow_collision_, shared_sprite_sheet_)
+        Actor(tile_map_, collision_type_, object_mov_type, bShow_collision_, shared_sprite_sheet_)
 	{
         //Here we insert inside the animations array each sprite we want it to be cycling
         idle.push_back(RecCropLocation(0, 32));
@@ -59,8 +61,8 @@ public:
     float input_right;
     Bomb* bomb = nullptr;
 protected:
-	virtual void OnCollisionBeginOverlap(Entity& overlapped_actor_) override;
-    virtual void OnCollisionEndOverlap(Entity& other_actor) override;
+	virtual void OnCollisionBeginOverlap(Actor& overlapped_actor_) override;
+    virtual void OnCollisionEndOverlap(Actor& other_actor) override;
     
     bool bCanPlaceBomb;
 };

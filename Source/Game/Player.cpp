@@ -11,12 +11,12 @@ Player::~Player()
 
 void Player::Start()
 {
-	Entity::Start();
+	Actor::Start();
 }
 
 void Player::Update()
 {
-	Entity::Update();
+	Actor::Update();
 
 	//Destroy after a certain time if timer is active
 	if (bStartTimer)
@@ -105,12 +105,12 @@ void Player::InputSpawnBomb()
 	}
 }
 
-void Player::OnCollisionBeginOverlap(Entity& overlapped_actor_)
+void Player::OnCollisionBeginOverlap(Actor& overlapped_actor_)
 {
-	Entity::OnCollisionBeginOverlap(overlapped_actor_);
+	Actor::OnCollisionBeginOverlap(overlapped_actor_);
 }
 
-void Player::OnCollisionEndOverlap(Entity& other_actor)
+void Player::OnCollisionEndOverlap(Actor& other_actor)
 {
-	Entity::OnCollisionEndOverlap(other_actor);
+	Actor::OnCollisionEndOverlap(other_actor);
 }
