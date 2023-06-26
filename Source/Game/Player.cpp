@@ -92,7 +92,8 @@ void Player::InputSpawnBomb()
 
 		bStartTimer = true;
 
-		bomb = new Bomb(*level, ECollisionType::OVERLAP, EObjectMovType::MOVABLE, true, shared_sprite_sheet);
+		//bomb = new Bomb(*level, ECollisionType::OVERLAP, EObjectMovType::MOVABLE, true, shared_sprite_sheet);
+		bomb = new Bomb();
 		overlapped_entities.emplace(bomb, false);
 
 		bomb->SetShowCollision(true); //just for debug sake

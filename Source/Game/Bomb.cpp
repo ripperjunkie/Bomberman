@@ -51,7 +51,8 @@ void Bomb::Explode()
 	//whereas the explosionRange will increase the amount of places that will be placed around 
 	for (int i = 0; i < DEFAULT_BOMB_RANGE * explosionRange; i++)
 	{
-		explosion.push_back(*new Explosion(*level, ECollisionType::OVERLAP, EObjectMovType::MOVABLE, true, shared_sprite_sheet));
+	//	explosion.push_back(*new Explosion(*level, ECollisionType::OVERLAP, EObjectMovType::MOVABLE, true, shared_sprite_sheet));
+		explosion.push_back(*new Explosion());
 	}
 
 	//I will figure out how to use the for here later on, it's not simple as it looks like

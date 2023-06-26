@@ -1,19 +1,15 @@
 #include "Actor.h"
 #include "Engine/TileMap.h"
+#include "Engine/Managers/ActorManager.h"
 
 #define PRINT(x) std::cout << "\n";  printf(x) ; std::cout << "\n";
 
-Actor::Actor(TileMap& tile_map_, ECollisionType collision_type_, EObjectMovType object_mov_type_, bool bShow_collision_, Texture2D shared_sprite_sheet_)
+Actor::Actor()
 {
 	speed = 20;
 	bActive = true;
 	row = 1;
 	column = 1; 
-	level = &tile_map_;
-	collision_type = collision_type_;
-	object_mov_type = object_mov_type_;
-	bShow_collision = bShow_collision_;
-	shared_sprite_sheet = shared_sprite_sheet_;
 	bHasOverlapped = false;
 	collider.x = 0.f;
 	collider.y = 0.f;
@@ -25,13 +21,13 @@ Actor::Actor(TileMap& tile_map_, ECollisionType collision_type_, EObjectMovType 
 	entity_texture.height = 832;
 
 
-	if (level)
-	{
-		collider.width = (float)level->size;
-		collider.height = (float)level->size;		
-		level->RegisterEntity(*this);
-	}
-	Start();
+	//if (level)
+	//{
+	//	collider.width = (float)level->size;
+	//	collider.height = (float)level->size;		
+	//	level->RegisterEntity(*this);
+	//}
+	//Start();
 	LOG("Spawning " << name);
 }
 
@@ -95,10 +91,10 @@ void Actor::UpdateAnimation()
 
 int Actor::GetTileNumber(int row_, int column_)
 {
-	if (level)
-	{
-		return row_ + level->amount_x + column;
-	}
+	//if (level)
+	//{
+	//	return row_ + level->amount_x + column;
+	//}
 	return 0;
 }
 
@@ -133,22 +129,22 @@ TileMapCoordinates Actor::GetCoordinates()
 
 void Actor::SetLocation(int row_, int column_)
 {
-	if (!level)
-	{
-		//printf("\nInvalid Tile map\n");
-		return;
-	}
-	column = column_;
-	row = row_;
-	
-	collider.x = level->tiles[column].x;
-	collider.y = level->tiles[(level->amount_x * row) + column].y;
+	//if (!level)
+	//{
+	//	//printf("\nInvalid Tile map\n");
+	//	return;
+	//}
+	//column = column_;
+	//row = row_;
+	//
+	//collider.x = level->tiles[column].x;
+	//collider.y = level->tiles[(level->amount_x * row) + column].y;
 }
 
 void Actor::SetLocation(int tile_number_)
 {
-	collider.x = level->tiles[tile_number_].x;
-	collider.y = level->tiles[tile_number_].y;
+	//collider.x = level->tiles[tile_number_].x;
+	//collider.y = level->tiles[tile_number_].y;
 }
 
 void Actor::SetLocation(float x, float y)
@@ -160,8 +156,8 @@ void Actor::SetLocation(float x, float y)
 //This is how the object is moving
 void Actor::AddMovement(int x, int y)
 {
-	if (!level)
-		return;
+	//if (!level)
+	//	return;
 
 	if (IsColliding(x, y))
 	{
@@ -187,7 +183,6 @@ void Actor::AddMovement(Vector2 dir, float axis)
 
 	//collider.x += dir.x * axis * speed * GetFrameTime();
 	//collider.y += dir.y * axis * speed * GetFrameTime();
-
 }
 
 
@@ -226,13 +221,30 @@ bool Actor::IsColliding(int x, int y)
 		return false;
 	
 	
+	//OLD WAY
+	//for (unsigned int i = 0; i < overlapped_entities.size(); i++)
+	//{
+	//	if (level->entities[i] != this && level->entities[i]->collision_type != ECollisionType::IGNORE
+	//		&& CheckCollisionRecs(rect, level->entities[i]->collider))
+	//	{
+	//		auto entity = level->entities[i];
+	//		if (entity)
+	//		{
+	//			if (entity->collision_type == ECollisionType::BLOCKING && entity->bActive)
+	//			{
+	//				OnCollisionBlock(*entity);
+	//				return true;
+	//			}
+	//		}
+	//	}
+	//}
 
-	for (unsigned int i = 0; i < level->entities.size(); i++)
+	for (const std::shared_ptr<Actor>& actor : ACTOR_MANAGER->GetInstance()->GetActors())
 	{
-		if (level->entities[i] != this && level->entities[i]->collision_type != ECollisionType::IGNORE
-			&& CheckCollisionRecs(rect, level->entities[i]->collider))
+		if (actor.get() != this && actor->collision_type != ECollisionType::IGNORE
+			&& CheckCollisionRecs(rect, actor->collider))
 		{
-			auto entity = level->entities[i];
+			auto entity = actor;
 			if (entity)
 			{
 				if (entity->collision_type == ECollisionType::BLOCKING && entity->bActive)

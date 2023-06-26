@@ -1,5 +1,7 @@
 #include "Explosion.h"
 #include "TileMap.h"
+#include "Engine/Managers/ActorManager.h"
+
 
 
 void Explosion::Start()
@@ -11,10 +13,12 @@ void Explosion::Start()
 	this->initialTimer = timer;
 
 	// registering the overlap entities 
-	for (int i = 0; i < level->entities.size(); ++i)
+	for (int i = 0; i < ACTOR_MANAGER->GetInstance()->GetActors().size(); ++i)
 	{
-		if (level->entities[i] != this)
-			this->overlapped_entities.emplace(level->entities[i], false);
+		if (ACTOR_MANAGER->GetInstance()->GetActors()[i].get() != this)
+		{
+			this->overlapped_entities.emplace(ACTOR_MANAGER->GetInstance()->GetActors()[i].get(), false);
+		}
 	}
 }
 

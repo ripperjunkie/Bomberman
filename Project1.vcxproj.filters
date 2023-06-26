@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Game">
+      <UniqueIdentifier>{bb1ea43b-dc60-49b2-bdb9-be23b47ae7d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine">
+      <UniqueIdentifier>{a284b728-3cb9-4768-8e24-e09966be1981}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine">
+      <UniqueIdentifier>{053ebcf8-26c0-4535-bb48-30569c1021ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game">
+      <UniqueIdentifier>{71ca3d96-9de4-44cb-98c1-ce8411913c32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Managers">
+      <UniqueIdentifier>{a6d45a0f-5fa4-4fab-a7f7-2e378194b51d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\GameFramework">
+      <UniqueIdentifier>{da95da38-5d4a-4ecc-a7a3-39e2ba78e2ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Managers">
+      <UniqueIdentifier>{aa288c56-e6dc-44c0-b55f-8f0c804e7d88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\GameFramework">
+      <UniqueIdentifier>{a28981b8-3a72-47a2-b154-37c6010bd802}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Public">
+      <UniqueIdentifier>{a82e39e4-29f7-445a-9f07-e22fad9af743}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Game\Bomb.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Enemy.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Environment.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Explosion.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Player.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\GameFramework\Actor.cpp">
+      <Filter>Source Files\Engine\GameFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Managers\MathLibrary.cpp">
+      <Filter>Source Files\Engine\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\TileMap.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\InputManager.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Game.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Managers\ActorManager.cpp">
+      <Filter>Source Files\Engine\Managers</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Engine\Managers\ActorManager.h">
+      <Filter>Header Files\Engine\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\GameFramework\Actor.h">
+      <Filter>Header Files\Engine\GameFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\EngineUtils.h">
+      <Filter>Header Files\Engine\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Utils.h">
+      <Filter>Header Files\Engine\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Managers\MathLibrary.h">
+      <Filter>Header Files\Engine\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Bomb.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Enemy.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Environment.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Explosion.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Player.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\TileMap.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\InputManager.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Game.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

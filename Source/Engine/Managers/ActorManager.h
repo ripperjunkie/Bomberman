@@ -5,6 +5,9 @@
 #include <type_traits>
 
 
+#define ACTOR_MANAGER ActorManager::GetInstance()
+
+
 class Actor;
 
 class ActorManager
@@ -19,7 +22,6 @@ public:
 		return mInstance;
 	}
 
-	void Update();
 
 
 	template<std::derived_from<Actor> T, typename... Args>
@@ -33,6 +35,19 @@ public:
 		return newObject;
 	}
 
+
+
+	void Update()
+	{
+
+	}
+
+	std::vector<std::shared_ptr<Actor>> GetActors() const
+	{
+		return mActors;
+	}
+
+
 private:
 	ActorManager(){}
 	static ActorManager* mInstance;
@@ -40,9 +55,3 @@ private:
 };
 
 
-void ActorManager::Update()
-{
-
-}
-
-ActorManager* ActorManager::mInstance = nullptr;

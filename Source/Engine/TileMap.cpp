@@ -72,14 +72,14 @@ void TileMap::Update()
 {
 	Draw();
 
-	for (auto element : entities)
-	{
-		element->Update();
-	}
+	//for (auto element : entities)
+	//{
+	//	element->Update();
+	//}
 
 }
 
-void TileMap::RegisterEntity(Actor& entityToRegister)
-{
-	entities.push_back(&entityToRegister);
-}
+//void TileMap::RegisterEntity(Actor& entityToRegister)
+//{
+//	entities.push_back(&entityToRegister);
+//}

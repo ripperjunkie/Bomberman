@@ -1,14 +1,4 @@
-.vscode
+
 .vs
-*.VC.db
-*.opensdf
-*.opendb
-*.sdf
-*.sln
-*.suo
-*.vcxproj
-*.vcxproj.filters
-*.vcxproj.user
-*.xcodeproj
-*.xcworkspace
+
 *Debug

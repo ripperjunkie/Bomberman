@@ -9,9 +9,7 @@ class Bomb;
 class Player : public Actor
 {
 public:
-	Player(TileMap& tile_map_, ECollisionType collision_type_ = ECollisionType::BLOCKING, EObjectMovType object_mov_type = EObjectMovType::MOVABLE,
-        bool bShow_collision_ = true, Texture2D shared_sprite_sheet_ = Texture2D()) : 
-        Actor(tile_map_, collision_type_, object_mov_type, bShow_collision_, shared_sprite_sheet_)
+	Player()
 	{
         //Here we insert inside the animations array each sprite we want it to be cycling
         idle.push_back(RecCropLocation(0, 32));
@@ -61,6 +59,7 @@ public:
     float input_up;
     float input_right;
     Bomb* bomb = nullptr;
+    std::shared_ptr<class TileMap> tileMap = nullptr;
 protected:
 	virtual void OnCollisionBeginOverlap(Actor& overlapped_actor_) override;
     virtual void OnCollisionEndOverlap(Actor& other_actor) override;

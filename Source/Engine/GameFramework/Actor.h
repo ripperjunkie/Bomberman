@@ -3,14 +3,12 @@
 #include "Engine/Public/EngineUtils.h"
 #include "Engine/Public/Utils.h"
 
-class TileMap;
+
 
 class Actor
 {
 public:
-	Actor() {};
-	Actor(TileMap& tile_map_, ECollisionType collision_type_ = ECollisionType::IGNORE, EObjectMovType object_mov_type_ = EObjectMovType::MOVABLE, 
-		bool bShow_collision_ = true, Texture2D shared_sprite_sheet_ = Texture2D());
+	Actor();
 	~Actor();
 
 	bool GetActiveState() const
@@ -72,7 +70,7 @@ public:
 
 	std::unordered_map<Actor*, bool> overlapped_entities;
 protected:
-	TileMap* level = nullptr;
+
 	Color color;
 	
 	//Texture related stuff

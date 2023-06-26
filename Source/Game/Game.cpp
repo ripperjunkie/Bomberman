@@ -7,7 +7,7 @@
 #include "Game/Enemy.h"
 #include "Game/Environment.h"
 
-#include "Engine/Managers/SpawnActorManager.h"
+#include "Engine/Managers/ActorManager.h"
 
 
 #include "lib/rapidjson-master/include/rapidjson/document.h"
@@ -73,11 +73,11 @@ void Game::Start()
 
 
 	std::shared_ptr<TileMap> level = std::make_shared<TileMap>(SCREEN_X / 2.f - ((15.f * 40.f) / 2.f), SCREEN_Y / 2.f - ((13.f * 40.f) / 2.f), tileSetting.width, tileSetting.height, TILE_SIZE);
-	Player* player = new Player(*level);
+	Player* player = new Player();
 
 
 	{
-		std::shared_ptr<Enemy> actor = ActorManager::GetInstance()->SpawnActor<Enemy>(*level);
+		std::shared_ptr<Enemy> actor = ActorManager::GetInstance()->SpawnActor<Enemy>();
 	}
 
 
@@ -93,7 +93,7 @@ void Game::Start()
 	{
 		if (levelJson[i] == ENEMY_A)
 		{
-			enemies.push_back(new Enemy(*level));
+			enemies.push_back(new Enemy());
 		}
 	}
 
@@ -113,7 +113,7 @@ void Game::Start()
 	{
 		if (levelJson[i] == BRICK)
 		{
-			bricks.push_back(new Environment(*level));
+			bricks.push_back(new Environment());
 		}
 	}
 	for (int i = 0; i < bricks.size(); ++i)
