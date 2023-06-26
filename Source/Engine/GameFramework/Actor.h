@@ -8,7 +8,7 @@ class TileMap;
 class Actor
 {
 public:
-	Actor() = delete;
+	Actor() {};
 	Actor(TileMap& tile_map_, ECollisionType collision_type_ = ECollisionType::IGNORE, EObjectMovType object_mov_type_ = EObjectMovType::MOVABLE, 
 		bool bShow_collision_ = true, Texture2D shared_sprite_sheet_ = Texture2D());
 	~Actor();

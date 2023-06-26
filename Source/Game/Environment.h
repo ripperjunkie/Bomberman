@@ -12,7 +12,7 @@ enum class EBlockType : uint8_t
 class Environment : public Actor
 {
 public:
-    Environment(TileMap& tile_map_, ECollisionType collision_type_ = ECollisionType::IGNORE, EObjectMovType object_mov_type = EObjectMovType::MOVABLE, bool bShow_collision_ = true, Texture2D shared_sprite_sheet_ = Texture2D()) :
+    Environment(TileMap& tile_map_, ECollisionType collision_type_ = ECollisionType::BLOCKING, EObjectMovType object_mov_type = EObjectMovType::STATIC, bool bShow_collision_ = true, Texture2D shared_sprite_sheet_ = Texture2D()) :
         Actor(tile_map_, collision_type_, object_mov_type, bShow_collision_, shared_sprite_sheet_)
 	{
         entity_texture = LoadTexture("resources/133670.png");

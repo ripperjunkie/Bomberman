@@ -1,23 +1,48 @@
 #pragma once
 
-#include <raylib.h>
+#include "Engine/Public/Utils.h"
+#include "Engine/GameFramework/Actor.h"
+#include <type_traits>
 
-class SpawnActorManager
+
+class Actor;
+
+class ActorManager
 {
 public:
-	static SpawnActorManager* GetInstance()
+	static ActorManager* GetInstance()
 	{
 		if (!mInstance)
 		{
-			mInstance = new SpawnActorManager();
+			mInstance = new ActorManager();
 		}
 		return mInstance;
 	}
 
-	static void SpawnActor();
+	void Update();
+
+
+	template<std::derived_from<Actor> T, typename... Args>
+	std::shared_ptr<T> SpawnActor(Args... arguments)
+	{
+		std::shared_ptr<T> newObject = std::make_shared<T>(arguments...);
+		mActors.push_back(newObject);
+		if(newObject)
+			newObject->Start();
+
+		return newObject;
+	}
 
 private:
-	SpawnActorManager();
-	static SpawnActorManager* mInstance;
+	ActorManager(){}
+	static ActorManager* mInstance;
+	std::vector<std::shared_ptr<Actor>> mActors;
 };
 
+
+void ActorManager::Update()
+{
+
+}
+
+ActorManager* ActorManager::mInstance = nullptr;

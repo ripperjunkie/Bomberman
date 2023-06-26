@@ -30,8 +30,8 @@ Actor::Actor(TileMap& tile_map_, ECollisionType collision_type_, EObjectMovType 
 		collider.width = (float)level->size;
 		collider.height = (float)level->size;		
 		level->RegisterEntity(*this);
-		Start();
 	}
+	Start();
 	LOG("Spawning " << name);
 }
 
