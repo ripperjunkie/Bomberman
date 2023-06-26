@@ -19,7 +19,8 @@ Actor::Actor()
 	entity_texture = LoadTexture("resources/133670.png");
 	entity_texture.width = 512;
 	entity_texture.height = 832;
-
+	collider.width = TILE_SIZE;
+	collider.height = TILE_SIZE;
 
 	//if (level)
 	//{

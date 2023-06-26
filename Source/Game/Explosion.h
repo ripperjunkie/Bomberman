@@ -5,7 +5,7 @@
 class Explosion : public Actor
 {
 public:
-	Explosion()
+	Explosion() : Actor()
 	{
 		CropSprite(224.f, 704.f);
 
@@ -19,6 +19,6 @@ public:
 
 	float timer;
 	bool bStartTimer;
-	std::shared_ptr<class TileMap> tileMap = nullptr;
+	std::shared_ptr<class Grid> tileMap = nullptr;
 };
 

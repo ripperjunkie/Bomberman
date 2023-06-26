@@ -39,7 +39,11 @@ public:
 
 	void Update()
 	{
-
+		for (int i = 0; i < mActors.size(); i++)
+		{
+			if(mActors[i])
+				mActors[i]->Update();
+		}
 	}
 
 	std::vector<std::shared_ptr<Actor>> GetActors() const

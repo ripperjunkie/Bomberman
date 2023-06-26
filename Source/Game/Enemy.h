@@ -5,15 +5,16 @@
 class Enemy : public Actor
 {
 public:
-    Enemy()
+    Enemy() : Actor()
     {
+        
         idle.push_back(RecCropLocation(0, 384));
         animations.push_back(AnimationData(idle));
         CropSprite(idle[0].x, idle[0].y);
     }
 
     std::vector<RecCropLocation> idle;
-	std::shared_ptr<class TileMap> tileMap = nullptr;
+	std::shared_ptr<class Grid> tileMap = nullptr;
 
 protected:
 

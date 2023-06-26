@@ -5,7 +5,7 @@
 class Bomb : public Actor
 {
 public:
-	Bomb()
+	Bomb() : Actor()
 	{
 		CropSprite(224.f, 704.f);
 		name = "bomb";
@@ -20,7 +20,7 @@ public:
 
 
 
-	std::shared_ptr<class TileMap> tileMap = nullptr;
+	std::shared_ptr<class Grid> tileMap = nullptr;
 	std::vector<std::reference_wrapper<class Explosion>> explosion;
 	int explosionRange; // controls the range of this bomb when it explodes
 }; 

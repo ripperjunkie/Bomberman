@@ -13,11 +13,6 @@
 #include "lib/rapidjson-master/include/rapidjson/document.h"
 #include <fstream>
 
-Game::Game()
-{
-
-}
-
 void Game::Start()
 {
 
@@ -64,6 +59,13 @@ void Game::Start()
 	TileSetting tileSetting = { document["width"].GetInt(), document["height"].GetInt() };
 #pragma endregion
 
+	std::shared_ptr<Grid> level = std::make_shared<Grid>
+		(
+		SCREEN_X / 2.f - ((15.f * 40.f) / 2.f), SCREEN_Y / 2.f - ((13.f * 40.f) / 2.f), 
+		tileSetting.width, tileSetting.height, TILE_SIZE
+		);
+
+
 	// Initialization
 	InitWindow(SCREEN_X, SCREEN_Y, "raylib [core] example - basic window");
 
@@ -72,28 +74,16 @@ void Game::Start()
 	sprite_sheet.height = 832.f;
 
 
-	std::shared_ptr<TileMap> level = std::make_shared<TileMap>(SCREEN_X / 2.f - ((15.f * 40.f) / 2.f), SCREEN_Y / 2.f - ((13.f * 40.f) / 2.f), tileSetting.width, tileSetting.height, TILE_SIZE);
-	Player* player = new Player();
-
-
-	{
-		std::shared_ptr<Enemy> actor = ActorManager::GetInstance()->SpawnActor<Enemy>();
-	}
-
-
-
-
-
-
-
+	//Player* player = new Player();
+	std::shared_ptr<Player> player = ActorManager::GetInstance()->SpawnActor<Player>();
 
 #pragma region Enemies
-	std::vector<Actor*> enemies; //store all entities in a vector with a reference for the entities
+	std::vector<std::shared_ptr<Enemy>> enemies; //store all entities in a vector with a reference for the entities
 	for (int i = 0; i < levelJson.size(); ++i)
 	{
 		if (levelJson[i] == ENEMY_A)
 		{
-			enemies.push_back(new Enemy());
+			enemies.push_back(ActorManager::GetInstance()->SpawnActor<Enemy>());
 		}
 	}
 
@@ -108,12 +98,12 @@ void Game::Start()
 #pragma endregion
 
 #pragma region Bricks
-	std::vector<Actor*> bricks;//store all entities in an vector with a reference for the entities
+	std::vector<std::shared_ptr<Environment>> bricks;//store all entities in an vector with a reference for the entities
 	for (int i = 0; i < levelJson.size(); ++i)
 	{
 		if (levelJson[i] == BRICK)
 		{
-			bricks.push_back(new Environment());
+			bricks.push_back(ActorManager::GetInstance()->SpawnActor<Environment>());
 		}
 	}
 	for (int i = 0; i < bricks.size(); ++i)
@@ -134,13 +124,13 @@ void Game::Start()
 		{
 			if (levelJson[i] == PLAYER)
 			{
-				player->SetLocation(i);
+				player->SetLocation(level->tiles[i].x, level->tiles[i].y);
 			}
 			if (levelJson[i] == BRICK)
 			{
 				if (counter_blocks < bricks.size())
 				{
-					bricks[counter_blocks]->SetLocation(i);
+					bricks[counter_blocks]->SetLocation(level->tiles[i].x, level->tiles[i].y);
 					counter_blocks++;
 				}
 			}
@@ -148,7 +138,7 @@ void Game::Start()
 			{
 				if (counter_enemy < enemies.size())
 				{
-					enemies[counter_enemy]->SetLocation(i);
+					enemies[counter_enemy]->SetLocation(level->tiles[i].x, level->tiles[i].y);
 					counter_enemy++;
 				}
 			}
@@ -157,12 +147,12 @@ void Game::Start()
 #pragma endregion
 
 	// registering entities
-	for (int i = 0; i < level->entities.size(); ++i)
+	for (int i = 0; i < ACTOR_MANAGER->GetActors().size(); ++i)
 	{
 		// make sure we don't register the same overlapped entity in itself
-		if (level->entities[i] != level->entities[i])
+		if (ACTOR_MANAGER->GetActors()[i] != ACTOR_MANAGER->GetActors()[i])
 		{
-			level->entities[i]->overlapped_entities.emplace(level->entities[i], false);
+			ACTOR_MANAGER->GetActors()[i]->overlapped_entities.emplace(ACTOR_MANAGER->GetActors()[i], false);
 		}
 	}
 
@@ -175,10 +165,8 @@ void Game::Start()
 
 
 		//Update world
-		if (level)
-		{
-			level->Update();
-		}
+		ACTOR_MANAGER->Update();
+
 
 		// just to clear console
 		if (IsKeyPressed(KEY_F))

@@ -68,7 +68,7 @@ public:
 	float initialTimer; //using to reset timer back to default value
 	bool bStartTimer;
 
-	std::unordered_map<Actor*, bool> overlapped_entities;
+	std::unordered_map<std::shared_ptr<Actor>, bool> overlapped_entities;
 protected:
 
 	Color color;
@@ -81,7 +81,7 @@ protected:
 	int frame_counter;
 	float frame_speed = 5.f;
 	std::vector<AnimationData> animations;
-	int current_animation;
+	int current_animation = 0;
 
 	int GetTileNumber(int row_, int column_);
 	virtual void OnCollisionBeginOverlap(Actor& other_actor);

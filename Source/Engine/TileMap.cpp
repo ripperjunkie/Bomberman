@@ -4,7 +4,7 @@
 
 #undef DEBUG
 
-TileMap::TileMap(unsigned int start_pos_x_, unsigned int start_pos_y_, int amountX_, unsigned int amountY_, unsigned int size_)
+Grid::Grid(unsigned int start_pos_x_, unsigned int start_pos_y_, int amountX_, unsigned int amountY_, unsigned int size_)
 {
 	amount_x = amountX_;
 	amount_y = amountY_;
@@ -39,7 +39,7 @@ TileMap::TileMap(unsigned int start_pos_x_, unsigned int start_pos_y_, int amoun
 	}
 }
 
-void TileMap::Draw()
+void Grid::Draw()
 {
 #ifdef DEBUG
 	for (size_t i = 0; i < tiles.size(); i++)
@@ -61,14 +61,14 @@ void TileMap::Draw()
 }
 
 
-void TileMap::GetFrameRate()
+void Grid::GetFrameRate()
 {
 	std::string frame = "FPS: ";
 	frame += std::to_string(GetFPS());
 	DrawText(frame.c_str(), 0, 0, 24, YELLOW);
 }
 
-void TileMap::Update()
+void Grid::Update()
 {
 	Draw();
 

@@ -6,10 +6,10 @@
 
 class Actor;
 
-class TileMap
+class Grid
 {
 public:
-	TileMap(unsigned int start_pos_x_, unsigned int start_pos_y_, int amountX_, unsigned int amountY_, unsigned int size_);
+	Grid(unsigned int start_pos_x_, unsigned int start_pos_y_, int amountX_, unsigned int amountY_, unsigned int size_);
 
 	int amount_x;
 	int amount_y;
