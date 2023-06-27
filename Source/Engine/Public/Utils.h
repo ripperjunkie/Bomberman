@@ -17,8 +17,8 @@
 #define LOG(x) std::cout << x << std::endl
 #define SCREEN_X 1280   
 #define SCREEN_Y 720
-#define TILE_WIDTH 15  //deprecated
-#define TILE_HEIGHT 13  //deprecated
+//#define TILE_WIDTH 15  //deprecated
+//#define TILE_HEIGHT 13  //deprecated
 #define TILE_SIZE 32
 #define LOG(x) std::cout << x << std::endl
 #define PLAYER 17

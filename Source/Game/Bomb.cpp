@@ -1,5 +1,6 @@
 #include "Bomb.h"
 #include "Explosion.h"
+#include "Engine/Managers/ActorManager.h"
 
 #define DEFAULT_BOMB_RANGE 5
 
@@ -52,15 +53,17 @@ void Bomb::Explode()
 	for (int i = 0; i < DEFAULT_BOMB_RANGE * explosionRange; i++)
 	{
 	//	explosion.push_back(*new Explosion(*level, ECollisionType::OVERLAP, EObjectMovType::MOVABLE, true, shared_sprite_sheet));
-		explosion.push_back(*new Explosion());
+		explosion.push_back(ACTOR_MANAGER->SpawnActor<Explosion>());
 	}
 
+
+
 	//I will figure out how to use the for here later on, it's not simple as it looks like
-	explosion[0].get().SetLocation(collider.x, collider.y); //at the bomb location
-	explosion[1].get().SetLocation(collider.x, collider.y + collider.height); //place on top of bomb
-	explosion[2].get().SetLocation(collider.x + collider.width, collider.y); //place on right of bomb
-	explosion[3].get().SetLocation(collider.x, collider.y - collider.height); //place on bottom of bomb
-	explosion[4].get().SetLocation(collider.x - collider.width, collider.y); //place on left of bomb
+	explosion[0]->SetLocation(collider.x, collider.y); //at the bomb location
+	explosion[1]->SetLocation(collider.x, collider.y + collider.height); //place on top of bomb
+	explosion[2]->SetLocation(collider.x + collider.width, collider.y); //place on right of bomb
+	explosion[3]->SetLocation(collider.x, collider.y - collider.height); //place on bottom of bomb
+	explosion[4]->SetLocation(collider.x - collider.width, collider.y); //place on left of bomb
 
 
 	// destroy ourselves

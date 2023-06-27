@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ProjectOutputs>
+    <ProjectOutput>
+      <FullPath>C:\Users\Public\Repos\Bomberman\raylib\raylib\projects\VS2022\build\raylib\bin\Win32\Release.DLL\raylib.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\Public\Repos\Bomberman\raylib\raylib\projects\VS2022\build\shaders_basic_lighting\bin\Win32\Release.DLL\shaders_basic_lighting.exe</FullPath>
+    </ProjectOutput>
+  </ProjectOutputs>
+  <ContentFiles />
+  <SatelliteDlls />
+  <NonRecipeFileRefs />
+</Project>

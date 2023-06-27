@@ -1,0 +1,23 @@
+﻿  textures_fog_of_war.c
+C:\Users\Public\Repos\Bomberman\raylib\raylib\examples\textures\textures_fog_of_war.c(54,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Public\Repos\Bomberman\raylib\raylib\examples\textures\textures_fog_of_war.c(83,125): warning C4244: '=': conversion from 'unsigned int' to 'float', possible loss of data
+C:\Users\Public\Repos\Bomberman\raylib\raylib\examples\textures\textures_fog_of_war.c(85,125): warning C4244: '=': conversion from 'unsigned int' to 'float', possible loss of data
+C:\Users\Public\Repos\Bomberman\raylib\raylib\examples\textures\textures_fog_of_war.c(88,27): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Public\Repos\Bomberman\raylib\raylib\examples\textures\textures_fog_of_war.c(98,36): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Public\Repos\Bomberman\raylib\raylib\examples\textures\textures_fog_of_war.c(98,68): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Public\Repos\Bomberman\raylib\raylib\examples\textures\textures_fog_of_war.c(106,31): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Public\Repos\Bomberman\raylib\raylib\examples\textures\textures_fog_of_war.c(107,35): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Public\Repos\Bomberman\raylib\raylib\examples\textures\textures_fog_of_war.c(116,31): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Public\Repos\Bomberman\raylib\raylib\examples\textures\textures_fog_of_war.c(118,35): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Public\Repos\Bomberman\raylib\raylib\examples\textures\textures_fog_of_war.c(132,81): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Public\Repos\Bomberman\raylib\raylib\examples\textures\textures_fog_of_war.c(132,89): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Public\Repos\Bomberman\raylib\raylib\examples\textures\textures_fog_of_war.c(133,57): warning C4244: 'initializing': conversion from 'unsigned int' to 'float', possible loss of data
+C:\Users\Public\Repos\Bomberman\raylib\raylib\examples\textures\textures_fog_of_war.c(133,83): warning C4244: 'initializing': conversion from 'unsigned int' to 'float', possible loss of data
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 1 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  textures_fog_of_war.vcxproj -> C:\Users\Public\Repos\Bomberman\raylib\raylib\projects\VS2022\build\textures_fog_of_war\bin\Win32\Release.DLL\textures_fog_of_war.exe
+  Copy Release DLL to output directory
+  C:\Users\Public\Repos\Bomberman\raylib\raylib\projects\VS2022\\build\raylib\bin\Win32\Release.DLL\raylib.dll
+  1 File(s) copied

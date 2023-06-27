@@ -66,7 +66,7 @@
     <ClCompile Include="Source\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\TileMap.cpp">
+    <ClCompile Include="Source\Engine\Grid.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\InputManager.cpp">
@@ -110,7 +110,7 @@
     <ClInclude Include="Source\Game\Player.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\TileMap.h">
+    <ClInclude Include="Source\Engine\Grid.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\InputManager.h">

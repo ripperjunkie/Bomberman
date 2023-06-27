@@ -1,0 +1,22 @@
+﻿  shapes_draw_rectangle_rounded.c
+C:\Users\Public\Repos\Bomberman\raylib\raylib\examples\shapes\raygui.h(1514,45): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Public\Repos\Bomberman\raylib\raylib\examples\shapes\raygui.h(2182,5): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Public\Repos\Bomberman\raylib\raylib\examples\shapes\raygui.h(3208,34): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Public\Repos\Bomberman\raylib\raylib\examples\shapes\raygui.h(3209,34): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Public\Repos\Bomberman\raylib\raylib\examples\shapes\raygui.h(3260,21): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Public\Repos\Bomberman\raylib\raylib\examples\shapes\raygui.h(3281,25): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Public\Repos\Bomberman\raylib\raylib\examples\shapes\raygui.h(3292,25): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Public\Repos\Bomberman\raylib\raylib\examples\shapes\raygui.h(3339,19): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Public\Repos\Bomberman\raylib\raylib\examples\shapes\raygui.h(3556,9): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Public\Repos\Bomberman\raylib\raylib\examples\shapes\raygui.h(3568,9): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Public\Repos\Bomberman\raylib\raylib\examples\shapes\raygui.h(3610,21): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Public\Repos\Bomberman\raylib\raylib\examples\shapes\raygui.h(3845,62): warning C4244: 'function': conversion from 'int' to 'float', possible loss of data
+C:\Users\Public\Repos\Bomberman\raylib\raylib\examples\shapes\raygui.h(3845,95): warning C4244: 'function': conversion from 'int' to 'float', possible loss of data
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 15 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  shapes_draw_rectangle_rounded.vcxproj -> C:\Users\Public\Repos\Bomberman\raylib\raylib\projects\VS2022\build\shapes_draw_rectangle_rounded\bin\Win32\Release.DLL\shapes_draw_rectangle_rounded.exe
+  Copy Release DLL to output directory
+  C:\Users\Public\Repos\Bomberman\raylib\raylib\projects\VS2022\\build\raylib\bin\Win32\Release.DLL\raylib.dll
+  1 File(s) copied

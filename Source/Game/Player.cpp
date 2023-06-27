@@ -1,12 +1,13 @@
 #include "Player.h"
-#include "raymath.h"
-#include "iostream"
 #include "Bomb.h"
 #include "Explosion.h"
 
+#include "Engine/Managers/ActorManager.h"
+
+
 Player::~Player()
 {
-	delete bomb;
+
 }
 
 void Player::Start()
@@ -92,17 +93,14 @@ void Player::InputSpawnBomb()
 
 		bStartTimer = true;
 
-		//bomb = new Bomb(*level, ECollisionType::OVERLAP, EObjectMovType::MOVABLE, true, shared_sprite_sheet);
-		bomb = new Bomb();
-		overlapped_entities.emplace(bomb, false);
-
-		bomb->SetShowCollision(true); //just for debug sake
-		if (bomb)
-		{
-			bomb->SetLocation(collider.x, collider.y);
-		}
-		bCanPlaceBomb = false;
 		
+		bomb = ACTOR_MANAGER->SpawnActor<Bomb>();
+		if (!bomb)
+			return;
+		overlapped_entities.emplace(bomb, false);
+		bomb->SetShowCollision(true); //just for debug sake
+		bomb->SetLocation(collider.x, collider.y);
+		bCanPlaceBomb = false;		
 	}
 }
 

@@ -2,6 +2,8 @@
 
 #include "Engine/GameFramework/Actor.h"
 
+class Explosion;
+
 class Bomb : public Actor
 {
 public:
@@ -9,7 +11,8 @@ public:
 	{
 		CropSprite(224.f, 704.f);
 		name = "bomb";
-		Start();
+		collision_type = ECollisionType::OVERLAP;
+		object_mov_type = EObjectMovType::MOVABLE;
 	}
 
 	virtual void Start() override;
@@ -20,7 +23,6 @@ public:
 
 
 
-	std::shared_ptr<class Grid> tileMap = nullptr;
-	std::vector<std::reference_wrapper<class Explosion>> explosion;
+	std::vector<std::shared_ptr<Explosion>> explosion;
 	int explosionRange; // controls the range of this bomb when it explodes
 }; 

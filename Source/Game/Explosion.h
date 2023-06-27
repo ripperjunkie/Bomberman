@@ -10,7 +10,7 @@ public:
 		CropSprite(224.f, 704.f);
 
 		name = "explosion";
-		Start();
+
 	}
 
 	virtual void Start() override;

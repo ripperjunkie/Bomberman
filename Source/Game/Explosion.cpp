@@ -1,5 +1,4 @@
 #include "Explosion.h"
-#include "TileMap.h"
 #include "Engine/Managers/ActorManager.h"
 
 
@@ -17,7 +16,7 @@ void Explosion::Start()
 	{
 		if (ACTOR_MANAGER->GetInstance()->GetActors()[i].get() != this)
 		{
-			this->overlapped_entities.emplace(ACTOR_MANAGER->GetInstance()->GetActors()[i].get(), false);
+			this->overlapped_entities.emplace(ACTOR_MANAGER->GetInstance()->GetActors()[i], false);
 		}
 	}
 }

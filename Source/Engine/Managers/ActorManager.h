@@ -29,8 +29,11 @@ public:
 	{
 		std::shared_ptr<T> newObject = std::make_shared<T>(arguments...);
 		mActors.push_back(newObject);
-		if(newObject)
+
+		if (newObject)
+		{
 			newObject->Start();
+		}
 
 		return newObject;
 	}

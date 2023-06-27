@@ -106,7 +106,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\raylib\raylib\src;C:\Users\Rafa\Documents\Bomberman\lib\include;%(AdditionalIncludeDirectories);$(SolutionDir)\;$(SolutionDir);C:\Users\Rafa\Documents\Raylib Projects\Bomberman</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\raylib\raylib\src;%(AdditionalIncludeDirectories);$(SolutionDir)\Source;$(SolutionDir)\Source\Engine</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -114,7 +114,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\raylib\raylib\projects\VS2022\build\raylib\bin\Win32\Debug.DLL;%(AdditionalIncludeDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)\raylib\raylib\projects\VS2022\build\raylib\bin\Win32\Release.DLL;%(AdditionalIncludeDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>raylib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -159,7 +159,7 @@
     <ClCompile Include="Source\Engine\InputManager.cpp" />
     <ClCompile Include="Source\Engine\Managers\ActorManager.cpp" />
     <ClCompile Include="Source\Engine\Managers\MathLibrary.cpp" />
-    <ClCompile Include="Source\Engine\TileMap.cpp" />
+    <ClCompile Include="Source\Engine\Grid.cpp" />
     <ClCompile Include="Source\Game\Bomb.cpp" />
     <ClCompile Include="Source\Game\Enemy.cpp" />
     <ClCompile Include="Source\Game\Environment.cpp" />
@@ -175,7 +175,7 @@
     <ClInclude Include="Source\Engine\Managers\ActorManager.h" />
     <ClInclude Include="Source\Engine\Public\EngineUtils.h" />
     <ClInclude Include="Source\Engine\Public\Utils.h" />
-    <ClInclude Include="Source\Engine\TileMap.h" />
+    <ClInclude Include="Source\Engine\Grid.h" />
     <ClInclude Include="Source\Game\Bomb.h" />
     <ClInclude Include="Source\Game\Enemy.h" />
     <ClInclude Include="Source\Game\Environment.h" />

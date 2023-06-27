@@ -1,0 +1,11 @@
+﻿  textures_polygon.c
+C:\Users\Public\Repos\Bomberman\raylib\raylib\examples\textures\textures_polygon.c(89,65): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Public\Repos\Bomberman\raylib\raylib\examples\textures\textures_polygon.c(89,86): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 4 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  textures_polygon.vcxproj -> C:\Users\Public\Repos\Bomberman\raylib\raylib\projects\VS2022\build\textures_polygon\bin\Win32\Release.DLL\textures_polygon.exe
+  Copy Release DLL to output directory
+  C:\Users\Public\Repos\Bomberman\raylib\raylib\projects\VS2022\\build\raylib\bin\Win32\Release.DLL\raylib.dll
+  1 File(s) copied

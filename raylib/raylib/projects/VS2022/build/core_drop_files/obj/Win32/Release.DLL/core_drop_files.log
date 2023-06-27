@@ -1,0 +1,10 @@
+﻿  core_drop_files.c
+C:\Users\Public\Repos\Bomberman\raylib\raylib\examples\core\core_drop_files.c(61,35): warning C4018: '<': signed/unsigned mismatch
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 1 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  core_drop_files.vcxproj -> C:\Users\Public\Repos\Bomberman\raylib\raylib\projects\VS2022\build\core_drop_files\bin\Win32\Release.DLL\core_drop_files.exe
+  Copy Release DLL to output directory
+  C:\Users\Public\Repos\Bomberman\raylib\raylib\projects\VS2022\\build\raylib\bin\Win32\Release.DLL\raylib.dll
+  1 File(s) copied

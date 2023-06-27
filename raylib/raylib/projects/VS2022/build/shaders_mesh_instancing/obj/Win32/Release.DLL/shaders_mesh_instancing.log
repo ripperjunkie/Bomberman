@@ -1,0 +1,9 @@
+﻿  shaders_mesh_instancing.c
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 11 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  shaders_mesh_instancing.vcxproj -> C:\Users\Public\Repos\Bomberman\raylib\raylib\projects\VS2022\build\shaders_mesh_instancing\bin\Win32\Release.DLL\shaders_mesh_instancing.exe
+  Copy Release DLL to output directory
+  C:\Users\Public\Repos\Bomberman\raylib\raylib\projects\VS2022\\build\raylib\bin\Win32\Release.DLL\raylib.dll
+  1 File(s) copied

@@ -7,9 +7,9 @@
 
 class Actor
 {
+	friend class ActorManager;
 public:
-	Actor();
-	~Actor();
+
 
 	bool GetActiveState() const
 	{
@@ -69,7 +69,11 @@ public:
 	bool bStartTimer;
 
 	std::unordered_map<std::shared_ptr<Actor>, bool> overlapped_entities;
+	Actor();
 protected:
+	/* Both the constructor and destructor are on protected to prevent other classes
+	from creating the class other than our ActorManager class*/
+	~Actor();
 
 	Color color;
 	

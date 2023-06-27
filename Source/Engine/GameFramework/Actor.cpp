@@ -1,5 +1,4 @@
 #include "Actor.h"
-#include "Engine/TileMap.h"
 #include "Engine/Managers/ActorManager.h"
 
 #define PRINT(x) std::cout << "\n";  printf(x) ; std::cout << "\n";
@@ -15,21 +14,13 @@ Actor::Actor()
 	collider.y = 0.f;
 	color = GREEN;
 	lerp_speed = 4.f;
+	frame_counter = 0;
 
 	entity_texture = LoadTexture("resources/133670.png");
 	entity_texture.width = 512;
 	entity_texture.height = 832;
 	collider.width = TILE_SIZE;
 	collider.height = TILE_SIZE;
-
-	//if (level)
-	//{
-	//	collider.width = (float)level->size;
-	//	collider.height = (float)level->size;		
-	//	level->RegisterEntity(*this);
-	//}
-	//Start();
-	LOG("Spawning " << name);
 }
 
 Actor::~Actor()
@@ -77,7 +68,7 @@ void Actor::UpdateAnimation()
 	const AnimationData current_anim = animations[current_animation];
 
 	frame_counter++;
-	if (frame_counter >= (GetFPS() /frame_speed))
+	if (frame_counter >= (GetFPS() / frame_speed))
 	{
 		frame_counter = 0;
 		current_frame++;

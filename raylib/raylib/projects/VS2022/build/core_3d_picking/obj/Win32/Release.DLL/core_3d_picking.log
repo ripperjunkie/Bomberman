@@ -1,0 +1,9 @@
+﻿  core_3d_picking.c
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  Finished generating code
+  All 1 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  core_3d_picking.vcxproj -> C:\Users\Public\Repos\Bomberman\raylib\raylib\projects\VS2022\build\core_3d_picking\bin\Win32\Release.DLL\core_3d_picking.exe
+  Copy Release DLL to output directory
+  C:\Users\Public\Repos\Bomberman\raylib\raylib\projects\VS2022\\build\raylib\bin\Win32\Release.DLL\raylib.dll
+  1 File(s) copied
