@@ -36,17 +36,17 @@ public:
 		CropSprite(idle[0].x, idle[0].y);
 
 		//Load animations
-		animations.push_back(AnimationData(idle));
-		animations.push_back(AnimationData(walk_horizontal));
-		animations.push_back(AnimationData(walk_up));
-		animations.push_back(AnimationData(walk_down));
+		mAnimations.push_back(AnimationData(idle));
+		mAnimations.push_back(AnimationData(walk_horizontal));
+		mAnimations.push_back(AnimationData(walk_up));
+		mAnimations.push_back(AnimationData(walk_down));
 
 		bCanPlaceBomb = true;
 		bStartTimer = false;
 		timer = 4.f; //cooldown of player to place bombs
 		initialTimer = timer;
-		speed = 25.f;
-		name = "Player";
+		mSpeed = 25.f;
+		mName = "Player";
 	}
 
 	~Player();
@@ -76,5 +76,10 @@ protected:
 
 	// components
 	std::shared_ptr<HealthComponent> healthComp; 
+
+private:
+	float timer;
+	float initialTimer; //using to reset timer back to default value
+	bool bStartTimer;
 };
 

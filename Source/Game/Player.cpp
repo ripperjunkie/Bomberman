@@ -76,27 +76,27 @@ void Player::InputMovement()
 	if (IsKeyDown(KEY_D))
 	{
 		right_1 = 1.f;
-		current_animation = 1;
-		rec_crop_entity_texture.width = std::abs(rec_crop_entity_texture.width);
+		mCurrentAnimation = 1;
+		mRecCropEntityTexture.width = std::abs(mRecCropEntityTexture.width);
 	}
 
 	if (IsKeyDown(KEY_A))
 	{
 		right_2 = -1.f;
-		current_animation = 1;
-		rec_crop_entity_texture.width = -std::abs(rec_crop_entity_texture.width);
+		mCurrentAnimation = 1;
+		mRecCropEntityTexture.width = -std::abs(mRecCropEntityTexture.width);
 	}
 
 	if (IsKeyDown(KEY_W))
 	{
 		up_1 = -1.f;
-		current_animation = 2;
+		mCurrentAnimation = 2;
 	}
 
 	if (IsKeyDown(KEY_S))
 	{
 		up_2 = 1.f;
-		current_animation = 3;
+		mCurrentAnimation = 3;
 	}
 
 	input_up = up_1 + up_2;
@@ -120,7 +120,7 @@ void Player::InputSpawnBomb()
 
 		overlapped_entities.emplace(bomb, false);
 		bomb->SetShowCollision(true); //just for debug sake
-		bomb->SetLocation(collider.x, collider.y);
+		bomb->SetLocation(mCollider.x, mCollider.y);
 		bCanPlaceBomb = false;		
 	}
 }

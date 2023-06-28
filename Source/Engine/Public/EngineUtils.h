@@ -4,7 +4,7 @@
 #include <string>
 #include <unordered_map>
 
-//Simple struct that holds two values for rec crop location when cycling between animation
+//Simple struct that holds two values for rec crop location when cycling between animations
 struct RecCropLocation
 {
 	float x;

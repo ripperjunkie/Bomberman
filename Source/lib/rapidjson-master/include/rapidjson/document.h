@@ -119,13 +119,13 @@ class GenericDocument;
 template <typename Encoding, typename Allocator> 
 class GenericMember {
 public:
-    GenericValue<Encoding, Allocator> name;     //!< name of member (must be a string)
+    GenericValue<Encoding, Allocator> mName;     //!< name of member (must be a string)
     GenericValue<Encoding, Allocator> value;    //!< value of member.
 
 #if RAPIDJSON_HAS_CXX11_RVALUE_REFS
     //! Move constructor in C++11
     GenericMember(GenericMember&& rhs) RAPIDJSON_NOEXCEPT
-        : name(std::move(rhs.name)),
+        : mName(std::move(rhs.mName)),
           value(std::move(rhs.value))
     {
     }
@@ -141,7 +141,7 @@ public:
     */
     GenericMember& operator=(GenericMember& rhs) RAPIDJSON_NOEXCEPT {
         if (RAPIDJSON_LIKELY(this != &rhs)) {
-            name = rhs.name;
+            mName = rhs.mName;
             value = rhs.value;
         }
         return *this;
@@ -149,7 +149,7 @@ public:
 
     // swap() for std::sort() and other potential use in STL.
     friend inline void swap(GenericMember& a, GenericMember& b) RAPIDJSON_NOEXCEPT {
-        a.name.Swap(b.name);
+        a.mName.Swap(b.mName);
         a.value.Swap(b.value);
     }
 
@@ -1032,7 +1032,7 @@ public:
             if (data_.o.size != rhs.data_.o.size)
                 return false;           
             for (ConstMemberIterator lhsMemberItr = MemberBegin(); lhsMemberItr != MemberEnd(); ++lhsMemberItr) {
-                typename RhsType::ConstMemberIterator rhsMemberItr = rhs.FindMember(lhsMemberItr->name);
+                typename RhsType::ConstMemberIterator rhsMemberItr = rhs.FindMember(lhsMemberItr->mName);
                 if (rhsMemberItr == rhs.MemberEnd() || lhsMemberItr->value != rhsMemberItr->value)
                     return false;
             }
@@ -1206,12 +1206,12 @@ public:
         \note Linear time complexity.
     */
     template <typename T>
-    RAPIDJSON_DISABLEIF_RETURN((internal::NotExpr<internal::IsSame<typename internal::RemoveConst<T>::Type, Ch> >),(GenericValue&)) operator[](T* name) {
-        GenericValue n(StringRef(name));
+    RAPIDJSON_DISABLEIF_RETURN((internal::NotExpr<internal::IsSame<typename internal::RemoveConst<T>::Type, Ch> >),(GenericValue&)) operator[](T* mName) {
+        GenericValue n(StringRef(mName));
         return (*this)[n];
     }
     template <typename T>
-    RAPIDJSON_DISABLEIF_RETURN((internal::NotExpr<internal::IsSame<typename internal::RemoveConst<T>::Type, Ch> >),(const GenericValue&)) operator[](T* name) const { return const_cast<GenericValue&>(*this)[name]; }
+    RAPIDJSON_DISABLEIF_RETURN((internal::NotExpr<internal::IsSame<typename internal::RemoveConst<T>::Type, Ch> >),(const GenericValue&)) operator[](T* mName) const { return const_cast<GenericValue&>(*this)[mName]; }
 
     //! Get a value from an object associated with the name.
     /*! \pre IsObject() == true
@@ -1223,8 +1223,8 @@ public:
         \note Linear time complexity.
     */
     template <typename SourceAllocator>
-    GenericValue& operator[](const GenericValue<Encoding, SourceAllocator>& name) {
-        MemberIterator member = FindMember(name);
+    GenericValue& operator[](const GenericValue<Encoding, SourceAllocator>& mName) {
+        MemberIterator member = FindMember(mName);
         if (member != MemberEnd())
             return member->value;
         else {
@@ -1255,7 +1255,7 @@ public:
         }
     }
     template <typename SourceAllocator>
-    const GenericValue& operator[](const GenericValue<Encoding, SourceAllocator>& name) const { return const_cast<GenericValue&>(*this)[name]; }
+    const GenericValue& operator[](const GenericValue<Encoding, SourceAllocator>& mName) const { return const_cast<GenericValue&>(*this)[mName]; }
 
 #if RAPIDJSON_HAS_STDSTRING
     //! Get a value from an object associated with name (string object).
@@ -1296,7 +1296,7 @@ public:
         \note It is better to use FindMember() directly if you need the obtain the value as well.
         \note Linear time complexity.
     */
-    bool HasMember(const Ch* name) const { return FindMember(name) != MemberEnd(); }
+    bool HasMember(const Ch* mName) const { return FindMember(mName) != MemberEnd(); }
 
 #if RAPIDJSON_HAS_STDSTRING
     //! Check whether a member exists in the object with string object.
@@ -1320,7 +1320,7 @@ public:
         \note Linear time complexity.
     */
     template <typename SourceAllocator>
-    bool HasMember(const GenericValue<Encoding, SourceAllocator>& name) const { return FindMember(name) != MemberEnd(); }
+    bool HasMember(const GenericValue<Encoding, SourceAllocator>& mName) const { return FindMember(mName) != MemberEnd(); }
 
     //! Find member by name.
     /*!
@@ -1334,12 +1334,12 @@ public:
             \c std::map, this has been changed to MemberEnd() now.
         \note Linear time complexity.
     */
-    MemberIterator FindMember(const Ch* name) {
-        GenericValue n(StringRef(name));
+    MemberIterator FindMember(const Ch* mName) {
+        GenericValue n(StringRef(mName));
         return FindMember(n);
     }
 
-    ConstMemberIterator FindMember(const Ch* name) const { return const_cast<GenericValue&>(*this).FindMember(name); }
+    ConstMemberIterator FindMember(const Ch* mName) const { return const_cast<GenericValue&>(*this).FindMember(mName); }
 
     //! Find member by name.
     /*!
@@ -1355,12 +1355,12 @@ public:
         \note Linear time complexity.
     */
     template <typename SourceAllocator>
-    MemberIterator FindMember(const GenericValue<Encoding, SourceAllocator>& name) {
+    MemberIterator FindMember(const GenericValue<Encoding, SourceAllocator>& mName) {
         RAPIDJSON_ASSERT(IsObject());
-        RAPIDJSON_ASSERT(name.IsString());
-        return DoFindMember(name);
+        RAPIDJSON_ASSERT(mName.IsString());
+        return DoFindMember(mName);
     }
-    template <typename SourceAllocator> ConstMemberIterator FindMember(const GenericValue<Encoding, SourceAllocator>& name) const { return const_cast<GenericValue&>(*this).FindMember(name); }
+    template <typename SourceAllocator> ConstMemberIterator FindMember(const GenericValue<Encoding, SourceAllocator>& mName) const { return const_cast<GenericValue&>(*this).FindMember(mName); }
 
 #if RAPIDJSON_HAS_STDSTRING
     //! Find member by string object name.
@@ -1384,10 +1384,10 @@ public:
         \post name.IsNull() && value.IsNull()
         \note Amortized Constant time complexity.
     */
-    GenericValue& AddMember(GenericValue& name, GenericValue& value, Allocator& allocator) {
+    GenericValue& AddMember(GenericValue& mName, GenericValue& value, Allocator& allocator) {
         RAPIDJSON_ASSERT(IsObject());
-        RAPIDJSON_ASSERT(name.IsString());
-        DoAddMember(name, value, allocator);
+        RAPIDJSON_ASSERT(mName.IsString());
+        DoAddMember(mName, value, allocator);
         return *this;
     }
 
@@ -1400,9 +1400,9 @@ public:
         \note This overload is needed to avoid clashes with the generic primitive type AddMember(GenericValue&,T,Allocator&) overload below.
         \note Amortized Constant time complexity.
     */
-    GenericValue& AddMember(GenericValue& name, StringRefType value, Allocator& allocator) {
+    GenericValue& AddMember(GenericValue& mName, StringRefType value, Allocator& allocator) {
         GenericValue v(value);
-        return AddMember(name, v, allocator);
+        return AddMember(mName, v, allocator);
     }
 
 #if RAPIDJSON_HAS_STDSTRING
@@ -1440,23 +1440,23 @@ public:
     */
     template <typename T>
     RAPIDJSON_DISABLEIF_RETURN((internal::OrExpr<internal::IsPointer<T>, internal::IsGenericValue<T> >), (GenericValue&))
-    AddMember(GenericValue& name, T value, Allocator& allocator) {
+    AddMember(GenericValue& mName, T value, Allocator& allocator) {
         GenericValue v(value);
-        return AddMember(name, v, allocator);
+        return AddMember(mName, v, allocator);
     }
 
 #if RAPIDJSON_HAS_CXX11_RVALUE_REFS
-    GenericValue& AddMember(GenericValue&& name, GenericValue&& value, Allocator& allocator) {
-        return AddMember(name, value, allocator);
+    GenericValue& AddMember(GenericValue&& mName, GenericValue&& value, Allocator& allocator) {
+        return AddMember(mName, value, allocator);
     }
-    GenericValue& AddMember(GenericValue&& name, GenericValue& value, Allocator& allocator) {
-        return AddMember(name, value, allocator);
+    GenericValue& AddMember(GenericValue&& mName, GenericValue& value, Allocator& allocator) {
+        return AddMember(mName, value, allocator);
     }
-    GenericValue& AddMember(GenericValue& name, GenericValue&& value, Allocator& allocator) {
-        return AddMember(name, value, allocator);
+    GenericValue& AddMember(GenericValue& mName, GenericValue&& value, Allocator& allocator) {
+        return AddMember(mName, value, allocator);
     }
-    GenericValue& AddMember(StringRefType name, GenericValue&& value, Allocator& allocator) {
-        GenericValue n(name);
+    GenericValue& AddMember(StringRefType mName, GenericValue&& value, Allocator& allocator) {
+        GenericValue n(mName);
         return AddMember(n, value, allocator);
     }
 #endif // RAPIDJSON_HAS_CXX11_RVALUE_REFS
@@ -1472,8 +1472,8 @@ public:
         \post value.IsNull()
         \note Amortized Constant time complexity.
     */
-    GenericValue& AddMember(StringRefType name, GenericValue& value, Allocator& allocator) {
-        GenericValue n(name);
+    GenericValue& AddMember(StringRefType mName, GenericValue& value, Allocator& allocator) {
+        GenericValue n(mName);
         return AddMember(n, value, allocator);
     }
 
@@ -1486,9 +1486,9 @@ public:
         \note This overload is needed to avoid clashes with the generic primitive type AddMember(StringRefType,T,Allocator&) overload below.
         \note Amortized Constant time complexity.
     */
-    GenericValue& AddMember(StringRefType name, StringRefType value, Allocator& allocator) {
+    GenericValue& AddMember(StringRefType mName, StringRefType value, Allocator& allocator) {
         GenericValue v(value);
-        return AddMember(name, v, allocator);
+        return AddMember(mName, v, allocator);
     }
 
     //! Add any primitive value as member (name-value pair) to the object.
@@ -1510,8 +1510,8 @@ public:
     */
     template <typename T>
     RAPIDJSON_DISABLEIF_RETURN((internal::OrExpr<internal::IsPointer<T>, internal::IsGenericValue<T> >), (GenericValue&))
-    AddMember(StringRefType name, T value, Allocator& allocator) {
-        GenericValue n(name);
+    AddMember(StringRefType mName, T value, Allocator& allocator) {
+        GenericValue n(mName);
         return AddMember(n, value, allocator);
     }
 
@@ -1532,8 +1532,8 @@ public:
             relative order of the remaining members.
         \note Linear time complexity.
     */
-    bool RemoveMember(const Ch* name) {
-        GenericValue n(StringRef(name));
+    bool RemoveMember(const Ch* mName) {
+        GenericValue n(StringRef(mName));
         return RemoveMember(n);
     }
 
@@ -1542,8 +1542,8 @@ public:
 #endif
 
     template <typename SourceAllocator>
-    bool RemoveMember(const GenericValue<Encoding, SourceAllocator>& name) {
-        MemberIterator m = FindMember(name);
+    bool RemoveMember(const GenericValue<Encoding, SourceAllocator>& mName) {
+        MemberIterator m = FindMember(mName);
         if (m != MemberEnd()) {
             RemoveMember(m);
             return true;
@@ -1605,8 +1605,8 @@ public:
         \return Whether the member existed.
         \note Linear time complexity.
     */
-    bool EraseMember(const Ch* name) {
-        GenericValue n(StringRef(name));
+    bool EraseMember(const Ch* mName) {
+        GenericValue n(StringRef(mName));
         return EraseMember(n);
     }
 
@@ -1615,8 +1615,8 @@ public:
 #endif
 
     template <typename SourceAllocator>
-    bool EraseMember(const GenericValue<Encoding, SourceAllocator>& name) {
-        MemberIterator m = FindMember(name);
+    bool EraseMember(const GenericValue<Encoding, SourceAllocator>& mName) {
+        MemberIterator m = FindMember(mName);
         if (m != MemberEnd()) {
             EraseMember(m);
             return true;
@@ -1955,8 +1955,8 @@ public:
             if (RAPIDJSON_UNLIKELY(!handler.StartObject()))
                 return false;
             for (ConstMemberIterator m = MemberBegin(); m != MemberEnd(); ++m) {
-                RAPIDJSON_ASSERT(m->name.IsString()); // User may change the type of name by MemberIterator.
-                if (RAPIDJSON_UNLIKELY(!handler.Key(m->name.GetString(), m->name.GetStringLength(), (m->name.data_.f.flags & kCopyFlag) != 0)))
+                RAPIDJSON_ASSERT(m->mName.IsString()); // User may change the type of name by MemberIterator.
+                if (RAPIDJSON_UNLIKELY(!handler.Key(m->mName.GetString(), m->mName.GetStringLength(), (m->mName.data_.f.flags & kCopyFlag) != 0)))
                     return false;
                 if (RAPIDJSON_UNLIKELY(!m->value.Accept(handler)))
                     return false;
@@ -2279,10 +2279,10 @@ private:
     }
 
     template <typename SourceAllocator>
-    MemberIterator DoFindMember(const GenericValue<Encoding, SourceAllocator>& name) {
+    MemberIterator DoFindMember(const GenericValue<Encoding, SourceAllocator>& mName) {
         MemberIterator member = MemberBegin();
         for ( ; member != MemberEnd(); ++member)
-            if (name.StringEqual(member->name))
+            if (mName.StringEqual(member->mName))
                 break;
         return member;
     }
@@ -2301,13 +2301,13 @@ private:
 
 #endif // !RAPIDJSON_USE_MEMBERSMAP
 
-    void DoAddMember(GenericValue& name, GenericValue& value, Allocator& allocator) {
+    void DoAddMember(GenericValue& mName, GenericValue& value, Allocator& allocator) {
         ObjectData& o = data_.o;
         if (o.size >= o.capacity)
             DoReserveMembers(o.capacity ? (o.capacity + (o.capacity + 1) / 2) : kDefaultObjectCapacity, allocator);
         Member* members = GetMembersPointer();
         Member* m = members + o.size;
-        m->name.RawAssign(name);
+        m->mName.RawAssign(mName);
         m->value.RawAssign(value);
 #if RAPIDJSON_USE_MEMBERSMAP
         Map* &map = GetMap(members);
@@ -2388,7 +2388,7 @@ private:
         MapIterator* mit = GetMapIterators(map);
 #endif
         for (SizeType i = 0; i < count; i++) {
-            new (&lm[i].name) GenericValue(rm[i].name, allocator, copyConstStrings);
+            new (&lm[i].mName) GenericValue(rm[i].mName, allocator, copyConstStrings);
             new (&lm[i].value) GenericValue(rm[i].value, allocator, copyConstStrings);
 #if RAPIDJSON_USE_MEMBERSMAP
             new (&mit[i]) MapIterator(map->insert(MapPair(lm[i].name.data_, i)));
@@ -2973,53 +2973,53 @@ public:
     SizeType MemberCount() const { return value_.MemberCount(); }
     SizeType MemberCapacity() const { return value_.MemberCapacity(); }
     bool ObjectEmpty() const { return value_.ObjectEmpty(); }
-    template <typename T> ValueType& operator[](T* name) const { return value_[name]; }
-    template <typename SourceAllocator> ValueType& operator[](const GenericValue<EncodingType, SourceAllocator>& name) const { return value_[name]; }
+    template <typename T> ValueType& operator[](T* mName) const { return value_[mName]; }
+    template <typename SourceAllocator> ValueType& operator[](const GenericValue<EncodingType, SourceAllocator>& mName) const { return value_[mName]; }
 #if RAPIDJSON_HAS_STDSTRING
     ValueType& operator[](const std::basic_string<Ch>& name) const { return value_[name]; }
 #endif
     MemberIterator MemberBegin() const { return value_.MemberBegin(); }
     MemberIterator MemberEnd() const { return value_.MemberEnd(); }
     GenericObject MemberReserve(SizeType newCapacity, AllocatorType &allocator) const { value_.MemberReserve(newCapacity, allocator); return *this; }
-    bool HasMember(const Ch* name) const { return value_.HasMember(name); }
+    bool HasMember(const Ch* mName) const { return value_.HasMember(mName); }
 #if RAPIDJSON_HAS_STDSTRING
     bool HasMember(const std::basic_string<Ch>& name) const { return value_.HasMember(name); }
 #endif
-    template <typename SourceAllocator> bool HasMember(const GenericValue<EncodingType, SourceAllocator>& name) const { return value_.HasMember(name); }
-    MemberIterator FindMember(const Ch* name) const { return value_.FindMember(name); }
-    template <typename SourceAllocator> MemberIterator FindMember(const GenericValue<EncodingType, SourceAllocator>& name) const { return value_.FindMember(name); }
+    template <typename SourceAllocator> bool HasMember(const GenericValue<EncodingType, SourceAllocator>& mName) const { return value_.HasMember(mName); }
+    MemberIterator FindMember(const Ch* mName) const { return value_.FindMember(mName); }
+    template <typename SourceAllocator> MemberIterator FindMember(const GenericValue<EncodingType, SourceAllocator>& mName) const { return value_.FindMember(mName); }
 #if RAPIDJSON_HAS_STDSTRING
     MemberIterator FindMember(const std::basic_string<Ch>& name) const { return value_.FindMember(name); }
 #endif
-    GenericObject AddMember(ValueType& name, ValueType& value, AllocatorType& allocator) const { value_.AddMember(name, value, allocator); return *this; }
-    GenericObject AddMember(ValueType& name, StringRefType value, AllocatorType& allocator) const { value_.AddMember(name, value, allocator); return *this; }
+    GenericObject AddMember(ValueType& mName, ValueType& value, AllocatorType& allocator) const { value_.AddMember(mName, value, allocator); return *this; }
+    GenericObject AddMember(ValueType& mName, StringRefType value, AllocatorType& allocator) const { value_.AddMember(mName, value, allocator); return *this; }
 #if RAPIDJSON_HAS_STDSTRING
     GenericObject AddMember(ValueType& name, std::basic_string<Ch>& value, AllocatorType& allocator) const { value_.AddMember(name, value, allocator); return *this; }
 #endif
-    template <typename T> RAPIDJSON_DISABLEIF_RETURN((internal::OrExpr<internal::IsPointer<T>, internal::IsGenericValue<T> >), (ValueType&)) AddMember(ValueType& name, T value, AllocatorType& allocator) const { value_.AddMember(name, value, allocator); return *this; }
+    template <typename T> RAPIDJSON_DISABLEIF_RETURN((internal::OrExpr<internal::IsPointer<T>, internal::IsGenericValue<T> >), (ValueType&)) AddMember(ValueType& mName, T value, AllocatorType& allocator) const { value_.AddMember(mName, value, allocator); return *this; }
 #if RAPIDJSON_HAS_CXX11_RVALUE_REFS
-    GenericObject AddMember(ValueType&& name, ValueType&& value, AllocatorType& allocator) const { value_.AddMember(name, value, allocator); return *this; }
-    GenericObject AddMember(ValueType&& name, ValueType& value, AllocatorType& allocator) const { value_.AddMember(name, value, allocator); return *this; }
-    GenericObject AddMember(ValueType& name, ValueType&& value, AllocatorType& allocator) const { value_.AddMember(name, value, allocator); return *this; }
-    GenericObject AddMember(StringRefType name, ValueType&& value, AllocatorType& allocator) const { value_.AddMember(name, value, allocator); return *this; }
+    GenericObject AddMember(ValueType&& mName, ValueType&& value, AllocatorType& allocator) const { value_.AddMember(mName, value, allocator); return *this; }
+    GenericObject AddMember(ValueType&& mName, ValueType& value, AllocatorType& allocator) const { value_.AddMember(mName, value, allocator); return *this; }
+    GenericObject AddMember(ValueType& mName, ValueType&& value, AllocatorType& allocator) const { value_.AddMember(mName, value, allocator); return *this; }
+    GenericObject AddMember(StringRefType mName, ValueType&& value, AllocatorType& allocator) const { value_.AddMember(mName, value, allocator); return *this; }
 #endif // RAPIDJSON_HAS_CXX11_RVALUE_REFS
-    GenericObject AddMember(StringRefType name, ValueType& value, AllocatorType& allocator) const { value_.AddMember(name, value, allocator); return *this; }
-    GenericObject AddMember(StringRefType name, StringRefType value, AllocatorType& allocator) const { value_.AddMember(name, value, allocator); return *this; }
-    template <typename T> RAPIDJSON_DISABLEIF_RETURN((internal::OrExpr<internal::IsPointer<T>, internal::IsGenericValue<T> >), (GenericObject)) AddMember(StringRefType name, T value, AllocatorType& allocator) const { value_.AddMember(name, value, allocator); return *this; }
+    GenericObject AddMember(StringRefType mName, ValueType& value, AllocatorType& allocator) const { value_.AddMember(mName, value, allocator); return *this; }
+    GenericObject AddMember(StringRefType mName, StringRefType value, AllocatorType& allocator) const { value_.AddMember(mName, value, allocator); return *this; }
+    template <typename T> RAPIDJSON_DISABLEIF_RETURN((internal::OrExpr<internal::IsPointer<T>, internal::IsGenericValue<T> >), (GenericObject)) AddMember(StringRefType mName, T value, AllocatorType& allocator) const { value_.AddMember(mName, value, allocator); return *this; }
     void RemoveAllMembers() { value_.RemoveAllMembers(); }
-    bool RemoveMember(const Ch* name) const { return value_.RemoveMember(name); }
+    bool RemoveMember(const Ch* mName) const { return value_.RemoveMember(mName); }
 #if RAPIDJSON_HAS_STDSTRING
     bool RemoveMember(const std::basic_string<Ch>& name) const { return value_.RemoveMember(name); }
 #endif
-    template <typename SourceAllocator> bool RemoveMember(const GenericValue<EncodingType, SourceAllocator>& name) const { return value_.RemoveMember(name); }
+    template <typename SourceAllocator> bool RemoveMember(const GenericValue<EncodingType, SourceAllocator>& mName) const { return value_.RemoveMember(mName); }
     MemberIterator RemoveMember(MemberIterator m) const { return value_.RemoveMember(m); }
     MemberIterator EraseMember(ConstMemberIterator pos) const { return value_.EraseMember(pos); }
     MemberIterator EraseMember(ConstMemberIterator first, ConstMemberIterator last) const { return value_.EraseMember(first, last); }
-    bool EraseMember(const Ch* name) const { return value_.EraseMember(name); }
+    bool EraseMember(const Ch* mName) const { return value_.EraseMember(mName); }
 #if RAPIDJSON_HAS_STDSTRING
     bool EraseMember(const std::basic_string<Ch>& name) const { return EraseMember(ValueType(StringRef(name))); }
 #endif
-    template <typename SourceAllocator> bool EraseMember(const GenericValue<EncodingType, SourceAllocator>& name) const { return value_.EraseMember(name); }
+    template <typename SourceAllocator> bool EraseMember(const GenericValue<EncodingType, SourceAllocator>& mName) const { return value_.EraseMember(mName); }
 
 #if RAPIDJSON_HAS_CXX11_RANGE_FOR
     MemberIterator begin() const { return value_.MemberBegin(); }

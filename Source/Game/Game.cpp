@@ -68,9 +68,9 @@ void Game::Start()
 	camera.offset = Vector2{ 0,0 };
 
 #pragma region Load Sprite sheet
-	Texture2D sprite_sheet = LoadTexture("resources/133670.png");
-	sprite_sheet.width = 512.f;
-	sprite_sheet.height = 832.f;
+	Texture2D mSpriteSheet = LoadTexture("resources/133670.png");
+	mSpriteSheet.width = 512.f;
+	mSpriteSheet.height = 832.f;
 #pragma endregion
 
 

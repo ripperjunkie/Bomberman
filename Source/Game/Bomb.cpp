@@ -39,7 +39,7 @@ void Bomb::OnCollisionEndOverlap(Actor& other_actor)
 {
 	Actor::OnCollisionEndOverlap(other_actor);
 
-	collision_type = ECollisionType::BLOCKING;
+	mCollisionType = ECollisionType::BLOCKING;
 }
 
 void Bomb::Destroy()
@@ -62,11 +62,11 @@ void Bomb::Explode()
 
 
 	//I will figure out how to use the for here later on, it's not simple as it looks like
-	explosion[0]->SetLocation(collider.x, collider.y); //at the bomb location
-	explosion[1]->SetLocation(collider.x, collider.y + collider.height); //place on top of bomb
-	explosion[2]->SetLocation(collider.x + collider.width, collider.y); //place on right of bomb
-	explosion[3]->SetLocation(collider.x, collider.y - collider.height); //place on bottom of bomb
-	explosion[4]->SetLocation(collider.x - collider.width, collider.y); //place on left of bomb
+	explosion[0]->SetLocation(mCollider.x, mCollider.y); //at the bomb location
+	explosion[1]->SetLocation(mCollider.x, mCollider.y + mCollider.height); //place on top of bomb
+	explosion[2]->SetLocation(mCollider.x + mCollider.width, mCollider.y); //place on right of bomb
+	explosion[3]->SetLocation(mCollider.x, mCollider.y - mCollider.height); //place on bottom of bomb
+	explosion[4]->SetLocation(mCollider.x - mCollider.width, mCollider.y); //place on left of bomb
 
 
 	// destroy ourselves

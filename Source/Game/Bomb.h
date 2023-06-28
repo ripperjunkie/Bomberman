@@ -10,9 +10,9 @@ public:
 	Bomb() : Actor()
 	{
 		CropSprite(224.f, 704.f);
-		name = "bomb";
-		collision_type = ECollisionType::OVERLAP;
-		object_mov_type = EObjectMovType::MOVABLE;
+		mName = "bomb";
+		mCollisionType = ECollisionType::OVERLAP;
+		mObjectMovementType = EObjectMovType::MOVABLE;
 	}
 
 	virtual void Start() override;
@@ -25,4 +25,9 @@ public:
 
 	
 	int explosionRange; // controls the range of this bomb when it explodes
+
+private:
+	float timer;
+	float initialTimer; //using to reset timer back to default value
+	bool bStartTimer;
 }; 

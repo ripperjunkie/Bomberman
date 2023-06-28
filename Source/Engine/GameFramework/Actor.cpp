@@ -6,24 +6,21 @@
 
 Actor::Actor()
 {
-	speed = 20;
+	mSpeed = 20;
 	bActive = true;
-	row = 1;
-	column = 1;
-	bHasOverlapped = false;
-	collider.x = 0.f;
-	collider.y = 0.f;
-	color = GREEN;
-	lerp_speed = 4.f;
-	frame_counter = 0;
+	mCollider.x = 0.f;
+	mCollider.y = 0.f;
+	mColor = GREEN;
+	mLerpSpeed = 4.f;
+	mFrameCounter = 0;
 
 	// deprecated (load textures in another thread)
-	entity_texture = LoadTexture("resources/133670.png");
-	entity_texture.width = 512;
-	entity_texture.height = 832;
+	mEntityTexture = LoadTexture("resources/133670.png");
+	mEntityTexture.width = 512;
+	mEntityTexture.height = 832;
 
-	collider.width = TILE_SIZE;
-	collider.height = TILE_SIZE;
+	mCollider.width = TILE_SIZE;
+	mCollider.height = TILE_SIZE;
 }
 
 Actor::~Actor()
@@ -42,16 +39,16 @@ void Actor::Update()
 	if (!bActive) return;
 
 
-	if (bShow_collision)
+	if (bShowCollision)
 	{
-		DrawRectangleLinesEx(collider, 1.f, color);
+		DrawRectangleLinesEx(mCollider, 1.f, mColor);
 	}
 
 
 	Vector2 text_pos;
-	text_pos.x = collider.x;
-	text_pos.y = collider.y;
-	DrawTextureRec(entity_texture, rec_crop_entity_texture, text_pos, WHITE);
+	text_pos.x = mCollider.x;
+	text_pos.y = mCollider.y;
+	DrawTextureRec(mEntityTexture, mRecCropEntityTexture, text_pos, WHITE);
 
 	UpdateAnimation();
 	CheckOverlapCollision();
@@ -65,47 +62,39 @@ void Actor::Destroy()
 
 void Actor::UpdateAnimation()
 {
-	if (animations.size() == 0)
+	if (mAnimations.size() == 0)
 		return;
 
-	const AnimationData current_anim = animations[current_animation];
+	const AnimationData current_anim = mAnimations[mCurrentAnimation];
 
-	frame_counter++;
-	if (frame_counter >= (GetFPS() / animation_speed))
+	mFrameCounter++;
+	if (mFrameCounter >= (GetFPS() / mAnimationSpeed))
+	if (mFrameCounter >= (GetFPS() / mAnimationSpeed))
 	{
-		frame_counter = 0;
-		current_frame++;
+		mFrameCounter = 0;
+		mCurrentFrame++;
 
 		// reset anim
-		if (current_frame > current_anim.rec_crop_location.size() - 1)
+		if (mCurrentFrame > current_anim.rec_crop_location.size() - 1)
 		{
-			current_frame = 0;
+			mCurrentFrame = 0;
 		}
 
-		rec_crop_entity_texture.x = current_anim.rec_crop_location[current_frame].x;
-		rec_crop_entity_texture.y = current_anim.rec_crop_location[current_frame].y;
+		mRecCropEntityTexture.x = current_anim.rec_crop_location[mCurrentFrame].x;
+		mRecCropEntityTexture.y = current_anim.rec_crop_location[mCurrentFrame].y;
 	}
 
-}
-
-int Actor::GetTileNumber(int row_, int column_)
-{
-	//if (level)
-	//{
-	//	return row_ + level->amount_x + column;
-	//}
-	return 0;
 }
 
 void Actor::OnCollisionBeginOverlap(std::shared_ptr<Actor> otherActor)
 {
 	if (otherActor)
-		printf("\n Collision begin overlap from: %s, to: %s\n", this->name.c_str(), otherActor->name.c_str());
+		printf("\n Collision begin overlap from: %s, to: %s\n", this->mName.c_str(), otherActor->mName.c_str());
 }
 
 void Actor::OnCollisionEndOverlap(Actor& other_actor)
 {
-	printf("\n Collision end overlap from: %s, to: %s\n", this->name.c_str(), other_actor.name.c_str());
+	printf("\n Collision end overlap from: %s, to: %s\n", this->mName.c_str(), other_actor.mName.c_str());
 }
 
 
@@ -116,19 +105,12 @@ void Actor::OnCollisionBlock(Actor& other_actor)
 
 void Actor::CropSprite(float x, float y, float width, float height)
 {
-	rec_crop_entity_texture.x = x;
-	rec_crop_entity_texture.y = y;
-	rec_crop_entity_texture.width = width;
-	rec_crop_entity_texture.height = height;
+	mRecCropEntityTexture.x = x;
+	mRecCropEntityTexture.y = y;
+	mRecCropEntityTexture.width = width;
+	mRecCropEntityTexture.height = height;
 }
 
-
-
-void Actor::SetLocation(float x, float y)
-{
-	collider.x = x;
-	collider.y = y;
-}
 
 //This is how the object is moving
 void Actor::AddMovement(int x, int y)
@@ -142,21 +124,21 @@ void Actor::AddMovement(int x, int y)
 	}
 
 	//Here is where the real movement happens, also we are lerping it to smooth the movement
-	collider.x = std::lerp(collider.x, collider.x + x, GetFrameTime() * lerp_speed);
-	collider.y = std::lerp(collider.y, collider.y + y, GetFrameTime() * lerp_speed);
+	mCollider.x = std::lerp(mCollider.x, mCollider.x + x, GetFrameTime() * mLerpSpeed);
+	mCollider.y = std::lerp(mCollider.y, mCollider.y + y, GetFrameTime() * mLerpSpeed);
 }
 
 void Actor::AddMovement(Vector2 dir, float axis)
 {
-	if (IsColliding(dir.x * axis * speed, dir.y * axis * speed))
+	if (IsColliding(dir.x * axis * mSpeed, dir.y * axis * mSpeed))
 		return;
 
 	if (axis == 0.f)
 		return;
 
 	//Here is where the real movement happens, also we are lerping it to smooth the movement
-	collider.x = std::lerp(collider.x, collider.x + dir.x * axis * speed, GetFrameTime() * lerp_speed);
-	collider.y = std::lerp(collider.y, collider.y + dir.y * axis * speed, GetFrameTime() * lerp_speed);
+	mCollider.x = std::lerp(mCollider.x, mCollider.x + dir.x * axis * mSpeed, GetFrameTime() * mLerpSpeed);
+	mCollider.y = std::lerp(mCollider.y, mCollider.y + dir.y * axis * mSpeed, GetFrameTime() * mLerpSpeed);
 
 	//collider.x += dir.x * axis * speed * GetFrameTime();
 	//collider.y += dir.y * axis * speed * GetFrameTime();
@@ -166,19 +148,15 @@ void Actor::AddMovement(Vector2 dir, float axis)
 void Actor::MoveOutOfCollision(int x, int y)
 {
 	//Add world movement with lerp
-	const float lerp_speed = 4.f;
+	const float mLerpSpeed = 4.f;
 
 	//Here is where the real movement happens
-	collider.x = std::lerp(collider.x, collider.x + x, GetFrameTime() * lerp_speed);
-	collider.y = std::lerp(collider.y, collider.y + y, GetFrameTime() * lerp_speed);
+	mCollider.x = std::lerp(mCollider.x, mCollider.x + x, GetFrameTime() * mLerpSpeed);
+	mCollider.y = std::lerp(mCollider.y, mCollider.y + y, GetFrameTime() * mLerpSpeed);
 
 	//printf("name %s trying to move out of collision", name.c_str());
 }
 
-void Actor::SetShowCollision(bool ShowCollision)
-{
-	bShow_collision = ShowCollision;
-}
 
 //Check blocking collision between entities
 bool Actor::IsColliding(int x, int y)
@@ -187,44 +165,26 @@ bool Actor::IsColliding(int x, int y)
 	const float lerp_time = 4.f;
 
 	//Here is where we check with a rectangle to see if it will overlap
-	Rectangle rect = collider;
-	rect.width = collider.width;
-	rect.height = collider.height;
+	Rectangle rect = mCollider;
+	rect.width = mCollider.width;
+	rect.height = mCollider.height;
 
-	rect.x = std::lerp(rect.x, collider.x + x, GetFrameTime() * lerp_time);
-	rect.y = std::lerp(rect.y, collider.y + y, GetFrameTime() * lerp_time);
+	rect.x = std::lerp(rect.x, mCollider.x + x, GetFrameTime() * lerp_time);
+	rect.y = std::lerp(rect.y, mCollider.y + y, GetFrameTime() * lerp_time);
 
-	if (collision_type == ECollisionType::IGNORE)
+	if (mCollisionType == ECollisionType::IGNORE)
 		return false;
 
 
-	//OLD WAY
-	//for (unsigned int i = 0; i < overlapped_entities.size(); i++)
-	//{
-	//	if (level->entities[i] != this && level->entities[i]->collision_type != ECollisionType::IGNORE
-	//		&& CheckCollisionRecs(rect, level->entities[i]->collider))
-	//	{
-	//		auto entity = level->entities[i];
-	//		if (entity)
-	//		{
-	//			if (entity->collision_type == ECollisionType::BLOCKING && entity->bActive)
-	//			{
-	//				OnCollisionBlock(*entity);
-	//				return true;
-	//			}
-	//		}
-	//	}
-	//}
-
 	for (const std::shared_ptr<Actor>& actor : ACTOR_MANAGER->GetInstance()->GetActors())
 	{
-		if (actor.get() != this && actor->collision_type != ECollisionType::IGNORE
-			&& CheckCollisionRecs(rect, actor->collider))
+		if (actor.get() != this && actor->mCollisionType != ECollisionType::IGNORE
+			&& CheckCollisionRecs(rect, actor->mCollider))
 		{
 			auto entity = actor;
 			if (entity)
 			{
-				if (entity->collision_type == ECollisionType::BLOCKING && entity->bActive)
+				if (entity->mCollisionType == ECollisionType::BLOCKING && entity->bActive)
 				{
 					OnCollisionBlock(*entity);
 					return true;
@@ -239,7 +199,7 @@ bool Actor::IsColliding(int x, int y)
 void Actor::CheckOverlapCollision()
 {
 	//Here is where we check with a rectangle to see if it's overlap
-	if (collision_type == ECollisionType::IGNORE)
+	if (mCollisionType == ECollisionType::IGNORE)
 	{
 		return;
 	}
@@ -248,7 +208,7 @@ void Actor::CheckOverlapCollision()
 	for (auto& pair : overlapped_entities)
 	{
 
-		if (!CheckCollisionRecs(collider, pair.first->collider))
+		if (!CheckCollisionRecs(mCollider, pair.first->mCollider))
 			continue;
 
 		//If this entity already overlapped with other entity, don't execute (skip this iteration and go to the next one)
@@ -269,7 +229,7 @@ void Actor::CheckOverlapCollision()
 
 void Actor::CheckEndOverlap()
 {
-	if (collision_type == ECollisionType::IGNORE)
+	if (mCollisionType == ECollisionType::IGNORE)
 	{
 		return;
 	}
@@ -277,7 +237,7 @@ void Actor::CheckEndOverlap()
 	//Iterate through all entities
 	for (auto& pair : overlapped_entities)
 	{
-		if (CheckCollisionRecs(collider, pair.first->collider))
+		if (CheckCollisionRecs(mCollider, pair.first->mCollider))
 			continue;
 
 		//If this entity already overlapped with other entity, don't execute (skip this iteration and go to the next one)

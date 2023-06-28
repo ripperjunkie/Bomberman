@@ -8,9 +8,9 @@ public:
 
 	Explosion() : Actor()
 	{
-		name = "explosion";
+		mName = "explosion";
 
-		animation_speed = 7.f;
+		mAnimationSpeed = 7.f;
 
 		explosionAnim.push_back(RecCropLocation(324.f, 708.f));
 		explosionAnim.push_back(RecCropLocation(352.f, 708.f));
@@ -20,7 +20,7 @@ public:
 		CropSprite(explosionAnim[0].x, explosionAnim[0].y);
 
 
-		animations.push_back(AnimationData(explosionAnim));
+		mAnimations.push_back(AnimationData(explosionAnim));
 
 	}
 
@@ -28,10 +28,12 @@ public:
 	virtual void Update() override;
 	virtual void Destroy() override;
 
+
+private:
 	float timer;
+	float initialTimer; //using to reset timer back to default value
 	bool bStartTimer;
 
 	std::vector<RecCropLocation> explosionAnim;
-
 };
 
