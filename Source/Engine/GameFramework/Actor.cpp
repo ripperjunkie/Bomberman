@@ -71,7 +71,7 @@ void Actor::UpdateAnimation()
 	const AnimationData current_anim = animations[current_animation];
 
 	frame_counter++;
-	if (frame_counter >= (GetFPS() / frame_speed))
+	if (frame_counter >= (GetFPS() / animation_speed))
 	{
 		frame_counter = 0;
 		current_frame++;

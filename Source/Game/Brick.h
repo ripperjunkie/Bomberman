@@ -17,8 +17,5 @@ public:
 		collision_type = ECollisionType::BLOCKING;
 	}
 	virtual void OnCollisionBeginOverlap(std::shared_ptr<Actor> otherActor) override;
-
-protected:
-
 };
 

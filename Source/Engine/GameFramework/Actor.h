@@ -84,7 +84,7 @@ protected:
 	//Animation related
 	int current_frame;
 	int frame_counter;
-	float frame_speed = 5.f;
+	float animation_speed = 5.f;
 	std::vector<AnimationData> animations;
 	int current_animation = 0;
 

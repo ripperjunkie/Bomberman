@@ -4,20 +4,39 @@
 
 #include "Engine/Managers/ActorManager.h"
 
+// components
+#include "HealthComponent.h"
+
+#include <functional>
+
+
 
 Player::~Player()
 {
 
 }
 
+
 void Player::Start()
 {
 	Actor::Start();
+
+	// Creating health component
+	healthComp = std::make_shared<HealthComponent>(3); // set max and current life
+	healthComp->SetHealthChangeCallback
+	(
+		std::bind
+		(&Player::OnDie,
+			this
+		) 
+	);
 }
 
 void Player::Update()
 {
 	Actor::Update();
+
+	LOG("Player: Current HP: " << healthComp->GetCurrentHP());
 
 	//Destroy after a certain time if timer is active
 	if (bStartTimer)
@@ -98,6 +117,7 @@ void Player::InputSpawnBomb()
 		bomb = ACTOR_MANAGER->SpawnActor<Bomb>();
 		if (!bomb)
 			return;
+
 		overlapped_entities.emplace(bomb, false);
 		bomb->SetShowCollision(true); //just for debug sake
 		bomb->SetLocation(collider.x, collider.y);
@@ -108,9 +128,22 @@ void Player::InputSpawnBomb()
 void Player::OnCollisionBeginOverlap(std::shared_ptr<Actor> otherActor)
 {
 	Actor::OnCollisionBeginOverlap(otherActor);
+
+	if (std::shared_ptr<Explosion> enemy = std::dynamic_pointer_cast<Explosion>(otherActor))
+	{
+		if (healthComp)
+		{
+			healthComp->TakeDamage(1);
+		}
+	}
 }
 
 void Player::OnCollisionEndOverlap(Actor& other_actor)
 {
 	Actor::OnCollisionEndOverlap(other_actor);
+}
+
+void Player::OnDie()
+{
+	SetActive(false);
 }

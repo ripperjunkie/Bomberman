@@ -30,6 +30,7 @@ public:
 		std::shared_ptr<T> newObject = std::make_shared<T>(arguments...);
 		mActors.push_back(newObject);
 
+
 		if (newObject)
 		{
 			newObject->Start();
@@ -45,9 +46,11 @@ public:
 	{
 		for (int i = 0; i < mActors.size(); i++)
 		{
-			if(mActors[i])
+			if (mActors[i])
 				mActors[i]->Update();
 		}
+
+
 	}
 
 	std::vector<std::shared_ptr<Actor>> GetActors() const
@@ -60,6 +63,7 @@ private:
 	ActorManager(){}
 	static ActorManager* mInstance;
 	std::vector<std::shared_ptr<Actor>> mActors;
+
 };
 
 

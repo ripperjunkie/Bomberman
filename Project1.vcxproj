@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Game\HealthComponent.cpp" />
     <ClCompile Include="Source\Engine\GameFramework\Actor.cpp" />
     <ClCompile Include="Source\Engine\InputManager.cpp" />
     <ClCompile Include="Source\Engine\Managers\ActorManager.cpp" />
@@ -170,6 +171,7 @@
     <ClCompile Include="Source\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Game\HealthComponent.h" />
     <ClInclude Include="Source\Engine\GameFramework\Actor.h" />
     <ClInclude Include="Source\Engine\InputManager.h" />
     <ClInclude Include="Source\Engine\Managers\MathLibrary.h" />

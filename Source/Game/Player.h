@@ -5,6 +5,8 @@
 
 
 class Bomb;
+class HealthComponent;
+
 
 class Player : public Actor
 {
@@ -69,7 +71,10 @@ protected:
 
 	virtual void OnCollisionBeginOverlap(std::shared_ptr<Actor> otherActor) override;
     virtual void OnCollisionEndOverlap(Actor& other_actor) override;
-    
     bool bCanPlaceBomb;
+	void OnDie();
+
+	// components
+	std::shared_ptr<HealthComponent> healthComp; 
 };
 
