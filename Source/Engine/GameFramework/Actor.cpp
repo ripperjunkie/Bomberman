@@ -23,15 +23,15 @@ Actor::Actor()
 	mCollider.height = TILE_SIZE;
 }
 
-Actor::~Actor()
-{
-	//printf("\n I'm going to space!\n");
-}
+
 
 void Actor::Start()
 {
 }
-
+Actor::~Actor()
+{
+	//printf("\n I'm going to space!\n");
+}
 
 //This is turning into our tick/update methods
 void Actor::Update()

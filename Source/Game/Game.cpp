@@ -61,7 +61,7 @@ void Game::Start()
 	// Initialize raylib window
 	InitWindow(SCREEN_X, SCREEN_Y, "raylib [core] example - basic window");
 	SetTargetFPS(120);
-
+	HideCursor();
 	// Initialize camera
 	Camera2D camera = { 0 };
 	camera.zoom = 1.0f;
@@ -74,6 +74,8 @@ void Game::Start()
 #pragma endregion
 
 
+
+
 #pragma region Spawning and placing Stuff On Level
 	{
 		std::shared_ptr<Grid> grid = std::make_shared<Grid>
@@ -84,15 +86,16 @@ void Game::Start()
 
 		for (int i = 0; i < levelJson.size(); ++i)
 		{
+			if (levelJson[i] == ENVIRONMENT)
+			{
+				ActorManager::GetInstance()->SpawnActor<Environment>()->SetLocation(grid->tiles[i].x, grid->tiles[i].y);
+			}
 			if (levelJson[i] == PLAYER)
 			{
 				// spawn player
 				ActorManager::GetInstance()->SpawnActor<Player>()->SetLocation(grid->tiles[i].x, grid->tiles[i].y);
 			}
-			if (levelJson[i] == ENVIRONMENT)
-			{
-				ActorManager::GetInstance()->SpawnActor<Environment>()->SetLocation(grid->tiles[i].x, grid->tiles[i].y);
-			}
+
 			if (levelJson[i] == BRICK)
 			{
 				ActorManager::GetInstance()->SpawnActor<Brick>()->SetLocation(grid->tiles[i].x, grid->tiles[i].y);
@@ -101,6 +104,7 @@ void Game::Start()
 			{
 				ActorManager::GetInstance()->SpawnActor<Enemy>()->SetLocation(grid->tiles[i].x, grid->tiles[i].y);
 			}
+
 		}
 	}
 

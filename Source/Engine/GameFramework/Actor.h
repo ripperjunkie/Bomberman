@@ -4,6 +4,7 @@
 #include "Engine/Public/Utils.h"
 
 
+
 class Actor : public std::enable_shared_from_this<Actor>
 {
 	friend class ActorManager;
@@ -52,6 +53,9 @@ public:
 	std::unordered_map<std::shared_ptr<Actor>, bool> overlapped_entities;
 
 
+	Texture2D mEntityTexture;
+	std::string mTexturePath = "resources/133670.png";
+
 protected:
 	/* Both the constructor and destructor are on protected to prevent other classes
 	from creating the class other than our ActorManager class*/
@@ -60,7 +64,7 @@ protected:
 
 protected:
 
-	Texture2D mEntityTexture;
+
 	Texture2D mSpriteSheet;
 
 
@@ -99,6 +103,7 @@ protected:
 
 	Color mColor;
 	std::string mName;
+
 
 
 private:

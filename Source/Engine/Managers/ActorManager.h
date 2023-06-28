@@ -5,6 +5,7 @@
 #include <type_traits>
 
 
+
 #define ACTOR_MANAGER ActorManager::GetInstance()
 
 
@@ -30,11 +31,19 @@ public:
 		std::shared_ptr<T> newObject = std::make_shared<T>(arguments...);
 		mActors.push_back(newObject);
 
-
 		if (newObject)
 		{
-			newObject->Start();
+			newObject->Start();		
+
+
+
+			/*std::thread render([&]()
+			{
+			});
+
+			render.detach();*/
 		}
+
 
 		return newObject;
 	}
