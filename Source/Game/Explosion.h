@@ -5,12 +5,11 @@
 class Explosion : public Actor
 {
 public:
+
 	Explosion() : Actor()
 	{
 		CropSprite(224.f, 704.f);
-
 		name = "explosion";
-
 	}
 
 	virtual void Start() override;
@@ -19,6 +18,5 @@ public:
 
 	float timer;
 	bool bStartTimer;
-	std::shared_ptr<class Grid> tileMap = nullptr;
 };
 

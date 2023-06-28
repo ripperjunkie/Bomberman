@@ -65,3 +65,9 @@ enum class EObjectMovType : uint8_t
 	STATIC,
 	MOVABLE
 };
+
+enum class EBlockType : uint8_t
+{
+	DESTRUCTIBLE,
+	NON_DESTRUCTIBLE
+};

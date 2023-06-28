@@ -1,5 +1,5 @@
 #include "Enemy.h"
 
-void Enemy::OnCollisionBeginOverlap(Actor& overlapped_actor_)
+void Enemy::OnCollisionBeginOverlap(std::shared_ptr<Actor> otherActor)
 {
 }

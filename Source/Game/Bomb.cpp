@@ -19,6 +19,7 @@ void Bomb::Update()
 	Actor::Update();
 
 
+
 	//Destroy after a certain time if timer is active
 	if (bStartTimer)
 	{
@@ -48,12 +49,14 @@ void Bomb::Destroy()
 
 void Bomb::Explode()
 {
+	std::vector<std::shared_ptr<Explosion>> explosion;
 	//the reason why we have DEFAULT_BOMBS_RANGE, it's because we will always have 4 bombs to place around the first bomb
 	//whereas the explosionRange will increase the amount of places that will be placed around 
 	for (int i = 0; i < DEFAULT_BOMB_RANGE * explosionRange; i++)
 	{
 	//	explosion.push_back(*new Explosion(*level, ECollisionType::OVERLAP, EObjectMovType::MOVABLE, true, shared_sprite_sheet));
 		explosion.push_back(ACTOR_MANAGER->SpawnActor<Explosion>());
+
 	}
 
 
@@ -67,5 +70,5 @@ void Bomb::Explode()
 
 
 	// destroy ourselves
-	this->Destroy();
+	shared_from_this()->Destroy();
 }

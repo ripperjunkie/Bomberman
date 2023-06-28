@@ -16,5 +16,11 @@ public:
 	std::string tile_number;
 
 	void Draw();
+
+	/*Pass the row and column number and returns the position of both */
+	Vector2 GetGrid(int row, int column) const
+	{
+		return { tiles[column].x, tiles[(amount_x * row) + column].y };
+	}
 };
 

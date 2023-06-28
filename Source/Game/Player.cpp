@@ -48,7 +48,7 @@ void Player::Input()
 
 void Player::InputMovement()
 {
-	current_animation = 0;
+	//current_animation = 0;
 	float up_1 = 0.f;
 	float up_2 = 0.f;
 	float right_1 = 0.f;
@@ -93,7 +93,8 @@ void Player::InputSpawnBomb()
 
 		bStartTimer = true;
 
-		
+		/* for now we are literally spawning every time, no object pooling stuff yet
+		 but it should be fine for now */
 		bomb = ACTOR_MANAGER->SpawnActor<Bomb>();
 		if (!bomb)
 			return;
@@ -104,9 +105,9 @@ void Player::InputSpawnBomb()
 	}
 }
 
-void Player::OnCollisionBeginOverlap(Actor& overlapped_actor_)
+void Player::OnCollisionBeginOverlap(std::shared_ptr<Actor> otherActor)
 {
-	Actor::OnCollisionBeginOverlap(overlapped_actor_);
+	Actor::OnCollisionBeginOverlap(otherActor);
 }
 
 void Player::OnCollisionEndOverlap(Actor& other_actor)

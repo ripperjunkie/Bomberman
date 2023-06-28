@@ -13,11 +13,10 @@ public:
 		CropSprite(idle[0].x, idle[0].y);
 	}
     std::vector<RecCropLocation> idle;
-	std::shared_ptr<class Grid> tileMap = nullptr;
 
 protected:
 
 
-    virtual void OnCollisionBeginOverlap(Actor& overlapped_actor_) override;
+    virtual void OnCollisionBeginOverlap(std::shared_ptr<Actor> otherActor) override;
 };
 

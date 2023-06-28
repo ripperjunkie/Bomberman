@@ -8,6 +8,8 @@
 #include "Game/Player.h"
 #include "Game/Enemy.h"
 #include "Game/Environment.h"
+#include "Game/Brick.h"
+#include "Game/GameUtils.h"
 
 
 
@@ -58,6 +60,12 @@ void Game::Start()
 
 	// Initialize raylib window
 	InitWindow(SCREEN_X, SCREEN_Y, "raylib [core] example - basic window");
+	SetTargetFPS(120);
+
+	// Initialize camera
+	Camera2D camera = { 0 };
+	camera.zoom = 1.0f;
+	camera.offset = Vector2{ 0,0 };
 
 #pragma region Load Sprite sheet
 	Texture2D sprite_sheet = LoadTexture("resources/133670.png");
@@ -81,9 +89,13 @@ void Game::Start()
 				// spawn player
 				ActorManager::GetInstance()->SpawnActor<Player>()->SetLocation(grid->tiles[i].x, grid->tiles[i].y);
 			}
-			if (levelJson[i] == BRICK)
+			if (levelJson[i] == ENVIRONMENT)
 			{
 				ActorManager::GetInstance()->SpawnActor<Environment>()->SetLocation(grid->tiles[i].x, grid->tiles[i].y);
+			}
+			if (levelJson[i] == BRICK)
+			{
+				ActorManager::GetInstance()->SpawnActor<Brick>()->SetLocation(grid->tiles[i].x, grid->tiles[i].y);
 			}
 			if (levelJson[i] == ENEMY_A)
 			{
@@ -109,32 +121,34 @@ void Game::Start()
 	}
 
 
+
 	// Main game loop
 	while (!WindowShouldClose())    // Detect window close button or ESC key
 	{
 		// Start drawing...
 		BeginDrawing();
-
-
-		//Update world
-		ACTOR_MANAGER->Update();
-
-
-		// just to clear console
-		if (IsKeyPressed(KEY_F))
 		{
-			system("cls");
-		}
+			ClearBackground(BLACK);
 
-		// display fps (debug)
-		{
-			std::string frame = "FPS: ";
-			frame += std::to_string(GetFPS());
-			DrawText(frame.c_str(), 0, 0, 24, YELLOW);
-		}
+			BeginMode2D(camera);
 
+			//Update world
+			ACTOR_MANAGER->Update();
 
-		ClearBackground(BLACK);
+			// just to clear console
+			if (IsKeyPressed(KEY_F))
+			{
+				CLEAR_CLS;
+			}
+
+			// display fps (debug)
+			{
+				std::string frame = "FPS: ";
+				frame += std::to_string(GetFPS());
+				DrawText(frame.c_str(), 0, 0, 24, YELLOW);
+			}
+			EndMode2D();
+		}	
 
 		EndDrawing();
 	}

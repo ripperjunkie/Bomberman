@@ -5,24 +5,26 @@
 
 
 
-class Actor
+class Actor : public std::enable_shared_from_this<Actor>
 {
 	friend class ActorManager;
 public:
-
 
 	bool GetActiveState() const
 	{
 		return bActive;
 	}
-	TileMapCoordinates GetCoordinates();
 
 
-	void SetLocation(int row_, int column_);
-	void SetLocation(int tile_number_);
+	Vector2 GetLocation() const
+	{
+		return Vector2{ collider.x, collider.y };
+	}
 	void SetLocation(float x, float y);
 	void AddMovement(int x, int y);
 	void AddMovement(Vector2 dir, float axis);
+
+
 
 	void SetActive(bool ActiveState)
 	{
@@ -46,9 +48,9 @@ public:
 	bool IsColliding(int x, int y);
 	void CheckOverlapCollision();
 	void CheckEndOverlap();
+	void MoveOutOfCollision(int x, int y);
 
 
-	//Vector2 movement;
 	Rectangle collider; //this is not the best name
 	EObjectMovType object_mov_type;
 	ECollisionType collision_type;
@@ -57,10 +59,9 @@ public:
 	float lerp_speed;
 
 
-	void MoveOutOfCollision(int x, int y);
 
 	Texture2D entity_texture;
-	Texture2D shared_sprite_sheet;
+	Texture2D sprite_sheet;
 
 	bool bHasOverlapped;
 
@@ -70,10 +71,10 @@ public:
 
 	std::unordered_map<std::shared_ptr<Actor>, bool> overlapped_entities;
 	Actor();
+	~Actor();
 protected:
 	/* Both the constructor and destructor are on protected to prevent other classes
 	from creating the class other than our ActorManager class*/
-	~Actor();
 
 	Color color;
 	
@@ -88,7 +89,7 @@ protected:
 	int current_animation = 0;
 
 	int GetTileNumber(int row_, int column_);
-	virtual void OnCollisionBeginOverlap(Actor& other_actor);
+	virtual void OnCollisionBeginOverlap(std::shared_ptr<Actor> otherActor);
 	virtual void OnCollisionEndOverlap(Actor& other_actor);
 	virtual void OnCollisionBlock(Actor& other_actor);
 

@@ -23,6 +23,6 @@ public:
 
 
 
-	std::vector<std::shared_ptr<Explosion>> explosion;
+	
 	int explosionRange; // controls the range of this bomb when it explodes
 }; 

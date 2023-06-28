@@ -161,6 +161,7 @@
     <ClCompile Include="Source\Engine\Managers\MathLibrary.cpp" />
     <ClCompile Include="Source\Engine\Grid.cpp" />
     <ClCompile Include="Source\Game\Bomb.cpp" />
+    <ClCompile Include="Source\Game\Brick.cpp" />
     <ClCompile Include="Source\Game\Enemy.cpp" />
     <ClCompile Include="Source\Game\Environment.cpp" />
     <ClCompile Include="Source\Game\Explosion.cpp" />
@@ -177,10 +178,12 @@
     <ClInclude Include="Source\Engine\Public\Utils.h" />
     <ClInclude Include="Source\Engine\Grid.h" />
     <ClInclude Include="Source\Game\Bomb.h" />
+    <ClInclude Include="Source\Game\Brick.h" />
     <ClInclude Include="Source\Game\Enemy.h" />
     <ClInclude Include="Source\Game\Environment.h" />
     <ClInclude Include="Source\Game\Explosion.h" />
     <ClInclude Include="Source\Game\Game.h" />
+    <ClInclude Include="Source\Game\GameUtils.h" />
     <ClInclude Include="Source\Game\Player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
