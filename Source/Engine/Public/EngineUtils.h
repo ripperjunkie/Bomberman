@@ -44,7 +44,7 @@ inline TileMapCoordinates operator-(const TileMapCoordinates& one, const TileMap
 	return TileMapCoordinates(x, y);
 }
 
-inline TileMapCoordinates operator/(const TileMapCoordinates& one, const float second)
+inline TileMapCoordinates operator/(const TileMapCoordinates& one, const int second)
 {
 	const int x = one.x / second;
 	const int y = one.y / second;
@@ -66,3 +66,8 @@ enum class EObjectMovType : uint8_t
 	MOVABLE
 };
 
+struct TileSetting
+{
+	int width;
+	int height;
+};

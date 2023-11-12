@@ -3,6 +3,27 @@
 #include "Engine/Public/EngineUtils.h"
 #include "Engine/Public/Utils.h"
 
+class TManager
+{
+public:
+	static TManager* GetInstance()
+	{
+		if (!mInstance)
+		{
+			mInstance = new TManager();
+		}
+		return mInstance;
+	}
+	static Texture2D GetTexture()
+	{
+		return texture;
+	}
+private:
+	TManager();
+	static TManager* mInstance;
+	static Texture2D texture;
+};
+
 
 
 class Actor : public std::enable_shared_from_this<Actor>
@@ -75,8 +96,8 @@ protected:
 	Rectangle mRecCropEntityTexture;
 
 	//Animation related
-	int mCurrentFrame;
-	int mFrameCounter;
+	unsigned int mCurrentFrame;
+	unsigned int mFrameCounter;
 	float mAnimationSpeed = 5.f;
 	std::vector<AnimationData> mAnimations;
 	int mCurrentAnimation = 0;

@@ -61,7 +61,9 @@ void Game::Start()
 	// Initialize raylib window
 	InitWindow(SCREEN_X, SCREEN_Y, "raylib [core] example - basic window");
 	SetTargetFPS(120);
-	HideCursor();
+
+
+
 	// Initialize camera
 	Camera2D camera = { 0 };
 	camera.zoom = 1.0f;
@@ -104,7 +106,6 @@ void Game::Start()
 			{
 				ActorManager::GetInstance()->SpawnActor<Enemy>()->SetLocation(grid->tiles[i].x, grid->tiles[i].y);
 			}
-
 		}
 	}
 

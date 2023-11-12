@@ -3,12 +3,27 @@
 
 
 
+Explosion::Explosion() : Actor()
+{
+	mName = "explosion";
+	mAnimationSpeed = 7.f;
+	explosionAnim.push_back(RecCropLocation(324.f, 708.f));
+	explosionAnim.push_back(RecCropLocation(352.f, 708.f));
+	explosionAnim.push_back(RecCropLocation(384.f, 708.f));
+	explosionAnim.push_back(RecCropLocation(418.f, 708.f));
+
+	CropSprite(explosionAnim[0].x, explosionAnim[0].y);
+
+
+	mAnimations.push_back(AnimationData(explosionAnim));
+}
+
 void Explosion::Start()
 {
 	Actor::Start();
 
 	this->bStartTimer = true;
-	this->timer = 1.f; 
+	this->timer = 1.f;
 	this->initialTimer = timer;
 
 	// registering the overlap entities 

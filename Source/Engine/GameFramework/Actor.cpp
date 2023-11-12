@@ -2,20 +2,36 @@
 #include "Engine/Managers/ActorManager.h"
 #include "Game/GameUtils.h"
 
+#include <future>
+
 #define PRINT(x) std::cout << "\n";  printf(x) ; std::cout << "\n";
+
+TManager* TManager::mInstance = nullptr;
+Texture2D TManager::texture;
+TManager::TManager()
+{
+	texture = LoadTexture("resources/133670.png");
+}
+
 
 Actor::Actor()
 {
 	mSpeed = 20;
 	bActive = true;
+	bShowCollision = false;
 	mCollider.x = 0.f;
 	mCollider.y = 0.f;
 	mColor = GREEN;
 	mLerpSpeed = 4.f;
 	mFrameCounter = 0;
+	mCurrentAnimation = 0;
+	mCurrentFrame = 0;
+	mObjectMovementType = EObjectMovType::STATIC;
+	mCollisionType = ECollisionType::BLOCKING;
 
-	// deprecated (load textures in another thread)
-	mEntityTexture = LoadTexture("resources/133670.png");
+	// deprecated (load textures in another thread)	
+	mEntityTexture = TManager::GetInstance()->GetTexture();
+	//mEntityTexture = LoadTexture("resources/133670.png");
 	mEntityTexture.width = 512;
 	mEntityTexture.height = 832;
 
@@ -27,6 +43,7 @@ Actor::Actor()
 
 void Actor::Start()
 {
+
 }
 Actor::~Actor()
 {

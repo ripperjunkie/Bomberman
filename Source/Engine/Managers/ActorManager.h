@@ -24,7 +24,7 @@ public:
 	}
 
 
-
+	/* Spawn actor and its derived classes and call their start method */
 	template<std::derived_from<Actor> T, typename... Args>
 	std::shared_ptr<T> SpawnActor(Args... arguments)
 	{
@@ -34,39 +34,25 @@ public:
 		if (newObject)
 		{
 			newObject->Start();		
-
-
-
-			/*std::thread render([&]()
-			{
-			});
-
-			render.detach();*/
 		}
-
-
 		return newObject;
 	}
 
-
-
-
+	/* Call update in all registered actors */
 	void Update()
 	{
-		for (int i = 0; i < mActors.size(); i++)
+		for (unsigned int i = 0; i < mActors.size(); i++)
 		{
 			if (mActors[i])
 				mActors[i]->Update();
 		}
-
-
 	}
 
-	std::vector<std::shared_ptr<Actor>> GetActors() const
+	/* Safe getter to retrieve all registered actors in the level. */
+	const std::vector<std::shared_ptr<Actor> > GetActors() const
 	{
 		return mActors;
 	}
-
 
 private:
 	ActorManager(){}

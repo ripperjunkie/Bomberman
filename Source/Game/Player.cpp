@@ -36,7 +36,7 @@ void Player::Update()
 {
 	Actor::Update();
 
-	LOG("Player: Current HP: " << healthComp->GetCurrentHP());
+//	LOG("Player: Current HP: " << healthComp->GetCurrentHP());
 
 	//Destroy after a certain time if timer is active
 	if (bStartTimer)
@@ -53,7 +53,7 @@ void Player::Update()
 
 	Input();
 
-	//Normalize input so character don't walk faster if two inputs are pressed at once
+	//Normalize input so character don't walk faster if moving diagonally
 	Vector2 normalize_vector = Vector2Normalize(Vector2(input_right, input_up));
 	AddMovement(Vector2(0, 1), normalize_vector.y); //vertical
 	AddMovement(Vector2(1, 0), normalize_vector.x); //horizontal
@@ -117,6 +117,7 @@ void Player::InputSpawnBomb()
 		bomb = ACTOR_MANAGER->SpawnActor<Bomb>();
 		if (!bomb)
 			return;
+
 
 		overlapped_entities.emplace(bomb, false);
 		bomb->SetShowCollision(true); //just for debug sake
