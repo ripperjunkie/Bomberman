@@ -3,6 +3,7 @@
 #include "Explosion.h"
 
 #include "Engine/Managers/ActorManager.h"
+#include "Engine/Managers/PoolManager.h"
 
 // components
 #include "HealthComponent.h"
@@ -30,13 +31,26 @@ void Player::Start()
 			this
 		) 
 	);
+
+	// let's reserve the bomb to use later
+	bomb = ACTOR_MANAGER->SpawnActor<Bomb>();
 }
 
 void Player::Update()
 {
 	Actor::Update();
 
-//	LOG("Player: Current HP: " << healthComp->GetCurrentHP());
+	//	DEBUG: HP
+	{
+		std::string hp = "HP: " + std::to_string(healthComp->GetCurrentHP()) ;
+		DrawText(hp.c_str(), 0, 25, 24, YELLOW);
+	}
+	//	DEBUG: overlapped entities
+	{
+		std::string hp = "OE: " + std::to_string(overlapped_entities.size());
+		DrawText(hp.c_str(), 0, 55, 24, YELLOW);
+	}
+
 
 	//Destroy after a certain time if timer is active
 	if (bStartTimer)
@@ -114,11 +128,11 @@ void Player::InputSpawnBomb()
 
 		/* for now we are literally spawning every time, no object pooling stuff yet
 		 but it should be fine for now */
-		bomb = ACTOR_MANAGER->SpawnActor<Bomb>();
+		
 		if (!bomb)
 			return;
 
-
+		bomb->SetActive(true);
 		overlapped_entities.emplace(bomb, false);
 		bomb->SetShowCollision(true); //just for debug sake
 		bomb->SetLocation(mCollider.x, mCollider.y);
@@ -139,9 +153,9 @@ void Player::OnCollisionBeginOverlap(std::shared_ptr<Actor> otherActor)
 	}
 }
 
-void Player::OnCollisionEndOverlap(Actor& other_actor)
+void Player::OnCollisionEndOverlap(Actor& otherActor)
 {
-	Actor::OnCollisionEndOverlap(other_actor);
+	Actor::OnCollisionEndOverlap(otherActor);
 }
 
 void Player::OnDie()

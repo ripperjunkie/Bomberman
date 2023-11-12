@@ -67,10 +67,16 @@ public:
     float input_up;
     float input_right;
     std::shared_ptr<Bomb> bomb;
+
+	// Getters 
+	std::shared_ptr<HealthComponent> GetHealthComp() const
+	{
+		return healthComp;
+	}
 protected:
 
 	virtual void OnCollisionBeginOverlap(std::shared_ptr<Actor> otherActor) override;
-    virtual void OnCollisionEndOverlap(Actor& other_actor) override;
+    virtual void OnCollisionEndOverlap(Actor& otherActor) override;
     bool bCanPlaceBomb;
 	void OnDie();
 

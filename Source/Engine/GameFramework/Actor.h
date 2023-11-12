@@ -3,26 +3,6 @@
 #include "Engine/Public/EngineUtils.h"
 #include "Engine/Public/Utils.h"
 
-class TManager
-{
-public:
-	static TManager* GetInstance()
-	{
-		if (!mInstance)
-		{
-			mInstance = new TManager();
-		}
-		return mInstance;
-	}
-	static Texture2D GetTexture()
-	{
-		return texture;
-	}
-private:
-	TManager();
-	static TManager* mInstance;
-	static Texture2D texture;
-};
 
 
 
@@ -47,7 +27,7 @@ public:
 	}
 
 
-	void SetActive(bool ActiveState)
+	virtual void SetActive(bool ActiveState)
 	{
 		bActive = ActiveState;
 	}
@@ -103,8 +83,8 @@ protected:
 	int mCurrentAnimation = 0;
 
 	virtual void OnCollisionBeginOverlap(std::shared_ptr<Actor> otherActor);
-	virtual void OnCollisionEndOverlap(Actor& other_actor);
-	virtual void OnCollisionBlock(Actor& other_actor);
+	virtual void OnCollisionEndOverlap(Actor& otherActor);
+	virtual void OnCollisionBlock(Actor& otherActor);
 
 	bool bShowCollision;
 	bool bActive;

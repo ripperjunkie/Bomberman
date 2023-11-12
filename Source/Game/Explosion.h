@@ -14,7 +14,6 @@ public:
 private:
 	float timer;
 	float initialTimer; //using to reset timer back to default value
-	bool bStartTimer;
 
 	std::vector<RecCropLocation> explosionAnim;
 };

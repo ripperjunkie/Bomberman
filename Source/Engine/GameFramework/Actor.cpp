@@ -1,17 +1,11 @@
 #include "Actor.h"
 #include "Engine/Managers/ActorManager.h"
+#include "Engine/Managers/TextureManager.h"
 #include "Game/GameUtils.h"
-
 #include <future>
 
 #define PRINT(x) std::cout << "\n";  printf(x) ; std::cout << "\n";
 
-TManager* TManager::mInstance = nullptr;
-Texture2D TManager::texture;
-TManager::TManager()
-{
-	texture = LoadTexture("resources/133670.png");
-}
 
 
 Actor::Actor()
@@ -30,7 +24,7 @@ Actor::Actor()
 	mCollisionType = ECollisionType::BLOCKING;
 
 	// deprecated (load textures in another thread)	
-	mEntityTexture = TManager::GetInstance()->GetTexture();
+	mEntityTexture = TextureManager::GetInstance()->GetTexture();
 	//mEntityTexture = LoadTexture("resources/133670.png");
 	mEntityTexture.width = 512;
 	mEntityTexture.height = 832;
@@ -68,8 +62,13 @@ void Actor::Update()
 	DrawTextureRec(mEntityTexture, mRecCropEntityTexture, text_pos, WHITE);
 
 	UpdateAnimation();
-	CheckOverlapCollision();
-	CheckEndOverlap();
+
+	if (mCollisionType != ECollisionType::IGNORE)
+	{
+		CheckOverlapCollision();
+		CheckEndOverlap();
+	}
+
 }
 
 void Actor::Destroy()
@@ -105,17 +104,17 @@ void Actor::UpdateAnimation()
 
 void Actor::OnCollisionBeginOverlap(std::shared_ptr<Actor> otherActor)
 {
-	if (otherActor)
-		printf("\n Collision begin overlap from: %s, to: %s\n", this->mName.c_str(), otherActor->mName.c_str());
+	//if (otherActor)
+		//printf("\n Collision begin overlap from: %s, to: %s\n", this->mName.c_str(), otherActor->mName.c_str());
 }
 
-void Actor::OnCollisionEndOverlap(Actor& other_actor)
+void Actor::OnCollisionEndOverlap(Actor& otherActor)
 {
-	printf("\n Collision end overlap from: %s, to: %s\n", this->mName.c_str(), other_actor.mName.c_str());
+	//printf("\n Collision end overlap from: %s, to: %s\n", this->mName.c_str(), otherActor.mName.c_str());
 }
 
 
-void Actor::OnCollisionBlock(Actor& other_actor)
+void Actor::OnCollisionBlock(Actor& otherActor)
 {
 	//printf("\n OnCollisionBlock, entity: %s\n", other_actor.name.c_str());
 }
@@ -215,12 +214,6 @@ bool Actor::IsColliding(int x, int y)
 
 void Actor::CheckOverlapCollision()
 {
-	//Here is where we check with a rectangle to see if it's overlap
-	if (mCollisionType == ECollisionType::IGNORE)
-	{
-		return;
-	}
-
 	//Iterate through all entities
 	for (auto& pair : overlapped_entities)
 	{
@@ -238,6 +231,7 @@ void Actor::CheckOverlapCollision()
 
 		//Flag the entity we overlapped with as overlapped
 		pair.second = true;
+
 		//This will fire the begin overlap for this actor passing as parameter the actor we just overlapped
 		OnCollisionBeginOverlap(pair.first);
 		pair.first->OnCollisionBeginOverlap(shared_from_this()); //this is not the way to do it but it works for now

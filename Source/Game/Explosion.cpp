@@ -16,13 +16,14 @@ Explosion::Explosion() : Actor()
 
 
 	mAnimations.push_back(AnimationData(explosionAnim));
+	mCollisionType = ECollisionType::OVERLAP;
+
 }
 
 void Explosion::Start()
 {
 	Actor::Start();
 
-	this->bStartTimer = true;
 	this->timer = 1.f;
 	this->initialTimer = timer;
 
@@ -42,14 +43,13 @@ void Explosion::Update()
 
 
 	//Destroy after a certain time if timer is active
-	if (bStartTimer)
+	if (bActive)
 	{
 		timer -= GetFrameTime();
 		//printf("Timer: %f\n", timer);
 
 		if (timer <= 0.f)
 		{
-			bStartTimer = false;
 			timer = initialTimer;
 			Destroy();
 		}
@@ -60,5 +60,6 @@ void Explosion::Update()
 
 void Explosion::Destroy()
 {
+	timer = initialTimer;
 	Actor::Destroy();
 }

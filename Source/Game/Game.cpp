@@ -152,6 +152,7 @@ void Game::Start()
 				frame += std::to_string(GetFPS());
 				DrawText(frame.c_str(), 0, 0, 24, YELLOW);
 			}
+
 			EndMode2D();
 		}	
 
