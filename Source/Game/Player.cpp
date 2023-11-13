@@ -10,6 +10,43 @@
 
 #include <functional>
 
+Player::Player() : Actor()
+{
+	//Here we insert inside the animations array each sprite we want it to be cycling
+	idle.push_back(RecCropLocation(0, 32));
+
+
+	walk_horizontal.push_back(RecCropLocation(30, 130));
+	walk_horizontal.push_back(RecCropLocation(63, 130));
+	walk_horizontal.push_back(RecCropLocation(96, 130));
+	walk_horizontal.push_back(RecCropLocation(127, 130));
+
+	walk_up.push_back(RecCropLocation(0, 65));
+	walk_up.push_back(RecCropLocation(32, 65));
+	walk_up.push_back(RecCropLocation(64, 65));
+	walk_up.push_back(RecCropLocation(96, 65));
+	walk_up.push_back(RecCropLocation(130, 65));
+
+	walk_down.push_back(RecCropLocation(34, 32));
+	walk_down.push_back(RecCropLocation(64, 32));
+	walk_down.push_back(RecCropLocation(97, 32));
+	walk_down.push_back(RecCropLocation(129, 32));
+
+	CropSprite(idle[0].x, idle[0].y);
+
+	//Load animations
+	mAnimations.push_back(AnimationData(idle));
+	mAnimations.push_back(AnimationData(walk_horizontal));
+	mAnimations.push_back(AnimationData(walk_up));
+	mAnimations.push_back(AnimationData(walk_down));
+
+	bCanPlaceBomb = true;
+	bStartTimer = false;
+	timer = 4.f; //cooldown of player to place bombs
+	initialTimer = timer;
+	mSpeed = 25.f;
+	mName = "Player";
+}
 
 
 Player::~Player()
@@ -40,7 +77,8 @@ void Player::Update()
 {
 	Actor::Update();
 
-	//	DEBUG: HP
+#pragma region DEBUG STUFF (show information on screen)
+
 	{
 		std::string hp = "HP: " + std::to_string(healthComp->GetCurrentHP()) ;
 		DrawText(hp.c_str(), 0, 25, 24, YELLOW);
@@ -50,6 +88,7 @@ void Player::Update()
 		std::string hp = "OE: " + std::to_string(overlapped_entities.size());
 		DrawText(hp.c_str(), 0, 55, 24, YELLOW);
 	}
+#pragma endregion DEBUG STUFF (show information on screen)
 
 
 	//Destroy after a certain time if timer is active
