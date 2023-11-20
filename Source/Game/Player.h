@@ -1,14 +1,14 @@
 #pragma once
 
 #include "Engine/GameFramework/Actor.h"
-
+#include "DamageInterface.h"
 
 
 class Bomb;
 class HealthComponent;
 
 
-class Player : public Actor
+class Player : public Actor, public IDamageInterface
 {
 public:
     Player();
@@ -21,6 +21,8 @@ public:
     void Input();
     void InputMovement();
     void InputSpawnBomb();
+	virtual void OnTakenDamage(class Actor* damageCauser, int damageAmount) override;
+
     
     
     //to control animations switching

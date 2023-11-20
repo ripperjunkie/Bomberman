@@ -157,6 +157,7 @@
   <ItemGroup>
     <ClCompile Include="Source\Engine\Managers\PoolManager.cpp" />
     <ClCompile Include="Source\Engine\Managers\TextureManager.cpp" />
+    <ClCompile Include="Source\Game\DamageInterface.cpp" />
     <ClCompile Include="Source\Game\HealthComponent.cpp" />
     <ClCompile Include="Source\Engine\GameFramework\Actor.cpp" />
     <ClCompile Include="Source\Engine\InputManager.cpp" />
@@ -175,6 +176,7 @@
   <ItemGroup>
     <ClInclude Include="Source\Engine\Managers\PoolManager.h" />
     <ClInclude Include="Source\Engine\Managers\TextureManager.h" />
+    <ClInclude Include="Source\Game\DamageInterface.h" />
     <ClInclude Include="Source\Game\HealthComponent.h" />
     <ClInclude Include="Source\Engine\GameFramework\Actor.h" />
     <ClInclude Include="Source\Engine\InputManager.h" />

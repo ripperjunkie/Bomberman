@@ -1,6 +1,6 @@
 #include "Explosion.h"
 #include "Engine/Managers/ActorManager.h"
-
+#include "DamageInterface.h"
 
 
 Explosion::Explosion() : Actor()
@@ -35,6 +35,7 @@ void Explosion::Start()
 			this->overlapped_entities.emplace(ACTOR_MANAGER->GetInstance()->GetActors()[i], false);
 		}
 	}
+	int debug = 0;
 }
 
 void Explosion::Update()
@@ -62,4 +63,15 @@ void Explosion::Destroy()
 {
 	timer = initialTimer;
 	Actor::Destroy();
+}
+
+void Explosion::OnCollisionBeginOverlap(std::shared_ptr<Actor> otherActor)
+{
+	Actor::OnCollisionBeginOverlap(otherActor);
+	std::cout << __FUNCTION__ << std::endl;
+
+	if (std::shared_ptr<IDamageInterface> damageInterface = std::dynamic_pointer_cast<IDamageInterface>(otherActor))
+	{
+		damageInterface->OnTakenDamage(&*otherActor, 1);
+	}
 }

@@ -70,7 +70,7 @@ void Player::Start()
 	);
 
 	// let's reserve the bomb to use later
-	bomb = ACTOR_MANAGER->SpawnActor<Bomb>();
+//	bomb = ACTOR_MANAGER->SpawnActor<Bomb>();
 }
 
 void Player::Update()
@@ -80,8 +80,8 @@ void Player::Update()
 #pragma region DEBUG STUFF (show information on screen)
 
 	{
-		std::string hp = "HP: " + std::to_string(healthComp->GetCurrentHP()) ;
-		DrawText(hp.c_str(), 0, 25, 24, YELLOW);
+		//std::string hp = "HP: " + std::to_string(healthComp->GetCurrentHP()) ;
+		//DrawText(hp.c_str(), 0, 25, 24, YELLOW);
 	}
 	//	DEBUG: overlapped entities
 	{
@@ -169,27 +169,25 @@ void Player::InputSpawnBomb()
 		 but it should be fine for now */
 		
 		if (!bomb)
-			return;
+		{
+			bomb = ACTOR_MANAGER->SpawnActor<Bomb>();
+		}
 
 		bomb->SetActive(true);
-		overlapped_entities.emplace(bomb, false);
+		//overlapped_entities.emplace(bomb, false);
 		bomb->SetShowCollision(true); //just for debug sake
 		bomb->SetLocation(mCollider.x, mCollider.y);
 		bCanPlaceBomb = false;		
 	}
 }
 
+
+
 void Player::OnCollisionBeginOverlap(std::shared_ptr<Actor> otherActor)
 {
 	Actor::OnCollisionBeginOverlap(otherActor);
 
-	if (std::shared_ptr<Explosion> enemy = std::dynamic_pointer_cast<Explosion>(otherActor))
-	{
-		if (healthComp)
-		{
-			healthComp->TakeDamage(1);
-		}
-	}
+
 }
 
 void Player::OnCollisionEndOverlap(Actor& otherActor)
@@ -200,4 +198,18 @@ void Player::OnCollisionEndOverlap(Actor& otherActor)
 void Player::OnDie()
 {
 	SetActive(false);
+}
+
+/***************** INTERFACES ***********************/
+void Player::OnTakenDamage(Actor* damageCauser, int damageAmount)
+{
+	std::cout << __FUNCTION__ << std::endl;
+
+	if (!damageCauser)
+		return;
+
+	if (healthComp)
+	{
+		healthComp->TakeDamage(damageAmount);
+	}
 }

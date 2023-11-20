@@ -90,6 +90,9 @@
     <ClCompile Include="Source\Engine\Managers\PoolManager.cpp">
       <Filter>Header Files\Engine\Managers</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\DamageInterface.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine\Managers\ActorManager.h">
@@ -145,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="Source\Engine\Managers\PoolManager.h">
       <Filter>Header Files\Engine\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\DamageInterface.h">
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

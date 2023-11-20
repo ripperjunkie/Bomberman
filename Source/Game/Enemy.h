@@ -1,11 +1,12 @@
 #pragma once
 
 #include "Engine/GameFramework/Actor.h"
+#include "DamageInterface.h"
 
 class HealthComponent;
 class Bomb;
 
-class Enemy : public Actor
+class Enemy : public Actor, public IDamageInterface
 {
 public:
 	Enemy();
@@ -16,12 +17,10 @@ protected:
 
     virtual void OnCollisionBeginOverlap(std::shared_ptr<Actor> otherActor) override;
 	void OnDie();
-	void InputMovement();
-	void InputSpawnBomb();
 	virtual void Update() override;
+	virtual void OnTakenDamage(class Actor* damageCauser, int damageAmount) override;
 
-	float input_up;
-	float input_right;
+
 	std::shared_ptr<Bomb> bomb;
 	bool bCanPlaceBomb;
 

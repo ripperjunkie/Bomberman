@@ -9,6 +9,7 @@ public:
 	virtual void Start() override;
 	virtual void Update() override;
 	virtual void Destroy() override;
+	virtual void OnCollisionBeginOverlap(std::shared_ptr<Actor> otherActor) override;
 
 
 private:
