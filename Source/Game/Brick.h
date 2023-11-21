@@ -7,7 +7,6 @@ class Brick : public Actor
 public:
 	Brick() : Actor()
 	{
-		//mEntityTexture = LoadTexture("resources/133670.png");
 		mEntityTexture.width = 512.f;
 		mEntityTexture.height = 832.f;
 		mRecCropEntityTexture.x = 192.f;

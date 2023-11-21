@@ -6,9 +6,7 @@ class Environment : public Actor
 {
 public:
 	Environment() : Actor()
-	{
-		//mEntityTexture = LoadTexture("resources/133670.png");
-		
+	{		
 		mEntityTexture.width = 512.f;
 		mEntityTexture.height = 832.f;
 		mRecCropEntityTexture.x = 160.f;
@@ -17,9 +15,5 @@ public:
 		mRecCropEntityTexture.height = 32.f;
 		mCollisionType = ECollisionType::BLOCKING;
 	}
-   
-
-protected:
-
 };
 

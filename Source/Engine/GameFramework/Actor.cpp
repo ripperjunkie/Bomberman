@@ -23,9 +23,8 @@ Actor::Actor()
 	mObjectMovementType = EObjectMovType::STATIC;
 	mCollisionType = ECollisionType::BLOCKING;
 
-	// deprecated (load textures in another thread)	
-	mEntityTexture = TextureManager::GetInstance()->GetTexture();
-	//mEntityTexture = LoadTexture("resources/133670.png");
+	mEntityTexture = TextureManager::GetInstance()->GetTexture();	
+	//mEntityTexture = LoadTexture("resources/133670.png"); // old slow way
 	mEntityTexture.width = 512;
 	mEntityTexture.height = 832;
 
