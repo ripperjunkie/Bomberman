@@ -2,7 +2,7 @@
 
 #include "Engine/GameFramework/Actor.h"
 #include "DamageInterface.h"
-
+#include <array>
 
 class Bomb;
 class HealthComponent;
@@ -33,6 +33,8 @@ public:
 
     float input_up;
     float input_right;
+    std::array<std::shared_ptr<Bomb>, 5> bombs;
+    int itrBomb = 0;
     std::shared_ptr<Bomb> bomb;
 
 	// Getters 

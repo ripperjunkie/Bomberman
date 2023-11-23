@@ -61,6 +61,8 @@ void Player::Start()
 
 	// Creating health component
 	healthComp = std::make_shared<HealthComponent>(3); // set max and current life
+
+	// bind on die callback from health component
 	healthComp->SetHealthChangeCallback
 	(
 		std::bind
@@ -70,7 +72,11 @@ void Player::Start()
 	);
 
 	// let's reserve the bomb to use later
-//	bomb = ACTOR_MANAGER->SpawnActor<Bomb>();
+	//bomb = ACTOR_MANAGER->SpawnActor<Bomb>();
+	//for (int i = 0; i < 5; i++)
+	//{
+	//	bombs[i] = ACTOR_MANAGER->SpawnActor<Bomb>();
+	//}
 }
 
 void Player::Update()
@@ -159,7 +165,7 @@ void Player::InputMovement()
 void Player::InputSpawnBomb()
 {
 	if (IsKeyPressed(KEY_C))
-	{	
+	{
 		if (!bCanPlaceBomb)
 			return;
 
@@ -167,17 +173,36 @@ void Player::InputSpawnBomb()
 
 		/* for now we are literally spawning every time, no object pooling stuff yet
 		 but it should be fine for now */
-		
-		if (!bomb)
+
+		if (!bombs[itrBomb])
 		{
-			bomb = ACTOR_MANAGER->SpawnActor<Bomb>();
+			if (itrBomb <= bombs.size() - 1)
+			{
+				bombs[itrBomb] = ACTOR_MANAGER->SpawnActor<Bomb>();
+			}
 		}
 
-		bomb->SetActive(true);
+
+		
+		//if (!bomb)
+		//{
+		//	bomb = ACTOR_MANAGER->SpawnActor<Bomb>();
+		//}
+
+		bombs[itrBomb]->SetActive(true);
 		//overlapped_entities.emplace(bomb, false);
-		bomb->SetShowCollision(true); //just for debug sake
-		bomb->SetLocation(mCollider.x, mCollider.y);
-		bCanPlaceBomb = false;		
+		bombs[itrBomb]->SetShowCollision(true); //just for debug sake
+		bombs[itrBomb]->SetLocation(mCollider.x, mCollider.y);
+		
+		if (itrBomb + 1 >= bombs.size())
+		{
+			itrBomb = 0;
+		}
+		else
+		{
+			itrBomb++;
+		}
+	//	bCanPlaceBomb = false;		
 	}
 }
 
