@@ -12,7 +12,7 @@ public:
 	virtual void Start() override;
 	virtual void Update() override;
 	virtual void OnCollisionBeginOverlap(std::shared_ptr<Actor> otherActor);
-	virtual void OnCollisionEndOverlap(Actor& otherActor) override;
+	virtual void OnCollisionEndOverlap(std::shared_ptr<Actor> otherActor) override;
 	virtual void Destroy() override;
 	void Explode();
 

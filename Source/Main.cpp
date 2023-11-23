@@ -1,6 +1,6 @@
 ﻿#include "Game/Game.h"
 
-// the famous c++ entry point...
+// the famous c/c++ entry point...
 int main()
 {
 	/* We have a 'Game' class so we can keep the main function clean and

@@ -1,7 +1,7 @@
 #include "Explosion.h"
 #include "Engine/Managers/ActorManager.h"
 #include "DamageInterface.h"
-
+#include "Enemy.h"
 
 Explosion::Explosion() : Actor()
 {
@@ -42,7 +42,15 @@ void Explosion::Update()
 {
 	Actor::Update();
 
-
+	//for (auto& t : overlapped_entities)
+	//{
+	//	auto it = overlapped_entities.find(std::dynamic_pointer_cast<Enemy>( std::shared_ptr<Actor>(t.first)));
+	//	if (it != overlapped_entities.end())
+	//	{
+	//		printf(it->second ?"true\n" : "false\n");
+	//	}
+	//}
+	
 	//Destroy after a certain time if timer is active
 	if (bActive)
 	{
@@ -74,4 +82,9 @@ void Explosion::OnCollisionBeginOverlap(std::shared_ptr<Actor> otherActor)
 	{
 		damageInterface->OnTakenDamage(&*otherActor, 1);
 	}
+}
+
+void Explosion::OnCollisionEndOverlap(std::shared_ptr<Actor> otherActor)
+{
+	Actor::OnCollisionEndOverlap(otherActor);
 }

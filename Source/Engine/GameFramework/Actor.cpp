@@ -72,7 +72,24 @@ void Actor::Update()
 
 void Actor::Destroy()
 {
-	bActive = false;
+	SetActive(false);
+}
+
+void Actor::SetActive(bool ActiveState)
+{
+	bActive = ActiveState;
+
+	if (bActive)
+	{
+		return;
+	}
+
+	// Set all actors flag to false for overlapped collision
+	for (auto& t : overlapped_entities)
+	{
+		t.second = false;
+	}
+
 }
 
 void Actor::UpdateAnimation()
@@ -107,9 +124,11 @@ void Actor::OnCollisionBeginOverlap(std::shared_ptr<Actor> otherActor)
 		//printf("\n Collision begin overlap from: %s, to: %s\n", this->mName.c_str(), otherActor->mName.c_str());
 }
 
-void Actor::OnCollisionEndOverlap(Actor& otherActor)
+void Actor::OnCollisionEndOverlap(std::shared_ptr<Actor> otherActor)
 {
 	//printf("\n Collision end overlap from: %s, to: %s\n", this->mName.c_str(), otherActor.mName.c_str());
+
+
 }
 
 
@@ -239,11 +258,6 @@ void Actor::CheckOverlapCollision()
 
 void Actor::CheckEndOverlap()
 {
-	if (mCollisionType == ECollisionType::IGNORE)
-	{
-		return;
-	}
-
 	//Iterate through all entities
 	for (auto& pair : overlapped_entities)
 	{
@@ -259,7 +273,7 @@ void Actor::CheckEndOverlap()
 		pair.second = false;
 
 		//This will fire the end overlap method for this actor passing as parameter the actor we just overlapped
-		OnCollisionEndOverlap(*pair.first);
-		pair.first->OnCollisionEndOverlap(*this); //this is not the way to do it
+		this->OnCollisionEndOverlap(pair.first);
+		pair.first->OnCollisionEndOverlap(shared_from_this()); //this is not the way to do it
 	}
 }

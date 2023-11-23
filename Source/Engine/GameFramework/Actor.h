@@ -27,10 +27,7 @@ public:
 	}
 
 
-	virtual void SetActive(bool ActiveState)
-	{
-		bActive = ActiveState;
-	}
+	virtual void SetActive(bool ActiveState);
 
 	void SetShowCollision(bool ShowCollision)
 	{
@@ -55,7 +52,7 @@ public:
 
 
 	Texture2D mEntityTexture;
-	std::string mTexturePath = "resources/133670.png";
+
 
 protected:
 	/* Both the constructor and destructor are on protected to prevent other classes
@@ -63,11 +60,8 @@ protected:
 	Actor();
 	~Actor();
 
-protected:
-
 
 	Texture2D mSpriteSheet;
-
 
 	/* Collider "component" */
 	Rectangle mCollider;
@@ -83,7 +77,7 @@ protected:
 	int mCurrentAnimation = 0;
 
 	virtual void OnCollisionBeginOverlap(std::shared_ptr<Actor> otherActor);
-	virtual void OnCollisionEndOverlap(Actor& otherActor);
+	virtual void OnCollisionEndOverlap(std::shared_ptr<Actor> otherActor);
 	virtual void OnCollisionBlock(Actor& otherActor);
 
 	bool bShowCollision;

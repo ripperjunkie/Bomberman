@@ -43,7 +43,7 @@ public:
 protected:
 
 	virtual void OnCollisionBeginOverlap(std::shared_ptr<Actor> otherActor) override;
-    virtual void OnCollisionEndOverlap(Actor& otherActor) override;
+    virtual void OnCollisionEndOverlap(std::shared_ptr<Actor> otherActor) override;
     bool bCanPlaceBomb;
 	void OnDie();
 

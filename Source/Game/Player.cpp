@@ -190,7 +190,7 @@ void Player::OnCollisionBeginOverlap(std::shared_ptr<Actor> otherActor)
 
 }
 
-void Player::OnCollisionEndOverlap(Actor& otherActor)
+void Player::OnCollisionEndOverlap(std::shared_ptr<Actor> otherActor)
 {
 	Actor::OnCollisionEndOverlap(otherActor);
 }

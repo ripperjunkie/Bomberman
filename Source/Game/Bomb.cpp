@@ -26,6 +26,14 @@ void Bomb::Start()
 		explosion.push_back(ACTOR_MANAGER->SpawnActor<Explosion>());
 	}
 
+	for (int i = 0; i < ACTOR_MANAGER->GetInstance()->GetActors().size(); ++i)
+	{
+		if (ACTOR_MANAGER->GetInstance()->GetActors()[i].get() != this)
+		{
+			this->overlapped_entities.emplace(ACTOR_MANAGER->GetInstance()->GetActors()[i], false);
+		}
+	}
+
 }
 
 void Bomb::Update()
@@ -56,7 +64,7 @@ void Bomb::OnCollisionBeginOverlap(std::shared_ptr<Actor> otherActor)
 
 }
 
-void Bomb::OnCollisionEndOverlap(Actor& otherActor)
+void Bomb::OnCollisionEndOverlap(std::shared_ptr<Actor> otherActor)
 {
 	Actor::OnCollisionEndOverlap(otherActor);
 
@@ -83,10 +91,10 @@ void Bomb::Explode()
 
 	// TODO: We can make a vector with the location for each collision so that we can iterate it through a for loop instead of hard coding it...
 	explosion[0]->SetLocation(mCollider.x, mCollider.y); //at the bomb location
-	explosion[1]->SetLocation(mCollider.x, mCollider.y + mCollider.height); //place on top of bomb
-	explosion[2]->SetLocation(mCollider.x + mCollider.width, mCollider.y); //place on right of bomb
-	explosion[3]->SetLocation(mCollider.x, mCollider.y - mCollider.height); //place on bottom of bomb
-	explosion[4]->SetLocation(mCollider.x - mCollider.width, mCollider.y); //place on left of bomb
+	explosion[1]->SetLocation(mCollider.x, mCollider.y + mCollider.height); //place to the top of bomb
+	explosion[2]->SetLocation(mCollider.x + mCollider.width, mCollider.y); //place to the right of bomb
+	explosion[3]->SetLocation(mCollider.x, mCollider.y - mCollider.height); //place to the bottom of bomb
+	explosion[4]->SetLocation(mCollider.x - mCollider.width, mCollider.y); //place to the left of bomb
 
 
 	// destroy ourselves
